@@ -26,7 +26,7 @@ class open_digraph: #for open directed graph
         self.outputs = outputs
         self.nodes = {node.id:node for node in nodes} # self.nodes: <int,node> dict
     def __str__(self):
-        return "(" + str(self.inputs) +"," + str(self.outputs) +","+ str(print(self.nodes)) + ")"
+        return "(" + str(self.inputs) +"," + str(self.outputs) +","+ str(print(self.nodes)) + ")" #il faut utiliser __repr__
 
     def empty():
         '''
