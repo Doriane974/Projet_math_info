@@ -48,6 +48,10 @@ class InitTest(unittest.TestCase):
             self.assertNotEqual(n2.label, self.n0.label)
             self.assertIsNot(n2, self.n0)
 
+        def test_get_id(self):
+            self.n0 = node(0, 'a', [], [1])
+            self.assertEqual(self.n0.get_id(),0)
+            
     class DigraphTest(unittest.TestCase):
 
     	def setUp(self):
