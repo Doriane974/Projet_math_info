@@ -20,7 +20,7 @@ class node:
         return "node"+str(self)
 
     def copy(self):
-        return node(self.id, self.label, self.parents.copy() ,self.children.copy())
+        return node(self.id, self.label, self.parent.copy(),self.children.copy())
 
     def get_id(self):
         return self.id
@@ -33,6 +33,25 @@ class node:
 
     def get_children_ids(self):
         return self.children
+
+
+    def set_id (self, id) :
+        self.id = id
+
+    def set_label (self, label) :
+        self.label = label
+
+    def set_parent_ids (self, parent_ids) :
+        self.parent = parent_ids
+
+    def set_children_ids (self, children_ids) :
+        self.children = children_ids
+
+    def add_child_id (self, child_id) :
+        self.children.append(child_id)
+
+    def add_parent_id (self, parent_id) :
+        self.parent.append(parent_id)
 
 class open_digraph: #for open directed graph
     def __init__(self, inputs, outputs, nodes):
@@ -48,10 +67,6 @@ class open_digraph: #for open directed graph
     def __repr__(self):
         return "open_digraph" + str(self)
 
-    def copy(self):
-
-        return open_digraph(self.inputs.copy(), self.outputs.copy(), [node.copy() for node in self.nodes.values()])
-
     def empty():
         return open_digraph([],[],[])
 
@@ -60,3 +75,15 @@ class open_digraph: #for open directed graph
 
     def get_outputs_ids(self):
         return self.outputs
+
+    def set_input_ids (self, input_ids) :
+        self.inputs = input_ids
+
+    def set_output_ids (self, output_ids) :
+        self.outputs= output_ids
+
+    def add_input_id (self, input_id) :
+        self.inputs.append(input_id)
+
+    def add_output_id (self, output_id) :
+        self.outputs.append(output_id)

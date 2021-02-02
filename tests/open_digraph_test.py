@@ -70,6 +70,14 @@ class NodeTest(unittest.TestCase):
         self.n2 = node(0, 'a', [0], [1])
         self.assertNotEqual(self.n1.get_children_ids(),[2])
 
+    #def test_set_id (self) :
+
+
+
+
+
+
+
 class DigraphTest(unittest.TestCase):
 
     def setUp(self):

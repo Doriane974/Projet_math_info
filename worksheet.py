@@ -1,6 +1,6 @@
 print('hello world');
 
-from modules.open_disgraph import *
+from modules.open_digraph import *
 
 n0 = node(0, 'papa', [], [1]);
 n1 = node(1, 'maman', [], [1]);
