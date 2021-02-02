@@ -62,4 +62,10 @@ class open_digraph: #for open directed graph
         return self.outputs
 
     def get_id_node_map(self): #renvoie un dictionnaire id:nodes
-        return self.nodes 
+        return self.nodes
+
+    def get_nodes(self):
+        L = []
+        for i in self.nodes.values():
+            L.append(i)
+        return L

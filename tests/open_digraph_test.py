@@ -106,6 +106,7 @@ class DigraphTest(unittest.TestCase):
 
         #self.assertIsInstance(self.d0.get_id_node_map(), [self.n0, self.n1])
 
+    
 
 
 if __name__ == '__main__': # the following code is called only when
