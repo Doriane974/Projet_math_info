@@ -66,9 +66,9 @@ class NodeTest(unittest.TestCase):
 
     def test_get_children_ids(self):
         self.n0 = node(0, 'a', [2], [1])
-        self.assertEqual(self.n0.get_parent_ids(),[1])
+        self.assertEqual(self.n0.get_children_ids(),[1])
         self.n2 = node(0, 'a', [0], [1])
-        self.assertNotEqual(self.n1.get_parent_ids(),[2])
+        self.assertNotEqual(self.n1.get_children_ids(),[2])
 
 class DigraphTest(unittest.TestCase):
 
@@ -81,7 +81,8 @@ class DigraphTest(unittest.TestCase):
         self.n0 = node(0, 'a', [], [1])
         self.n1 = node(1, 'b', [0], [])
         self.d0 = open_digraph([0],[1],[self.n0, self.n1])
-        n2 = self.d0.copy()
+        self.d2 = open_digraph([],[],[])
+        d2 = self.d0.copy()
         d2.inputs = [1]
         self.assertEqual(d2.outputs, self.d0.outputs)
         self.assertNotEqual(d2.inputs, self.d0.inputs)
