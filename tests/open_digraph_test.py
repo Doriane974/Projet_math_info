@@ -58,6 +58,12 @@ class InitTest(unittest.TestCase):
             self.assertEqual(self.n0.get_label(),'a')
             self.assertNotEqual(self.n0.get_label(),'b')
 
+        def test_get_parents_ids(self):
+            self.n0 = node(0, 'a', [2], [1])
+            self.assertEqual(self.n0.get_parent_ids(),[2])
+            self.n2 = node(0, 'a', [0], [1])
+            self.assertEqual(self.n1.get_parent_ids(),[2])
+
 
     class DigraphTest(unittest.TestCase):
 

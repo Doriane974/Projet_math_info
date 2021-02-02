@@ -28,6 +28,9 @@ class node:
     def get_label(self):
         return self.label
 
+    def get_parent_ids(self):
+        return self.parents
+
 class open_digraph: #for open directed graph
     def __init__(self, inputs, outputs, nodes):
         #inputs: int list; the ids of the input nodes
