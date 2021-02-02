@@ -16,6 +16,10 @@ class node:
         '''
         output : str ; the string given by str(node)
         '''
+    def __repr__(self):
+        return "node"+str(self)
+    def copy(self):
+        return node(self.id, self.label, self.parent.copy(),self.children.copy())
 
 class open_digraph: #for open directed graph
     def __init__(self, inputs, outputs, nodes):
@@ -28,11 +32,11 @@ class open_digraph: #for open directed graph
     def __str__(self):
         return "(" + str(self.inputs) +"," + str(self.outputs) +","+ str(print(self.nodes)) + ")" #il faut utiliser __repr__
 
+    def __repr__(self):
+        return "open_digraph" + str(self)
+
     def empty():
         '''
 
         '''
         return open_digraph([],[],[])
-'''def __str__(self):
-    print( "id =" , self.inputs , "," , "liste des output : " , self.outputs , "nodes : " , self.nodes)
-'''
