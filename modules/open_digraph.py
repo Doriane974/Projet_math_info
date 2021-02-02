@@ -31,6 +31,9 @@ class node:
     def get_parent_ids(self):
         return self.parents
 
+    def get_children_ids(self):
+        return self.children
+
 class open_digraph: #for open directed graph
     def __init__(self, inputs, outputs, nodes):
         #inputs: int list; the ids of the input nodes
@@ -46,7 +49,10 @@ class open_digraph: #for open directed graph
         return "open_digraph" + str(self)
 
     def empty():
-        '''
-
-        '''
         return open_digraph([],[],[])
+
+    def get_inputs_ids(self):
+        return self.inputs
+
+    def get_outputs_ids(self):
+        return self.outputs
