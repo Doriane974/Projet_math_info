@@ -70,14 +70,6 @@ class NodeTest(unittest.TestCase):
         self.n2 = node(0, 'a', [0], [1])
         self.assertNotEqual(self.n1.get_children_ids(),[2])
 
-    #def test_set_id (self) :
-
-
-
-
-
-
-
 class DigraphTest(unittest.TestCase):
 
     def setUp(self):
@@ -108,13 +100,14 @@ class DigraphTest(unittest.TestCase):
         self.n1 = node(1, 'b', [0], [])
         self.d0 = open_digraph([0],[1],[self.n0, self.n1])
         self.d1 = open_digraph([0],[1],[self.n0, self.n1])
-
-        #check_result = set(d1.nodes()) == set(d2.nodes())
         print(set(self.d1.get_id_node_map()) == set(self.d0.get_id_node_map()))
 
-        #self.assertIsInstance(self.d0.get_id_node_map(), [self.n0, self.n1])
+    def test_get_nodes(self):
+        self.n0 = node(0, 'a', [], [1])
+        self.n1 = node(1, 'b', [0], [])
+        self.d0 = open_digraph([0],[1],[self.n0, self.n1])
+        self.assertEqual(self.d0.get_nodes(),[self.n0,self.n1])
 
-    
 
 
 if __name__ == '__main__': # the following code is called only when

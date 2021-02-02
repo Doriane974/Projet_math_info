@@ -20,7 +20,7 @@ class node:
         return "node"+str(self)
 
     def copy(self):
-        return node(self.id, self.label, self.parent.copy(),self.children.copy())
+        return node(self.id, self.label, self.parents.copy(),self.children.copy())
 
     def get_id(self):
         return self.id
@@ -67,6 +67,10 @@ class open_digraph: #for open directed graph
     def __repr__(self):
         return "open_digraph" + str(self)
 
+    def copy(self):
+        return open_digraph(self.inputs.copy(), self.outputs.copy(), [node.copy() for node in self.nodes.values()])
+
+
     def empty():
         return open_digraph([],[],[])
 
@@ -76,7 +80,7 @@ class open_digraph: #for open directed graph
     def get_outputs_ids(self):
         return self.outputs
 
-<<<<<<< HEAD
+#<<<<<<< HEAD
     def set_input_ids (self, input_ids) :
         self.inputs = input_ids
 
@@ -88,7 +92,7 @@ class open_digraph: #for open directed graph
 
     def add_output_id (self, output_id) :
         self.outputs.append(output_id)
-=======
+#=======
     def get_id_node_map(self): #renvoie un dictionnaire id:nodes
         return self.nodes
 
@@ -97,4 +101,4 @@ class open_digraph: #for open directed graph
         for i in self.nodes.values():
             L.append(i)
         return L
->>>>>>> bdd0aad2e7d2716837860a3520e7eb5f3db35012
+#>>>>>>> bdd0aad2e7d2716837860a3520e7eb5f3db35012
