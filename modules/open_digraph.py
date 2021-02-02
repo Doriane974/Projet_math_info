@@ -18,8 +18,15 @@ class node:
         '''
     def __repr__(self):
         return "node"+str(self)
+
     def copy(self):
         return node(self.id, self.label, self.parent.copy(),self.children.copy())
+
+    def get_id(self):
+        return self.id
+
+    def get_label(self):
+        return self.label
 
 class open_digraph: #for open directed graph
     def __init__(self, inputs, outputs, nodes):
