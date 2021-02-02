@@ -108,6 +108,25 @@ class DigraphTest(unittest.TestCase):
         self.d0 = open_digraph([0],[1],[self.n0, self.n1])
         self.assertEqual(self.d0.get_nodes(),[self.n0,self.n1])
 
+    def test_get_node_ids(self):
+        self.n0 = node(0, 'a', [], [1])
+        self.n1 = node(1, 'b', [0], [])
+        self.d0 = open_digraph([0],[1],[self.n0, self.n1])
+        self.assertEqual(self.d0.get_node_ids(),[0,1])
+
+    def test_get_node_by_id(self):
+        self.n0 = node(0, 'a', [], [1])
+        self.n1 = node(1, 'b', [0], [])
+        self.d0 = open_digraph([0],[1],[self.n0, self.n1])
+        self.assertEqual(self.d0.get_node_by_id(0), self.n0)
+
+    def test_get_node_by_ids(self):
+        self.n0 = node(0, 'a', [], [1])
+        self.n1 = node(1, 'b', [0], [])
+        self.d0 = open_digraph([0],[1],[self.n0, self.n1])
+        self.assertEqual(self.d0.get_node_by_ids(),[self.n0,self.n1])
+
+
 
 
 if __name__ == '__main__': # the following code is called only when

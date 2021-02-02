@@ -34,7 +34,6 @@ class node:
     def get_children_ids(self):
         return self.children
 
-
     def set_id (self, id) :
         self.id = id
 
@@ -80,19 +79,6 @@ class open_digraph: #for open directed graph
     def get_outputs_ids(self):
         return self.outputs
 
-#<<<<<<< HEAD
-    def set_input_ids (self, input_ids) :
-        self.inputs = input_ids
-
-    def set_output_ids (self, output_ids) :
-        self.outputs= output_ids
-
-    def add_input_id (self, input_id) :
-        self.inputs.append(input_id)
-
-    def add_output_id (self, output_id) :
-        self.outputs.append(output_id)
-#=======
     def get_id_node_map(self): #renvoie un dictionnaire id:nodes
         return self.nodes
 
@@ -101,4 +87,31 @@ class open_digraph: #for open directed graph
         for i in self.nodes.values():
             L.append(i)
         return L
+
+    def get_node_ids(self):
+        return [i for i in self.nodes]
+
+    def get_node_by_id(self, i):
+        return self.nodes.get(i)
+
+    def get_node_by_ids(self):
+        return [self.nodes.get(i) for i in self.nodes]
+
+
+
+
+
+    #<<<<<<< HEAD
+        def set_input_ids (self, input_ids) :
+            self.inputs = input_ids
+
+        def set_output_ids (self, output_ids) :
+            self.outputs= output_ids
+
+        def add_input_id (self, input_id) :
+            self.inputs.append(input_id)
+
+        def add_output_id (self, output_id) :
+            self.outputs.append(output_id)
+    #=======
 #>>>>>>> bdd0aad2e7d2716837860a3520e7eb5f3db35012
