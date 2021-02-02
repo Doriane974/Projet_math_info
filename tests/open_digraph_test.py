@@ -103,6 +103,18 @@ class DigraphTest(unittest.TestCase):
         self.assertEqual(self.d0.get_inputs_ids(),[0])
         self.assertNotEqual(self.d0.get_inputs_ids(),[1])
 
+    def test_get_id_node_map(self):
+        self.n0 = node(0, 'a', [], [1])
+        self.n1 = node(1, 'b', [0], [])
+        self.d0 = open_digraph([0],[1],[self.n0, self.n1])
+        self.d1 = open_digraph([0],[1],[self.n0, self.n1])
+
+        #check_result = set(d1.nodes()) == set(d2.nodes())
+        print(set(self.d1.get_id_node_map()) == set(self.d0.get_id_node_map()))
+
+        #self.assertIsInstance(self.d0.get_id_node_map(), [self.n0, self.n1])
+
+    
 
 
 if __name__ == '__main__': # the following code is called only when
