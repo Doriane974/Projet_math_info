@@ -3,6 +3,7 @@ sys.path.append('../') # allows us to fetch files from the project root
 import unittest
 from modules.open_digraph import *
 
+
 class InitTest(unittest.TestCase):
     def test_init_node(self):
         n0 = node(0, 'i', [], [1])
@@ -101,6 +102,7 @@ class DigraphTest(unittest.TestCase):
         self.d0 = open_digraph([0],[1],[self.n0, self.n1])
         self.d1 = open_digraph([0],[1],[self.n0, self.n1])
         print(set(self.d1.get_id_node_map()) == set(self.d0.get_id_node_map()))
+        print(self.d1.get_id_node_map())
 
     def test_get_nodes(self):
         self.n0 = node(0, 'a', [], [1])
@@ -125,6 +127,12 @@ class DigraphTest(unittest.TestCase):
         self.n1 = node(1, 'b', [0], [])
         self.d0 = open_digraph([0],[1],[self.n0, self.n1])
         self.assertEqual(self.d0.get_node_by_ids(),[self.n0,self.n1])
+
+    def test_new_id(self):
+        self.n0 = node(0, 'a', [], [1])
+        self.n1 = node(1, 'b', [0], [])
+        self.d0 = open_digraph([0],[1],[self.n0, self.n1])
+        print(self.d0.new_id())
 
 
 

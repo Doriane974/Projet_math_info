@@ -1,3 +1,5 @@
+import operator
+
 class node:
     def __init__(self, identity, label, parents, children):
 
@@ -97,21 +99,21 @@ class open_digraph: #for open directed graph
     def get_node_by_ids(self):
         return [self.nodes.get(i) for i in self.nodes]
 
+#<<<<<<< HEAD
+    def set_input_ids (self, input_ids) :
+        self.inputs = input_ids
 
+    def set_output_ids (self, output_ids) :
+        self.outputs= output_ids
 
+    def add_input_id (self, input_id) :
+        self.inputs.append(input_id)
 
-
-    #<<<<<<< HEAD
-        def set_input_ids (self, input_ids) :
-            self.inputs = input_ids
-
-        def set_output_ids (self, output_ids) :
-            self.outputs= output_ids
-
-        def add_input_id (self, input_id) :
-            self.inputs.append(input_id)
-
-        def add_output_id (self, output_id) :
-            self.outputs.append(output_id)
-    #=======
-#>>>>>>> bdd0aad2e7d2716837860a3520e7eb5f3db35012
+    def add_output_id (self, output_id) :
+        self.outputs.append(output_id)
+#=======
+    #pour la méthode nex id, on va renvoyer le maximum+1 des ids deja utilisés
+    #on va utiliser la méthode get_id_node_map()
+    def new_id(self):
+        dict = self.get_id_node_map()
+        return max(dict)+1
