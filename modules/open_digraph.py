@@ -55,6 +55,7 @@ class node:
         self.parent.append(parent_id)
 
 class open_digraph: #for open directed graph
+
     def __init__(self, inputs, outputs, nodes):
         #inputs: int list; the ids of the input nodes
         #outputs: int list; the ids of the output nodes
@@ -62,6 +63,7 @@ class open_digraph: #for open directed graph
         self.inputs = inputs
         self.outputs = outputs
         self.nodes = {node.id:node for node in nodes} # self.nodes: <int,node> dict
+
     def __str__(self):
         return "(" + str(self.inputs) +"," + str(self.outputs) +","+ str(print(self.nodes)) + ")" #il faut utiliser __repr__
 
@@ -70,7 +72,6 @@ class open_digraph: #for open directed graph
 
     def copy(self):
         return open_digraph(self.inputs.copy(), self.outputs.copy(), [node.copy() for node in self.nodes.values()])
-
 
     def empty():
         return open_digraph([],[],[])
@@ -99,7 +100,6 @@ class open_digraph: #for open directed graph
     def get_node_by_ids(self):
         return [self.nodes.get(i) for i in self.nodes]
 
-#<<<<<<< HEAD
     def set_input_ids (self, input_ids) :
         self.inputs = input_ids
 
@@ -111,9 +111,25 @@ class open_digraph: #for open directed graph
 
     def add_output_id (self, output_id) :
         self.outputs.append(output_id)
-#=======
-    #pour la méthode nex id, on va renvoyer le maximum+1 des ids deja utilisés
-    #on va utiliser la méthode get_id_node_map()
+
     def new_id(self):
         dict = self.get_id_node_map()
-        return max(dict)+1
+        return (max(dict)+1)
+
+    def add_edge(self, src, tgt):           #Le test ne fonctionne pas
+        self.src.children.append(tgt)
+        self.tgt.parents.append(src)
+
+    def add_edges(self, src, tgt):          #le test ne fonctionne pas
+        for i in tgt:
+            self.add_edge(src,i)
+
+    def add_node(self, label='', parents=[], children=[]):  #pas sur du tout, et à tester
+        id=self.new_id()
+        n0 = node(id, label, [],[])
+        for i in parents:
+            self.add_edge(i,n0)
+        self.add_edge(n0,children)
+        return id
+
+    
