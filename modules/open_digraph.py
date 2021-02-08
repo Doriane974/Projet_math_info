@@ -55,6 +55,12 @@ class node:
     def add_parent_id (self, parent_id) :
         self.parent.append(parent_id)
 
+    def remove_parent_id(self, parent_id):
+        self.parents.remove(parent_id)
+
+    def remove_child_id(self, child_id):
+        self.children.remove(child_id)
+
 class open_digraph: #for open directed graph
 
     def __init__(self, inputs, outputs, nodes):
