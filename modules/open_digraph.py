@@ -1,4 +1,5 @@
 import operator
+from modules.utils import *
 
 class node:
     def __init__(self, identity, label, parents, children):
@@ -131,5 +132,3 @@ class open_digraph: #for open directed graph
             self.add_edge(i,n0)
         self.add_edge(n0,children)
         return id
-
-    
