@@ -81,6 +81,18 @@ class NodeTest(unittest.TestCase):
         self.n0.remove_child_id(2)
         self.assertEqual(self.n0.children,[])
 
+    def test_remove_parent_id_all(self):
+        self.n0 = node(0, 'a', [2,3,2], [2])
+        self.n0.remove_parent_id_all(2)
+        self.assertEqual(self.n0.parents,[3])
+
+    def test_remove_child_id_all(self):
+        self.n0 = node(0, 'a', [2], [2,3,2])
+        self.n0.remove_child_id_all(2)
+        self.assertEqual(self.n0.children,[3])
+
+
+
 class DigraphTest(unittest.TestCase):
 
     def setUp(self):

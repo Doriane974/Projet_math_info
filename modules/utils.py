@@ -2,5 +2,5 @@ import operator
 
 class Utils:
 
-    def remove_all(self,l,x):
+    def remove_all(l,x):
         l = [i for i in l if i != x]

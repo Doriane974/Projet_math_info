@@ -44,7 +44,7 @@ class node:
         self.label = label
 
     def set_parent_ids (self, parent_ids) :
-        self.parent = parent_ids
+        self.parents = parent_ids
 
     def set_children_ids (self, children_ids) :
         self.children = children_ids
@@ -53,13 +53,21 @@ class node:
         self.children.append(child_id)
 
     def add_parent_id (self, parent_id) :
-        self.parent.append(parent_id)
+        self.parents.append(parent_id)
 
     def remove_parent_id(self, parent_id):
         self.parents.remove(parent_id)
 
     def remove_child_id(self, child_id):
         self.children.remove(child_id)
+
+    def remove_parent_id_all(self, parent_id):
+        remove_all(self.parents, parent_id)
+
+    def remove_child_id_all(self, child_id):
+        remove_all(self.children, child_id)
+
+
 
 class open_digraph: #for open directed graph
 
