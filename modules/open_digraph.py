@@ -1,5 +1,5 @@
 import operator
-from modules.utils import *
+from utils import *
 
 class node:
     def __init__(self, identity, label, parents, children):
@@ -153,4 +153,9 @@ class open_digraph: #for open directed graph
         self.tgt.remove_parent_id_all(src.id)
         self.tgt.remove_child_id_all(src.id)
 
-    #def remove_node_by_id
+    def remove_node_by_id(self, id):
+        node_removed = self.nodes.pop(id)
+        remove_all(self.inputs, id)
+        remove_all(self.outputs,id)
+
+    
