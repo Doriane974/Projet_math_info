@@ -233,7 +233,6 @@ class DigraphTest(unittest.TestCase):
         self.d0 = open_digraph([0],[1],[self.n0, self.n1])
         self.d0.remove_node_by_id(1)
         self.assertEqual(self.d0.nodes, {0:self.n0})
-        #self.assertEqual(self.n1.parents, [])
 
     def test_remove_edges(self):
         self.n0 = node(0, 'a', [], [1])
