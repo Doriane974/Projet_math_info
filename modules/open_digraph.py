@@ -1,5 +1,8 @@
 import operator
-from utils import *
+import sys
+sys.path.append('../')
+from modules.utils import *
+
 
 class node:
     def __init__(self, identity, label, parents, children):
@@ -110,7 +113,7 @@ class open_digraph: #for open directed graph
         return [i for i in self.nodes]
 
     def get_node_by_id(self, i):
-        return self.nodes.get(i)
+        return self.nodes.get(i)    # faire le cas ou le i n'existe pas
 
     def get_node_by_ids(self):
         return [self.nodes.get(i) for i in self.nodes]
@@ -132,8 +135,8 @@ class open_digraph: #for open directed graph
         return (max(dict)+1)
 
     def add_edge(self, src, tgt):           #Le test ne fonctionne pas
-        self.src.children.append(tgt)
-        self.tgt.parents.append(src)
+        self.get_node_by_id(src).add_child_id(tgt)
+        self.get_node_by_id(tgt).add_parent_id(src)
 
     def add_edges(self, src, tgt):          #le test ne fonctionne pas
         for i in tgt:
@@ -147,22 +150,47 @@ class open_digraph: #for open directed graph
         self.add_edge(n0,children)
         return id
 
-    def remove_edge(self,src,tgt):              # a tester
-        self.src.remove_parent_id_all(tgt.id)
-        self.src.remove_child_id_all(tgt.id)
-        self.tgt.remove_parent_id_all(src.id)
-        self.tgt.remove_child_id_all(src.id)
+    def remove_edge(self,src,tgt):
+        self.get_node_by_id(src).remove_parent_id_all(tgt)
+        self.get_node_by_id(src).remove_child_id_all(tgt)
+        self.get_node_by_id(tgt).remove_parent_id_all(src)
+        self.get_node_by_id(tgt).remove_child_id_all(src)
 
-    def remove_node_by_id(self, id):            # a tester
+    def remove_node_by_id(self, id):
+        print("aaaaaaaaaaa")
+        print(id)
         node_removed = self.nodes.pop(id)
         remove_all(self.inputs, id)
         remove_all(self.outputs,id)
 
-    def remove_edges(self,src,tgt):             # a tester
+    def remove_edges(self,src,tgt):#src et tgt sont des listes de nodes    # a tester
         for i in src :
             for  j in tgt :
-                self.remove_edge(i,j)
+                self.remove_edge(i.id ,j.id)
 
-    def remove_nodes_by_id(self,ids):           # a tester
+    def remove_nodes_by_id(self,ids):   #ids une liste de ids        # a tester
         for i in ids:
             self.remove_node_by_id(i)
+
+
+    def is_well_formed(self):
+        # partie 1
+        for input_id in self.inputs :
+            if not (input_id in self.get_node_ids()):
+                return False
+        for output_id in self.outputs :
+            if not (output_id in self.get_node_ids()):
+                return False
+
+        # partie 2
+        for key in self.nodes.keys() :
+            if not (key in self.get_node_ids()):
+                return False
+
+        # partie 3
+        for node in self.nodes.values() :
+            for child_id in node.get_children_ids() :
+                if not (count_occurrences(node.get_children_ids(), child_id) == count_occurrences(self.get_node_by_id(child_id).get_parent_ids(), node.get_id())):
+                    return False
+
+        return True

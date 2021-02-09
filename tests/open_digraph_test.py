@@ -205,21 +205,26 @@ class DigraphTest(unittest.TestCase):
         self.d0 = open_digraph([0],[1],[self.n0, self.n1])
         print(self.d0.new_id())
 
-#    def test_add_edge(self):
-#        self.n0 = node(0, 'a', [], [2])
-#        self.n1 = node(1, 'b', [3], [])
-#        self.add_edge(self.n0, self.n1)
-#        self.assertEqual(self.n0.children, [2,1])
-#        self.assertEqual(self.n1.parents, [3,0])
+    # def test_add_edge(self):
+    #     self.n0 = node(0, 'a', [], [2])
+    #     self.n1 = node(1, 'b', [3], [])
+    #     self.add_edge(self.n0, self.n1)
+    #     self.assertEqual(self.n0.children, [2,1])
+    #     self.assertEqual(self.n1.parents, [3,0])
+    #
+    # def test_add_edges(self):
+    #     self.n0 = node(0, 'a', [], [3])
+    #     self.n1 = node(1, 'b', [4], [])
+    #     self.n2 = node(2, 'a', [], [5])
+    #     self.add_edge(self.n0, [self.n1, self.n2])
+    #     self.assertEqual(self.n0.children, [3,1,2])
+    #     self.assertEqual(self.n1.parents, [4,0])
+    #     self.assertEqual(self.n2.parents, [0])
+    #
 
-#    def test_add_edges(self):
-#        self.n0 = node(0, 'a', [], [3])
-#        self.n1 = node(1, 'b', [4], [])
-#        self.n2 = node(2, 'a', [], [5])
-#        self.add_edge(self.n0, [self.n1, self.n2])
-#        self.assertEqual(self.n0.children, [3,1,2])
-#        self.assertEqual(self.n1.parents, [4,0])
-#        self.assertEqual(self.n2.parents, [0])
+    def test_is_well_formed(self):
+        self.assertTrue(self.d0.is_well_formed())
+
 
 
 
