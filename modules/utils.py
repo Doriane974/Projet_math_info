@@ -5,15 +5,7 @@ def remove_all(l,x):
     for i in l:
         if i == x :
             l.remove(i)
-    return 1
-
-def count_occurrences(l,x):
-    cpt = 0
-    for i in l :
-        if i == x :
-            cpt += 1
-    return cpt
-
+    return l
 
 def random_int_list(n, bound):
     l=[0]*n
@@ -29,3 +21,5 @@ def random_int_matrix(n,bound, null_diag=True):
         for i in range(0,n):
             l[i][i]=0
     return l
+
+#def random_symetric_int_matrix
