@@ -1,6 +1,7 @@
 import operator
 
-class Utils:
-
-    def remove_all(l,x):
-        l = [i for i in l if i != x]
+def remove_all(l,x):
+    for i in l:
+        if i == x :
+            l.remove(i)
+    return

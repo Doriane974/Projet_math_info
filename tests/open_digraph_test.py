@@ -2,6 +2,7 @@ import sys
 sys.path.append('../') # allows us to fetch files from the project root
 import unittest
 from modules.open_digraph import *
+from modules.utils import *
 
 
 class InitTest(unittest.TestCase):
@@ -70,6 +71,34 @@ class NodeTest(unittest.TestCase):
         self.assertEqual(self.n0.get_children_ids(),[1])
         self.n2 = node(0, 'a', [0], [1])
         self.assertNotEqual(self.n1.get_children_ids(),[2])
+
+    def test_set_id(self):
+        self.n0.set_id(2)
+        self.assertEqual(self.n0.get_id(), 2)
+
+
+    def test_set_label(self):
+        self.n0.set_label('pouêt')
+        self.assertEqual(self.n0.get_label(), 'pouêt')
+
+
+    def test_set_parent_ids(self):
+        self.n0.set_parent_ids([42])
+        self.assertEqual(self.n0.get_parent_ids(), [42])
+
+    def test_set_children_ids (self):
+        self.n0.set_children_ids([51])
+        self.assertEqual(self.n0.get_children_ids(), [51])
+
+
+    def test_add_child_id(self):
+        self.n0.add_child_id(39)
+        self.assertEqual(self.n0.get_children_ids(), [1, 39])
+
+    def test_add_parent_id(self):
+        self.n0.add_parent_id(13)
+        self.assertEqual(self.n0.get_parent_ids(), [13])
+
 
     def test_remove_parent_id(self):
         self.n0 = node(0, 'a', [2], [1])
@@ -149,6 +178,26 @@ class DigraphTest(unittest.TestCase):
         self.n1 = node(1, 'b', [0], [])
         self.d0 = open_digraph([0],[1],[self.n0, self.n1])
         self.assertEqual(self.d0.get_node_by_ids(),[self.n0,self.n1])
+
+    def test_set_input_ids (self):
+        self.d0.set_input_ids([666, 68])
+        self.assertEqual(self.d0.get_inputs_ids(), [666, 68])
+
+    def test_set_outputs_ids(self):
+        self.d0.set_output_ids([1312, 2012])
+        self.assertEqual(self.d0.get_outputs_ids(), [1312, 2012])
+
+    def test_add_input_id(self):
+        self.d0.add_input_id(1515)
+        self.assertEqual(self.d0.get_inputs_ids(), [0, 1515])
+
+
+    def test_add_output_id(self):
+        self.d0.add_output_id(314159265)
+        self.assertEqual(self.d0.get_outputs_ids(), [1, 314159265])
+
+
+
 
     def test_new_id(self):
         self.n0 = node(0, 'a', [], [1])
