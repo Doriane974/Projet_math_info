@@ -10,6 +10,9 @@ class UtilsTest(unittest.TestCase):
         l=[1,2,3,2,1]
         self.assertEqual(remove_all(l,1), [2,3,2] )
 
+    def test_count_occurrences(self):
+        self.assertEqual(count_occurrences([0,1,0,2,858,0], 0), 3)
+
     def test_random_int_list(self):
         print(random_int_list(5,10))
 

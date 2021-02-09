@@ -127,7 +127,8 @@ class DigraphTest(unittest.TestCase):
     def setUp(self):
         self.n0 = node(0, 'a', [], [1])
         self.n1 = node(1, 'b', [0], [])
-        self.d0 = open_digraph([0],[1],[self.n0, self.n1])                     # to be completed
+        self.d0 = open_digraph([0],[1],[self.n0, self.n1])
+        self.d5 = open_digraph([3],[2], [self.n0, self.n1])                     # to be completed
 
     def test_copy(self):
         self.n0 = node(0, 'a', [], [1])
@@ -152,8 +153,8 @@ class DigraphTest(unittest.TestCase):
         self.n1 = node(1, 'b', [0], [])
         self.d0 = open_digraph([0],[1],[self.n0, self.n1])
         self.d1 = open_digraph([0],[1],[self.n0, self.n1])
-        print(set(self.d1.get_id_node_map()) == set(self.d0.get_id_node_map()))
-        print(self.d1.get_id_node_map())
+        #print(set(self.d1.get_id_node_map()) == set(self.d0.get_id_node_map()))
+        #print(self.d1.get_id_node_map())
 
     def test_get_nodes(self):
         self.n0 = node(0, 'a', [], [1])
@@ -177,7 +178,7 @@ class DigraphTest(unittest.TestCase):
         self.n0 = node(0, 'a', [], [1])
         self.n1 = node(1, 'b', [0], [])
         self.d0 = open_digraph([0],[1],[self.n0, self.n1])
-        self.assertEqual(self.d0.get_node_by_ids(),[self.n0,self.n1])
+        self.assertEqual(self.d0.get_node_by_ids([0,1]),[self.n0,self.n1])
 
     def test_set_input_ids (self):
         self.d0.set_input_ids([666, 68])
@@ -199,7 +200,7 @@ class DigraphTest(unittest.TestCase):
         self.n0 = node(0, 'a', [], [1])
         self.n1 = node(1, 'b', [0], [])
         self.d0 = open_digraph([0],[1],[self.n0, self.n1])
-        print(self.d0.new_id())
+        #print(self.d0.new_id())
 
     def test_add_edge(self):
         self.n0 = node(0, 'a', [], [2])
@@ -252,6 +253,7 @@ class DigraphTest(unittest.TestCase):
 
     def test_is_well_formed(self):
         self.assertTrue(self.d0.is_well_formed())
+        self.assertTrue(not self.d5.is_well_formed())
 
 
 
