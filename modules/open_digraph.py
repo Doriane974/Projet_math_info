@@ -147,13 +147,13 @@ class open_digraph: #for open directed graph
         self.add_edge(n0,children)
         return id
 
-    def remove_edge(self,src,tgt):              # a tester
+    def remove_edge(self,src,tgt):
         self.src.remove_parent_id_all(tgt.id)
         self.src.remove_child_id_all(tgt.id)
         self.tgt.remove_parent_id_all(src.id)
         self.tgt.remove_child_id_all(src.id)
 
-    def remove_node_by_id(self, id):            # a tester
+    def remove_node_by_id(self, id):           
         node_removed = self.nodes.pop(id)
         remove_all(self.inputs, id)
         remove_all(self.outputs,id)
