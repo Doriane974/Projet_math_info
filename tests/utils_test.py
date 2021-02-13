@@ -20,5 +20,9 @@ class UtilsTest(unittest.TestCase):
         print(random_int_matrix(5,10,False))
         print(random_int_matrix(5,10,True))
 
+    def test_random_symetric_int_matrix(self):
+        print(random_symetric_int_matrix(4,10,False))
+        print(random_symetric_int_matrix(4,10,True))
+
 if __name__ == '__main__': # the following code is called only when
     unittest.main()        # precisely this file is run
