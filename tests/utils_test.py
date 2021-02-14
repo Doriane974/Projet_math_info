@@ -24,5 +24,13 @@ class UtilsTest(unittest.TestCase):
         print(random_symetric_int_matrix(4,10,False))
         print(random_symetric_int_matrix(4,10,True))
 
+    def test_random_oriented_int_matrix(self): #ne fonctionne pas
+        print(random_oriented_int_matrix(3,10,False))
+        print(random_oriented_int_matrix(3,10,True))
+
+    def test_random_triangular_int_matrix(self):
+        print(random_triangular_int_matrix(3,10,False))
+        print(random_triangular_int_matrix(3,10,True))
+
 if __name__ == '__main__': # the following code is called only when
     unittest.main()        # precisely this file is run

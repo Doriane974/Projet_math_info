@@ -35,25 +35,18 @@ def random_symetric_int_matrix(n, bound, null_diag=True):
     for i in range(0,n):
         for j in range(0,i):
             l[j][i]=l[i][j]
+    return l
 
+def random_oriented_int_matrix(n, bound, null_diag=True): #faux, juste pour pouvoir compiler
+    l=random_int_matrix(n, bound, null_diag)
+    for i in range(0,n):
+        for j in range(i+1, n):
+            l[i][j]=0
+    return l
 
-
-
-
-
-
-
-
-    #l=[[0]*n]*n;
-    #for i in range(0,n):
-    #    for j in range(0,i):
-    #        val = random.randrange(0,bound,i+1)
-    #        if(i==j):
-    #            if(null_diag==True):
-    #                l[i][j]=0
-    #            else:
-    #                l[i][j]=val
-    #        else:
-    #            l[i][j]=val
-    #            l[j][i]=val
-    return l # Ca fait une liste a 3 dimension un peu, c'est bizarre
+def random_triangular_int_matrix(n, bound, null_diag=True):
+    l=random_int_matrix(n, bound, null_diag)
+    for i in range(0,n):
+        for j in range(i+1, n):
+            l[i][j]=0
+    return l
