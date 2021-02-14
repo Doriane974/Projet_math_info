@@ -25,6 +25,7 @@ class UtilsTest(unittest.TestCase):
         print(random_symetric_int_matrix(4,10,True))
 
     def test_random_oriented_int_matrix(self): #ne fonctionne pas
+        print("oriented")
         print(random_oriented_int_matrix(3,10,False))
         print(random_oriented_int_matrix(3,10,True))
 

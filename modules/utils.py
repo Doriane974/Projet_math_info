@@ -41,7 +41,12 @@ def random_oriented_int_matrix(n, bound, null_diag=True): #faux, juste pour pouv
     l=random_int_matrix(n, bound, null_diag)
     for i in range(0,n):
         for j in range(i+1, n):
-            l[i][j]=0
+            if(l[i][j] != 0):
+                l[j][i] = 0
+    for i in range(1,n):            
+        for j in range(i-1, 0): #verifier le range
+            if(l[i][j] != 0):
+                l[j][i] = 0
     return l
 
 def random_triangular_int_matrix(n, bound, null_diag=True):
