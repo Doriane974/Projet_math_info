@@ -147,7 +147,12 @@ class open_digraph: #for open directed graph
         n0 = node(id, label, [],[])
         for i in parents:
             self.add_edge(i,n0)
+<<<<<<< HEAD
         self.add_edges(n0,children)
+=======
+        self.add_edge(n0,children)
+        self.nodes[id]=n0
+>>>>>>> aca9d313d07997180c2c49142cfc0595bf48dcdd
         return id
 
     def remove_edge(self,src,tgt):                                      # retire une arete du graphe
