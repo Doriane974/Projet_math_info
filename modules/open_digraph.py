@@ -156,6 +156,7 @@ class open_digraph: #for open directed graph
             self.add_edge(i,n0)
         self.add_edges(n0,children)
         self.nodes[id]=n0
+
         return id
 
     def remove_edge(self,src,tgt):                                      # retire une arete du graphe
@@ -203,6 +204,7 @@ class open_digraph: #for open directed graph
 
         return True                                             # si aucune erreur n'a ete detectee, alors le graphe est bien forme
 
+<<<<<<< HEAD
         def change_id(self, node_id, new_id):
             if(self.id_exists_in_graph(new_id)==False):
                 #self.get_node_by_id(node_id).id = new_id
@@ -242,3 +244,12 @@ class point:
     def __sub__(self, p2):
         self.x = self.x - p2.x
         self.y = self.y - p2.y
+=======
+
+def graph_from_adjacency_matrix(matrix) :
+    graph = open_digraph.empty()
+    for i in range len(matrix) :
+        for j in range len(matrix[i]) :
+            if matrix[i][j] != 0 :
+                graph.add_node('a', )
+>>>>>>> 72a38537cb221c5ec638cdc16e8632b1550d0335
