@@ -112,8 +112,15 @@ class open_digraph: #for open directed graph
     def get_node_ids(self):                 # renvoie une liste des ids des nodes (int list)
         return [i for i in self.nodes.keys()]
 
+    def id_exists_in_graph(self,id):
+        if id in self.nodes:
+            return True
+        else:
+            return False
+
     def get_node_by_id(self, id):            # renvoie le node dont l'id correspond a id
-        return self.nodes.get(id)    # faire le cas ou le i n'existe pas
+        return self.nodes.get(id)
+
 
     def get_node_by_ids(self, node_ids):              # renvoie une liste de noeuds a partir d’une liste d’ids
         return [self.nodes.get(i) for i in node_ids]
@@ -147,7 +154,7 @@ class open_digraph: #for open directed graph
         n0 = node(id, label, [],[])
         for i in parents:
             self.add_edge(i,n0)
-        self.add_edge(n0,children)
+        self.add_edges(n0,children)
         self.nodes[id]=n0
         return id
 
@@ -195,3 +202,43 @@ class open_digraph: #for open directed graph
                     return False                                                                                                                                        # et on verifie que ce nombre est egal a celui des occurrences du node parmi les parents de l'enfant
 
         return True                                             # si aucune erreur n'a ete detectee, alors le graphe est bien forme
+
+        def change_id(self, node_id, new_id):
+            if(self.id_exists_in_graph(new_id)==False):
+                #self.get_node_by_id(node_id).id = new_id
+                for i in self.get_node_by_id(node_id).parents:
+                    for j in self.i.children:
+                        if (j.id == node_id):
+                            j.set_id(new_id)
+                for i in self.get_node_by_id(node_id).children:
+                    for j in self.i.parents:
+                        if (j.id == node_id):
+                            j.set_id(new_id)
+                for i in self.inputs:
+                    if (self.inputs[i]==node_id):
+                        self.inputs[i]=new_id
+                for i in self.outputs:
+                    if (self.outputs[i]==node_id):
+                        self.outputs[i]=new_id
+                self.nodes[new_id]=self.nodes[node_id]
+                sellf.nodes.pop[node_id]
+            else:
+                raise ValueError('new id already exists')
+
+class point:
+    def __init__(self,x,y):
+        self.x = x
+        self.y = y
+    def n(self):
+        return (round(self.x), round(self.y)) # return a simple tuple
+    def copy(self):
+        return point(self.x, self.y)
+    def __add__(self, p2):
+        self.x =self.x + p2.x
+        self.y = self.y + p2.y
+    def __rmul__(self, s):
+        self.x = s*self.x
+        self.y = s*self.y
+    def __sub__(self, p2):
+        self.x = self.x - p2.x
+        self.y = self.y - p2.y
