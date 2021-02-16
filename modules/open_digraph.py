@@ -147,7 +147,7 @@ class open_digraph: #for open directed graph
         n0 = node(id, label, [],[])
         for i in parents:
             self.add_edge(i,n0)
-        self.add_edge(n0,children)
+        self.add_edges(n0,children)
         return id
 
     def remove_edge(self,src,tgt):                                      # retire une arete du graphe
@@ -194,3 +194,11 @@ class open_digraph: #for open directed graph
                     return False                                                                                                                                        # et on verifie que ce nombre est egal a celui des occurrences du node parmi les parents de l'enfant
 
         return True                                             # si aucune erreur n'a ete detectee, alors le graphe est bien forme
+
+
+def graph_from_adjacency_matrix(matrix) :
+    graph = open_digraph.empty()
+    for i in range len(matrix) :
+        for j in range len(matrix[i]) :
+            if matrix[i][j] != 0 :
+                graph.add_node('a', )
