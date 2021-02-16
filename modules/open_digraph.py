@@ -206,11 +206,12 @@ class open_digraph: #for open directed graph
 
 
         def graph_from_adjacency_matrix(matrix) :
-            graph = open_digraph.empty()
-            for i in range len(matrix) :
-                for j in range len(matrix[i]) :
-                    if matrix[i][j] != 0 :
-                        graph.add_node('a', )
+            return True #justepour pouvoir compiler
+            #graph = open_digraph.empty()
+            #for i in range len(matrix) :
+            #    #for j in range len(matrix[i]) :
+            #        if matrix[i][j] != 0 :
+            #            graph.add_node('a', )
 
         def change_id(self, node_id, new_id):
             if(self.id_exists_in_graph(new_id)==False):
@@ -233,21 +234,3 @@ class open_digraph: #for open directed graph
                 sellf.nodes.pop[node_id]
             else:
                 raise ValueError('new id already exists')
-
-class point:
-    def __init__(self,x,y):
-        self.x = x
-        self.y = y
-    def n(self):
-        return (round(self.x), round(self.y)) # return a simple tuple
-    def copy(self):
-        return point(self.x, self.y)
-    def __add__(self, p2):
-        self.x =self.x + p2.x
-        self.y = self.y + p2.y
-    def __rmul__(self, s):
-        self.x = s*self.x
-        self.y = s*self.y
-    def __sub__(self, p2):
-        self.x = self.x - p2.x
-        self.y = self.y - p2.y
