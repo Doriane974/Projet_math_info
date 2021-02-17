@@ -112,8 +112,15 @@ class open_digraph: #for open directed graph
     def get_node_ids(self):                 # renvoie une liste des ids des nodes (int list)
         return [i for i in self.nodes.keys()]
 
+    def id_exists_in_graph(self,id):
+        if id in self.nodes:
+            return True
+        else:
+            return False
+
     def get_node_by_id(self, id):            # renvoie le node dont l'id correspond a id
-        return self.nodes.get(id)    # faire le cas ou le i n'existe pas
+        return self.nodes.get(id)
+
 
     def get_node_by_ids(self, node_ids):              # renvoie une liste de noeuds a partir d’une liste d’ids
         return [self.nodes.get(i) for i in node_ids]
@@ -201,6 +208,31 @@ class open_digraph: #for open directed graph
 
         return True                                             # si aucune erreur n'a ete detectee, alors le graphe est bien forme
 
+
+
+    def change_id(self, node_id, new_id):
+        if(self.id_exists_in_graph(new_id)==False):
+            #self.get_node_by_id(node_id).id = new_id
+            for i in self.get_node_by_id(node_id).parents:
+                for j in self.i.children:
+                    if (j.id == node_id):
+                        j.set_id(new_id)
+            for i in self.get_node_by_id(node_id).children:
+                for j in self.i.parents:
+                    if (j.id == node_id):
+                        j.set_id(new_id)
+            for i in self.inputs:
+                if (self.inputs[i]==node_id):
+                    self.inputs[i]=new_id
+            for i in self.outputs:
+                if (self.outputs[i]==node_id):
+                    self.outputs[i]=new_id
+            self.nodes[new_id]=self.nodes[node_id]
+            sellf.nodes.pop[node_id]
+        else:
+            raise ValueError('new id already exists')
+
+
     def random_graph(self, n, bound, inputs=0, outputs=0, form="free"):     # renvoie un graphe correspondant a la matrice d adjacence de type form, de taille n * n et avec des valeurs entre 0 et bound
         '''
         le fonctionnement est assez simple : on cree la matrice en fonction de la forme voulue, puis on fait le graphe correspondant
@@ -249,3 +281,13 @@ def graph_from_adjacency_matrix(matrix) :           # renvoie un graphe correspo
 
     return graph                                    # bug a regler : pb si matrice tro petite : certains sommets n existent pas mais sont des enfants quand meme
                                                     # test a finir
+
+        # 
+        # def graph_from_adjacency_matrix(matrix) :
+        #     return True #justepour pouvoir compiler
+        #     #graph = open_digraph.empty()
+        #     #for i in range len(matrix) :
+        #     #    #for j in range len(matrix[i]) :
+        #     #        if matrix[i][j] != 0 :
+        #     #            graph.add_node('a', )
+        #
