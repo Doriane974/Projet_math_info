@@ -10,5 +10,9 @@ n2 = node(1, 'enfant',['papa', 'maman'],[])
 
 g = open_digraph([0],[1],[n0,n1]);
 
-print(g)
-print(open_digraph.empty()) #Question 5
+# print(g)
+# print(open_digraph.empty()) #Question 5
+# matrix = random_int_matrix(5, 2, False)
+# print(matrix)
+# print(graph_from_adjacency_matrix(matrix))
+print(g.random_graph(5, 2, 'oriented'))

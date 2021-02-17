@@ -255,6 +255,12 @@ class DigraphTest(unittest.TestCase):
         self.assertTrue(self.d0.is_well_formed())
         self.assertTrue(not self.d5.is_well_formed())
 
+    #
+    # def test_graph_from_adjacency_matrix(self):
+    #     matrix = [[1, 0, 0, 0, 1], [0, 1, 1, 0, 0], [1, 0, 0, 1, 1], [0, 1, 0, 0, 0], [0, 0, 1, 1, 0]]
+    #     graph = {0: node(0,'node0',[0, 4],[0, 2]), 4: node(4,'node4',[2, 3],[0, 2]), 1: node(1,'node1',[1, 2],[1, 3]), 2: node(2,'node2',[0, 3, 4],[1, 4]), 3: node(3,'node3',[1],[2, 4])}
+    #     self.assertEqual(graph_from_adjacency_matrix(matrix), open_digraph([0], [1], graph))
+
 
 
 if __name__ == '__main__': # the following code is called only when
