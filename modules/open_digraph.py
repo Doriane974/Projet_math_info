@@ -139,7 +139,10 @@ class open_digraph: #for open directed graph
 
     def new_id(self):                                   # renvoie un id non utilise par le graphe
         dict = self.get_id_node_map()
-        return (max(dict)+1)
+        if dict :
+            return (max(dict)+1)
+        else :
+            return 0
 
     def add_edge(self, src, tgt):                       # ajoute une arete entre les nodes
         self.get_node_by_id(src).add_child_id(tgt)
@@ -152,11 +155,12 @@ class open_digraph: #for open directed graph
     def add_node(self, label='', parents=[], children=[]):             # ajoute un node au graphe                               # pas sur du tout, et à tester
         id=self.new_id()
         n0 = node(id, label, [],[])
-        for i in parents:
-            self.add_edge(i,n0)
-        self.add_edges(n0,children)
         self.nodes[id]=n0
-
+        print('add_node1', n0, children)
+        for i in parents:
+            self.add_edge(i, id)
+        print('add_node2', n0, children)
+        self.add_edges(id, children)
         return id
 
     def remove_edge(self,src,tgt):                                      # retire une arete du graphe
@@ -205,32 +209,85 @@ class open_digraph: #for open directed graph
         return True                                             # si aucune erreur n'a ete detectee, alors le graphe est bien forme
 
 
-        def graph_from_adjacency_matrix(matrix) :
-            return True #justepour pouvoir compiler
-            #graph = open_digraph.empty()
-            #for i in range len(matrix) :
-            #    #for j in range len(matrix[i]) :
-            #        if matrix[i][j] != 0 :
-            #            graph.add_node('a', )
 
-        def change_id(self, node_id, new_id):
-            if(self.id_exists_in_graph(new_id)==False):
-                #self.get_node_by_id(node_id).id = new_id
-                for i in self.get_node_by_id(node_id).parents:
-                    for j in self.i.children:
-                        if (j.id == node_id):
-                            j.set_id(new_id)
-                for i in self.get_node_by_id(node_id).children:
-                    for j in self.i.parents:
-                        if (j.id == node_id):
-                            j.set_id(new_id)
-                for i in self.inputs:
-                    if (self.inputs[i]==node_id):
-                        self.inputs[i]=new_id
-                for i in self.outputs:
-                    if (self.outputs[i]==node_id):
-                        self.outputs[i]=new_id
-                self.nodes[new_id]=self.nodes[node_id]
-                sellf.nodes.pop[node_id]
-            else:
-                raise ValueError('new id already exists')
+    def change_id(self, node_id, new_id):
+        if(self.id_exists_in_graph(new_id)==False):
+            #self.get_node_by_id(node_id).id = new_id
+            for i in self.get_node_by_id(node_id).parents:
+                for j in self.i.children:
+                    if (j.id == node_id):
+                        j.set_id(new_id)
+            for i in self.get_node_by_id(node_id).children:
+                for j in self.i.parents:
+                    if (j.id == node_id):
+                        j.set_id(new_id)
+            for i in self.inputs:
+                if (self.inputs[i]==node_id):
+                    self.inputs[i]=new_id
+            for i in self.outputs:
+                if (self.outputs[i]==node_id):
+                    self.outputs[i]=new_id
+            self.nodes[new_id]=self.nodes[node_id]
+            sellf.nodes.pop[node_id]
+        else:
+            raise ValueError('new id already exists')
+
+
+    def random_graph(self, n, bound, inputs=0, outputs=0, form="free"):     # renvoie un graphe correspondant a la matrice d adjacence de type form, de taille n * n et avec des valeurs entre 0 et bound
+        '''
+        le fonctionnement est assez simple : on cree la matrice en fonction de la forme voulue, puis on fait le graphe correspondant
+        utiliser l argument form pour definir le type de matrice et donc de graphe voulu
+        free : matrice aleatoire
+        DAG : matrice triangulaire donc sans doublon
+        oriented : matrice orientee donc graphe oriente, cad que les aretes ne peuvent aller que dans un sens
+        undirected : matrice symetric donc graphe non-dirige
+        '''
+        if form =="free":
+            matrix = random_int_matrix(n, bound)
+        elif form =="DAG":
+            matrix = random_triangular_int_matrix(n, bound)
+        elif form =="oriented":
+            matrix = random_oriented_int_matrix(n, bound)
+        elif form =="undirected":
+            matrix = random_symetric_int_matrix(n, bound)
+        graph = graph_from_adjacency_matrix(matrix)
+        print(matrix)
+        print(graph)
+        return graph
+
+
+
+
+def graph_from_adjacency_matrix(matrix) :           # renvoie un graphe correspondant a la matrice d adjacence matrix
+    graph = open_digraph.empty()                    # on cree un graphe vide vide a partir duquel on va construire le graphe voulu
+    '''
+    on ne sert pas de la methode add_node car on part du graphe vide
+    et donc la methode tente de faire des aretes avec des nodes qui n ont pas encore ete crees
+    modifier la methode pour resoudre le bug serait trop complique donc on fait autrement
+    a la place, on parcourt deux fois la matrice, une premiere fois pour creer tous les nodes sans les aretes
+    '''
+    for i in range(len(matrix)) :
+        for j in range(len(matrix[i])) :
+            if matrix[i][j] != 0 :                  # on considere que les nodes sont uniques cad qu on ne cree pas plus d un node avec un id donne
+                n0 = node(j, 'node' + str(j), [],[])         # on cree un nouveau node sans enfant ni parent, d id et de label node + j soit son indice dans la matrice
+                graph.nodes[j]=n0                   # on ajoute ce node au dictionnaire graph.nodes avec en clef j
+    '''
+    et on parcourt une deuxieme fois la matrice pour etablir les aretes avec la methode add_edge
+    '''
+    for i in range(len(matrix)) :
+        for j in range(len(matrix[i])) :
+            for _ in range(matrix[i][j]) :
+                graph.add_edge(j, i)                # on a decide arbitrairement que la valeur de matrix[i][j] correspondrait a une arete de j vers i
+
+    return graph                                    # bug a regler : pb si matrice tro petite : certains sommets n existent pas mais sont des enfants quand meme
+                                                    # test a finir
+
+        # 
+        # def graph_from_adjacency_matrix(matrix) :
+        #     return True #justepour pouvoir compiler
+        #     #graph = open_digraph.empty()
+        #     #for i in range len(matrix) :
+        #     #    #for j in range len(matrix[i]) :
+        #     #        if matrix[i][j] != 0 :
+        #     #            graph.add_node('a', )
+        #

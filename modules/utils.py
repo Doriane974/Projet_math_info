@@ -18,7 +18,7 @@ def count_occurrences(l,x):                               # compte toutes les oc
 def random_int_list(n, bound):                             # renvoie une liste d'entiers aléatoire
     l=[0]*n
     for i in range(0, n):
-        l[i] = random.randrange(0,bound,i+1)
+        l[i] = random.randrange(0,bound)
     return l
 
 def random_int_matrix(n,bound, null_diag=True):            # renvoie une matrice d'entier aléatoire
