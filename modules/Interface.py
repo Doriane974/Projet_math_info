@@ -46,20 +46,20 @@ def drawnode(self, noeud, p, verbose = False):
 def drawarrete(self, p1, p2):#peut etre rajouter verbose, mais ca faisait un bug dans self.arrows(...)
 
     if(p2.x >= p1.x and p2.y > p1.y) :
-        p_depart=point(p1.x+10*math.cos(-math.pi/4), p1.y+10*math.sin(-math.pi/4))
-        p_arrivee=point(p2.x+10*math.cos(3*math.pi/4), p2.y+10*math.sin(3*math.pi/4))
+        p_depart=point(p1.x, p1.y)
+        p_arrivee=point(p2.x, p2.y)
         self.arrows(p_depart, p_arrivee)
     if(p2.x < p1.x and p2.y >= p1.y) :
-        p_depart=point(p1.x+10*math.cos(-3*math.pi/4), p1.y+10*math.sin(-3*math.pi/4))
-        p_arrivee=point(p2.x+10*math.cos(math.pi/4), p2.y+10*math.sin(math.pi/4))
+        p_depart=point(p1.x, p1.y)
+        p_arrivee=point(p2.x, p2.y)
         self.arrows(p_depart, p_arrivee)
     if(p2.x <= p1.x and p2.y < p1.y) :
-        p_depart=point(p1.x+10*math.cos(3*math.pi/4), p1.y+10*math.sin(3*math.pi/4))
-        p_arrivee=point(p2.x+10*math.cos(-math.pi/4), p2.y+10*math.sin(-math.pi/4))
+        p_depart=point(p1.x, p1.y)
+        p_arrivee=point(p2.x, p2.y)
         self.arrows(p_depart, p_arrivee)
     if(p2.x > p1.x and p2.y <= p1.y) :
-        p_depart=point(p1.x+10*math.cos(math.pi/4), p1.y+10*math.sin(math.pi/4))
-        p_arrivee=point(p2.x+10*math.cos(-3*math.pi/4), p2.y+10*math.sin(-3*math.pi/4))
+        p_depart=point(p1.x, p1.y)
+        p_arrivee=point(p2.x, p2.y)
         self.arrows(p_depart, p_arrivee)
 
 
@@ -72,7 +72,7 @@ def drawgraph(self, g, method='manual', node_pos=None, input_pos=None, output_po
     for i in range(len(g.get_outputs_ids())): #on trace la sortie
             self.arrows(node_pos[g.get_outputs_ids()[i]],output_pos[i])
     for id in g.nodes.keys(): # on trace les arrete entre les nodes et leurs enfant
-        for child in g.nodes[id].children:
+        for child in g.nodes[id].get_children_ids():
             self.arrete(node_pos[id], node_pos[child])
     for id in g.nodes.keys(): # on trace les nodes
         self.node(g.get_node_by_id(id),node_pos[id])
