@@ -228,7 +228,7 @@ class open_digraph: #for open directed graph
                 if (self.outputs[i]==node_id):
                     self.outputs[i]=new_id
             self.nodes[new_id]=self.nodes[node_id]
-            sellf.nodes.pop[node_id]
+            self.nodes.pop[node_id]
         else:
             raise ValueError('new id already exists')
 
@@ -282,7 +282,7 @@ def graph_from_adjacency_matrix(matrix) :           # renvoie un graphe correspo
     return graph                                    # bug a regler : pb si matrice tro petite : certains sommets n existent pas mais sont des enfants quand meme
                                                     # test a finir
 
-        # 
+        #
         # def graph_from_adjacency_matrix(matrix) :
         #     return True #justepour pouvoir compiler
         #     #graph = open_digraph.empty()

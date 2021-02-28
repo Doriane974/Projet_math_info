@@ -64,17 +64,18 @@ def drawarrete(self, p1, p2):#peut etre rajouter verbose, mais ca faisait un bug
 
 
 def drawgraph(self, g, method='manual', node_pos=None, input_pos=None, output_pos=None):
-    if (method=='manual'):
-        for i in range(len(g.get_inputs_ids())): #on trace l'entrée
-            self.arrows(input_pos[i], node_pos[g.get_inputs_ids()[i]])
-        for i in range(len(g.get_outputs_ids())): #on trace la sortie
-                self.arrows(node_pos[g.get_outputs_ids()[i]],output_pos[i])
-        for id in g.nodes.keys(): # on trace les arrete entre les nodes et leurs enfant
-            for child in g.nodes[id].children:
-                self.arrete(node_pos[id], node_pos[child])
-        for id in g.nodes.keys(): # on trace les nodes
-            self.node(g.get_node_by_id(id),node_pos[id])
-    #else:
+    if (method=='random'):
+        node_pos, input_pos, output_pos = randomlayout(g, node_pos, input_pos, output_pos)
+
+    for i in range(len(g.get_inputs_ids())): #on trace l'entrée
+        self.arrows(input_pos[i], node_pos[g.get_inputs_ids()[i]])
+    for i in range(len(g.get_outputs_ids())): #on trace la sortie
+            self.arrows(node_pos[g.get_outputs_ids()[i]],output_pos[i])
+    for id in g.nodes.keys(): # on trace les arrete entre les nodes et leurs enfant
+        for child in g.nodes[id].children:
+            self.arrete(node_pos[id], node_pos[child])
+    for id in g.nodes.keys(): # on trace les nodes
+        self.node(g.get_node_by_id(id),node_pos[id])
 
 
 
@@ -90,6 +91,7 @@ def random_layout(g, node_pos, input_pos, output_pos):
         input_pos[id]=point(node_pos[id].x - 25, node_pos[id].y - 25)
     for id in g.outputs:
         output_pos[id]=point(node_pos[id].x + 25, node_pos[id].y + 25)
+    return node_pos, input_pos, output_pos
 
 
 
