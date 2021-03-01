@@ -215,20 +215,20 @@ class open_digraph: #for open directed graph
             #self.get_node_by_id(node_id).id = new_id
             for i in self.get_node_by_id(node_id).parents:
                 for j in self.get_node_by_id(i).children:
-                    if (j.id == node_id):
-                        j.set_id(new_id)
+                    if (self.get_node_by_id(j).id == node_id):
+                        self.get_node_by_id(j).set_id(new_id)
             for i in self.get_node_by_id(node_id).children:
                 for j in self.get_node_by_id(i).parents:
-                    if (j.id == node_id):
-                        j.set_id(new_id)
-            for i in self.inputs:
+                    if (self.get_node_by_id(j).id == node_id):
+                        self.get_node_by_id(j).set_id(new_id)
+            for i in range(len(self.inputs)):
                 if (self.inputs[i]==node_id):
                     self.inputs[i]=new_id
-            for i in self.outputs:
+            for i in range(len(self.outputs)):
                 if (self.outputs[i]==node_id):
                     self.outputs[i]=new_id
             self.nodes[new_id]=self.nodes[node_id]
-            self.nodes.pop[node_id]
+            self.nodes.pop(node_id)
         else:
             raise ValueError('new id already exists')
 
