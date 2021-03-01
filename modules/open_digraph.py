@@ -234,8 +234,8 @@ class open_digraph: #for open directed graph
 
     def change_ids(self, change):
         sorted(change, key = lambda t: t[1])
-        for couple in change :
-            self.change_id(couple[0], couple[1])
+        for couple in range(len(change)) :
+            self.change_id(change[couple][0], change[couple][1])
 
 
     def random_graph(self, n, bound, inputs=0, outputs=0, form="free"):     # renvoie un graphe correspondant a la matrice d adjacence de type form, de taille n * n et avec des valeurs entre 0 et bound
