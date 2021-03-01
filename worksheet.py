@@ -49,11 +49,11 @@ input_pos= [pentree]
 
 output_pos= [psortie]
 
-draw.graph(g, node_pos, input_pos,output_pos)
+draw.graph(g,'random', node_pos, input_pos,output_pos, True)
 #def drawgraph(self, g, method='manual', node_pos=None, input_pos=None, output_pos=None):
 #draw.arrows(p1, p2)
-draw.arrete(p2,p3)
-draw.node(n0, p3, True)
+#draw.arrete(p2,p3)
+#draw.node(n0, p3, True)
 #draw.node(n1, p2, True)
 draw.text((5,380), "label", fill='red')
 draw.text((5,390), "Id", fill='blue')

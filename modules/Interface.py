@@ -43,7 +43,7 @@ def drawnode(self, noeud, p, verbose = False):
 
 
 
-def drawarrete(self, p1, p2):#peut etre rajouter verbose, mais ca faisait un bug dans self.arrows(...)
+def drawarrete(self, p1, p2):
 
     if(p2.x >= p1.x and p2.y > p1.y) :
         p_depart=point(p1.x, p1.y)
@@ -63,9 +63,26 @@ def drawarrete(self, p1, p2):#peut etre rajouter verbose, mais ca faisait un bug
         self.arrows(p_depart, p_arrivee)
 
 
-def drawgraph(self, g, method='manual', node_pos=None, input_pos=None, output_pos=None):
+def random_layout(g, node_pos, input_pos, output_pos):
+    for id in g.nodes.keys():# la c
+        node_pos[id]=point(random.randrange(25,375), random.randrange(25,375))
+    j=0
+    for id in g.inputs:
+        input_pos[id]=point(node_pos[id].x - 25, node_pos[id].y - 25)
+        j=j+1
+    i = 0;
+    for id in g.outputs:
+        x = node_pos[id].x
+        y = node_pos[id].y
+
+        output_pos[i]=point(node_pos[id].x + 25, node_pos[id].y + 25)
+        i=i+1
+    return node_pos, input_pos, output_pos
+
+
+def drawgraph(self, g, method='manual', node_pos=None, input_pos=None, output_pos=None, verbose=False):
     if (method=='random'):
-        node_pos, input_pos, output_pos = randomlayout(g, node_pos, input_pos, output_pos)
+        node_pos, input_pos, output_pos = random_layout(g, node_pos, input_pos, output_pos)
 
     for i in range(len(g.get_inputs_ids())): #on trace l'entrée
         self.arrows(input_pos[i], node_pos[g.get_inputs_ids()[i]])
@@ -75,7 +92,7 @@ def drawgraph(self, g, method='manual', node_pos=None, input_pos=None, output_po
         for child in g.nodes[id].get_children_ids():
             self.arrete(node_pos[id], node_pos[child])
     for id in g.nodes.keys(): # on trace les nodes
-        self.node(g.get_node_by_id(id),node_pos[id])
+        self.node(g.get_node_by_id(id),node_pos[id], verbose)
 
 
 
@@ -84,14 +101,7 @@ def drawgraph(self, g, method='manual', node_pos=None, input_pos=None, output_po
     #faire : tracer une fl`eche de input_pos[i] vers le noeud d’id g.get_input_ids[i]. output_pos quand tu auras compris
 
 
-def random_layout(g, node_pos, input_pos, output_pos):
-    for id in g.nodes.keys():
-        node_pos[id]=point(random.randrange(10,390), random.randrange(10,390))
-    for id in g.inputs:
-        input_pos[id]=point(node_pos[id].x - 25, node_pos[id].y - 25)
-    for id in g.outputs:
-        output_pos[id]=point(node_pos[id].x + 25, node_pos[id].y + 25)
-    return node_pos, input_pos, output_pos
+
 
 
 

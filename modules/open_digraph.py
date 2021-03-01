@@ -214,11 +214,11 @@ class open_digraph: #for open directed graph
         if(self.id_exists_in_graph(new_id)==False):
             #self.get_node_by_id(node_id).id = new_id
             for i in self.get_node_by_id(node_id).parents:
-                for j in self.i.children:
+                for j in self.get_node_by_id(i).children:
                     if (j.id == node_id):
                         j.set_id(new_id)
             for i in self.get_node_by_id(node_id).children:
-                for j in self.i.parents:
+                for j in self.get_node_by_id(i).parents:
                     if (j.id == node_id):
                         j.set_id(new_id)
             for i in self.inputs:
