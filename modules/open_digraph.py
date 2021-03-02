@@ -251,9 +251,6 @@ class open_digraph: #for open directed graph
                children : id list, par défaut []
     return : id : l'id du node qui a été ajouté '''
     def add_node(self, label='', parents=[], children=[]):             # ajoute un node au graphe                               # pas sur du tout, et à tester
-        #########################################
-        #              A modifier               #
-        #########################################
         id=self.new_id()
         n0 = node(id, label, [],[])
         self.nodes[id]=n0
@@ -269,19 +266,23 @@ class open_digraph: #for open directed graph
                tgt : id
     return : none '''
     def remove_edge(self,src,tgt):                                      # retire une arete du graphe
-        #########################################
-        #              A modifier               #
-        #########################################
-        self.get_node_by_id(src).remove_parent_id_all(tgt)
-        self.get_node_by_id(src).remove_child_id_all(tgt)
-        self.get_node_by_id(tgt).remove_parent_id_all(src)
-        self.get_node_by_id(tgt).remove_child_id_all(src)
+
+        self.get_node_by_id(src).remove_parent_id(tgt)
+        self.get_node_by_id(src).remove_child_id(tgt)
+        self.get_node_by_id(tgt).remove_parent_id(src)
+        self.get_node_by_id(tgt).remove_child_id(src)
 
     '''méthode appliquée au graphe qui enleve un noeud ayant l'Id voulue du graphe
     argument : id : id du noeud que l'on veut retirer
     return : none '''
-    def remove_node_by_id(self, id):                                    # retire un node (selon l'id) au graphe
+
+    def remove_node_by_id(self, id):
+        for parent in self.get_node_by_id(id).parents :
+            parent.remove_child_id_all(id)
+        for child in self.get_node_by_id(id).children :
+            child.remove_parent_id_all(id)
         del self.nodes[id]
+
 
     '''méthode appliquée au graphe qui retire plusieurs arretes du graphe, entre les nodes compris dans 2 listes. modifie le graphe
     arguments : src : node list
@@ -316,7 +317,7 @@ class open_digraph: #for open directed graph
 
         # partie 2
         for key in self.nodes.keys() :                          # on parcourt les clefs du dict nodes
-            if not (key in self.get_node_ids()):                # on verifie que la clef correspond a l'id d'un node
+            if key != self.get_node_by_id(key).get_id()         # on verifie que la clef correspond a l'id d'un node
                 return False
 
         # partie 3
@@ -324,7 +325,9 @@ class open_digraph: #for open directed graph
             for child_id in node.get_children_ids() :           # pour chaque node, on parcourt les enfants
                 if not (count_occurrences(node.get_children_ids(), child_id) == count_occurrences(self.get_node_by_id(child_id).get_parent_ids(), node.get_id())):      # pour chaque enfant, on compte le nombre d'occurrence(s) de son id dans les enfants du node
                     return False                                                                                                                                        # et on verifie que ce nombre est egal a celui des occurrences du node parmi les parents de l'enfant
-
+            for parent_id in node.get_parent_ids() :           # pour chaque node, on parcourt les parents
+                if not (count_occurrences(node.get_parent_ids(), parent_id) == count_occurrences(self.get_node_by_id(parent_id).get_child_ids(), node.get_id())):       # pour chaque parent, on compte le nombre d'occurrence(s) de son id dans les parents du node
+                    return False                                                                                                                                        # et on verifie que ce nombre est egal a celui des occurrences du node parmi les enfants du parent
         return True                                             # si aucune erreur n'a ete detectee, alors le graphe est bien forme
 
 
