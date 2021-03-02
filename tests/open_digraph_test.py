@@ -279,7 +279,9 @@ class DigraphTest(unittest.TestCase):
         self.n0 = node(0, 'a', [], [1])
         self.n1 = node(1, 'b', [0], [])
         self.d0 = open_digraph([0],[1],[self.n0, self.n1])
+        print(self.d0)
         self.d0.change_ids([(1,3),(0,2)])
+        print(self.d0)
 
 
 

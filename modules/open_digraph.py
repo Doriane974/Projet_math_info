@@ -194,7 +194,7 @@ class open_digraph: #for open directed graph
 
     def is_well_formed(self):                       # verifie si le graphe est correctement forme
         #########################################
-        #              A modifier ?             #
+        #              A modifier ?              #
         #########################################
         # partie 1
         for input_id in self.inputs :                           # on parcourt les inputs
@@ -223,13 +223,15 @@ class open_digraph: #for open directed graph
         if(self.id_exists_in_graph(new_id)==False):
             #self.get_node_by_id(node_id).id = new_id
             for i in self.get_node_by_id(node_id).parents:
-                for j in self.get_node_by_id(i).children:
-                    if (self.get_node_by_id(j).id == node_id):
-                        self.get_node_by_id(j).set_id(new_id)
+                children= self.get_node_by_id(i).children
+                for j in range(len(children)):
+                    if (children[j] == node_id):
+                        children[j] = new_id
             for i in self.get_node_by_id(node_id).children:
-                for j in self.get_node_by_id(i).parents:
-                    if (self.get_node_by_id(j).id == node_id):
-                        self.get_node_by_id(j).set_id(new_id)
+                parents =  self.get_node_by_id(i).parents
+                for j in range(len(parents)):
+                    if(parents[j] == node_id):
+                        parents[j]=new_id
             for i in range(len(self.inputs)):
                 if (self.inputs[i]==node_id):
                     self.inputs[i]=new_id
@@ -271,52 +273,15 @@ class open_digraph: #for open directed graph
 
 
 
-    def normalise_ids(self) :               # non testee
-        size = len(self.nodes)
-        unused_ids = []
-        unwanted_ids = []
-        for i in range(size):
-            if not self.node.id_exists_in_graph(i) :
-                unused_ids.append(i)
-        for node in self.nodes :
-            id = node.get_id()
-            if id >= size :
-                unwanted_ids.append(id)
-        lenth = len(unwanted_ids)
-        if lenth == len(unused_ids) :
-            change = []
-            for i  in range(lenth) :
-                change.append((unwanted_ids[i], unused_ids[i]))
-            self.change_ids(change)
-        else :
-            raise ValueError('Les vides dans nodes ne correspondent pas aux trop-pleins')
-
-
-
-
-        def adjacency_matrix(self) :                # non testee
-            self.normalise_ids()
-            size = len(self.nodes)
-            matrix = [0] * size * size
-            for node in self.nodes :
-                node_id = node.get_id()
-                for parent_id in node.get_parent_ids() :
-                    matrix[node_id][parent_id] += 1                 # convention arbitraire : on ne sert que des parents (puisque les enfants n'apportent pas plus d'information si le graphe est bien formé)
-                                                                    # et on considere que matrix[i][j] represente une arete de j vers i
-            return matrix
-
-
-
-
 
 def graph_from_adjacency_matrix(matrix) :           # renvoie un graphe correspondant a la matrice d adjacence matrix
     graph = open_digraph.empty()                    # on cree un graphe vide vide a partir duquel on va construire le graphe voulu
-
-    # on ne sert pas de la methode add_node car on part du graphe vide
-    # et donc la methode tente de faire des aretes avec des nodes qui n ont pas encore ete crees
-    # modifier la methode pour resoudre le bug serait trop complique donc on fait autrement
-    # a la place, on parcourt deux fois la matrice, une premiere fois pour creer tous les nodes sans les aretes
-
+    '''
+    on ne sert pas de la methode add_node car on part du graphe vide
+    et donc la methode tente de faire des aretes avec des nodes qui n ont pas encore ete crees
+    modifier la methode pour resoudre le bug serait trop complique donc on fait autrement
+    a la place, on parcourt deux fois la matrice, une premiere fois pour creer tous les nodes sans les aretes
+    '''
     for i in range(len(matrix)) :
         for j in range(len(matrix[i])) :
             if matrix[i][j] != 0 :                  # on considere que les nodes sont uniques cad qu on ne cree pas plus d un node avec un id donne
