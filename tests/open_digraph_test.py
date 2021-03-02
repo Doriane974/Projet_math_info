@@ -154,6 +154,7 @@ class DigraphTest(unittest.TestCase):
         self.d0 = open_digraph([0],[1],[self.n0, self.n1])
         self.d1 = open_digraph([0],[1],[self.n0, self.n1])
 
+
     def test_get_nodes(self):
         self.n0 = node(0, 'a', [], [1])
         self.n1 = node(1, 'b', [0], [])
