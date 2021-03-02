@@ -148,7 +148,10 @@ def drawgraph(self, g, node_pos=None, input_pos=None, output_pos=None, method='m
     for id in g.nodes.keys(): # on trace les nodes
         self.node(g.get_node_by_id(id),node_pos[id], verbose)
 
-
+'''fonction qui calcule l'angle en radian formé entre la ligne qui passe par les point p1 et p2 et l'axe des abscisse
+argument : p1 : point
+           p2 : point
+return : float (angle en radian)'''
 #def slope_angle(p1, p2):
 
 
