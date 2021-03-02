@@ -128,7 +128,7 @@ class DigraphTest(unittest.TestCase):
         self.n0 = node(0, 'a', [], [1])
         self.n1 = node(1, 'b', [0], [])
         self.d0 = open_digraph([0],[1],[self.n0, self.n1])
-        self.d5 = open_digraph([3],[2], [self.n0, self.n1])                     # to be completed
+        self.d5 = open_digraph([3],[2], [self.n0, self.n1])
 
     def test_copy(self):
         self.n0 = node(0, 'a', [], [1])
@@ -153,8 +153,6 @@ class DigraphTest(unittest.TestCase):
         self.n1 = node(1, 'b', [0], [])
         self.d0 = open_digraph([0],[1],[self.n0, self.n1])
         self.d1 = open_digraph([0],[1],[self.n0, self.n1])
-        #print(set(self.d1.get_id_node_map()) == set(self.d0.get_id_node_map()))
-        #print(self.d1.get_id_node_map())
 
     def test_get_nodes(self):
         self.n0 = node(0, 'a', [], [1])
