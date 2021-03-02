@@ -25,48 +25,93 @@ class node:
     def __repr__(self):
         return "node"+str(self)
 
+    '''méthode appliqué au node qui renvoie une copie de ce node
+    argument : nonde
+    return : node '''
     def copy(self):                     # renvoie une copie du node (node)
         return node(self.id, self.label, self.parents.copy(),self.children.copy())
 
+    '''méthode appliquée au node qui renvoie l'id de ce node
+    argument : none
+    return : int '''
     def get_id(self):                   # renvoie l'id du node (int)
         return self.id
 
-    def get_label(self):                # renvoie le label du node (int)
+    '''méthode appliquée au node qui renvoie le label de ce node
+    argument : none
+    retunr : label '''
+    def get_label(self):                # renvoie le label du node
         return self.label
 
+    '''méthode appliquée au node qui renvoie la liste des parents de ce node
+    argument : none
+    return : id list '''
     def get_parent_ids(self):           # renvoie la liste des parents du node (int list)
         return self.parents
 
+    '''méthode appliquée au node qui renvoie la liste des enfants du node
+    argument : nonde
+    return : id list  '''
     def get_children_ids(self):         # renvoie la liste des enfants du node (int list)
         return self.children
 
+    '''méthode appliquée au node qui affecte une valeur a l'id du node
+    argument : id : id que l'on veut affecter
+    return : none '''
     def set_id (self, id) :             # affecte une valeur a l'id du node (char)
         self.id = id
 
+    '''méthode appliquée au node qui affecte un label au node
+    argument : label : label que l'on veut affecter
+    return : none '''
     def set_label (self, label) :       # affecte un string au label du node (string)
         self.label = label
 
+    '''méthode appliquée au node qui affecte une valeur au parents de ce node
+    argument : id list
+    return : none  '''
     def set_parent_ids (self, parent_ids) :         # affecte une valeur aux ids des parents du node (int list)
         self.parents = parent_ids
 
+    '''méthode appliquée au node qui affecte une valeur au enfants de ce node
+    argument : id list
+    return : none  '''
     def set_children_ids (self, children_ids) :     # affecte une valeur aux ids des enfants du node (int list)
         self.children = children_ids
 
+    '''méthode appliquée au node qui ajoute une valeur a la liste des ids des enfants de ce node
+    argument : child_id : id à ajouter
+    return : none  '''
     def add_child_id (self, child_id) :             # ajoute une valeur a la liste des id des enfants du node (int)
         self.children.append(child_id)
 
+    '''méthode appliquée au node qui ajoute une valeur a la liste des ids des parents de ce node
+    arguments : parent id : id à ajouter
+    return : none '''
     def add_parent_id (self, parent_id) :           # ajoute une valeur a la liste des id des parents du node (int)
         self.parents.append(parent_id)
 
+    '''méthode appliquée au node qui retire la valeur spécifiée a la liste des ids des parents du node
+    argument : parent id : id
+    return : none '''
     def remove_parent_id(self, parent_id):          # retire la valeur specifiee a la liste des ids des parents du node (int)
         self.parents.remove(parent_id)
 
+    '''méthode appliquée au node qui retire la valeur spécifiée a la liste des ids des parents du node
+    argument ; child_id : id
+    return : none '''
     def remove_child_id(self, child_id):            # retire la valeur specifiee a la liste des ids des enfants du node (int)
         self.children.remove(child_id)
 
+    '''méthode appliquée au node qui retire tous les ids donnés des parents du node
+    argument : parent_id : id list
+    return : none  '''
     def remove_parent_id_all(self, parent_id):      # retire tous les ids des parents du node (int list)
         remove_all(self.parents, parent_id)
 
+    '''méthode appliquée au node qui retire tous les ids donnés des enfants du node
+    argument : child_id : id list 
+    return : none  '''
     def remove_child_id_all(self, child_id):        # retire tous les ids des enfants du node (int list)
         remove_all(self.children, child_id)
 
@@ -88,39 +133,69 @@ class open_digraph: #for open directed graph
     def __repr__(self):
         return "open_digraph" + str(self)
 
+    '''méthode appliquée au graphe qui retourne une copie du graphe
+    argument : none
+    return : un nouveau graph '''
     def copy(self):                         # renvoie une copie du graphe (digraph)
         return open_digraph(self.inputs.copy(), self.outputs.copy(), [node.copy() for node in self.nodes.values()])
 
+    '''fonction qui renvoie un graphe vide
+    arguments : none
+    return : un graphe '''
     def empty():                            # renvoie un graphe vide (digraph)
         return open_digraph([],[],[])
 
+    '''méthode appliquée au graphe qui extrait la liste des ids des inputs du graphe
+    argument : none
+    return : int list '''
     def get_inputs_ids(self):               # extrait la liste des ids des inputs du graphe (int list)
         return self.inputs
 
+    '''méthode appliquée au graphe qui extrait la liste des ids des outputs du graphe
+    argument : none
+    return : int list '''
     def get_outputs_ids(self):              # extrait la liste des ids des outputs du graphe (int list)
         return self.outputs
 
+    '''méthode appliquée au graphe qui extrait le dictinnaire des nodes du graphe
+    argument : none
+    return : dictionnaire : keys : ids, values : nodes  '''
     def get_id_node_map(self): #renvoie un dictionnaire id:nodes
         return self.nodes
 
+    '''méthode appliquée au graphe qui renvoie une liste de tous les nodes du graphes
+    argument : none
+    return : node list '''
     def get_nodes(self):                    # renvoie une liste de tous les noeuds
         return list(self.nodes.values())
 
+    '''méthode appliquée au graphe qui renvoie une liste de tous les ids des nodes du graphes
+    argument : none
+    return : int list '''
     def get_node_ids(self):                 # renvoie une liste des ids des nodes (int list)
         return [i for i in self.nodes.keys()]
 
+    '''méthode appliquée au graphe qui vérifie si une id existe deja dans le graphe
+    argument : id : l'id dont on veut savoir si elle existe ou non
+    return : bool : True si l'id existe, False sinon '''
     def id_exists_in_graph(self,id):
         if id in self.nodes:
             return True
         else:
             return False
 
+    '''Méthode appliquée au graphe qui renvoie le node dont l'id correspond a id
+    argument : id : id dont ont veut obtenir le node correspondant
+    return : node '''
     def get_node_by_id(self, id):            # renvoie le node dont l'id correspond a id
         return self.nodes.get(id)
 
-
+    '''méthode appliquée au graphe qui renvoie une liste de noeuds a partir d'une liste d'id
+    argument : node_ids : id list
+    return : node list '''
     def get_node_by_ids(self, node_ids):              # renvoie une liste de noeuds a partir d’une liste d’ids
         return [self.nodes.get(i) for i in node_ids]
+
 
     def set_input_ids (self, input_ids) :              # affecte les inputs du graphe a input_ids
         self.inputs = input_ids
@@ -128,12 +203,19 @@ class open_digraph: #for open directed graph
     def set_output_ids (self, output_ids) :             # affecte les outputs du graphe a output_ids
         self.outputs= output_ids
 
+    '''méthode appliquée au graphe qui ajoute une valeur a la liste des inputs du graphe
+    argument : input_id : id à ajouter  '''
     def add_input_id (self, input_id) :                 # ajoute une valeur a la liste des inputs du graphe
         self.inputs.append(input_id)
 
+    '''méthode appliquée au graphe qui ajoute une valeur a la liste des outputs du graphe
+    argument : output_id : id à ajouter  '''
     def add_output_id (self, output_id) :               # ajoute une valeur a la liste des outputs du graphe
         self.outputs.append(output_id)
 
+    '''méthode appliquée au graphe qui  retourne un Id qui n'est pas utilisé dans le graphe
+    argument : none
+    return : un id '''
     def new_id(self):                                   # renvoie un id non utilise par le graphe
         dict = self.get_id_node_map()
         if (dict =={}):
@@ -144,10 +226,16 @@ class open_digraph: #for open directed graph
             else :
                 return 0
 
+    '''méthode appliquée au graphe qui ajoute une arrete entre 2 nodes
+    argument : src : Id du node qui deviendra le parent
+               tgt : Id du node qui deviendra l'enfant '''
     def add_edge(self, src, tgt):                       # ajoute une arete entre les nodes
         self.get_node_by_id(src).add_child_id(tgt)
         self.get_node_by_id(tgt).add_parent_id(src)
 
+    '''méthode appliquée au graph qui ajoute des arrete entre un node et une liste de node
+    arguments : src : Id du node qui deviendra le parent
+                tgt ; liste d'Id des nodes qui deviendront les enfants de src '''
     def add_edges(self, src, tgt):          # ajoute des aretes entre les nodes
         for i in tgt:
             self.add_edge(src,i)
@@ -175,6 +263,8 @@ class open_digraph: #for open directed graph
         self.get_node_by_id(tgt).remove_parent_id_all(src)
         self.get_node_by_id(tgt).remove_child_id_all(src)
 
+    '''méthode appliquée au graphe qui enleve un noeud ayant l'Id voulue du graphe
+    argument : id : id du noeud que l'on veut retirer'''
     def remove_node_by_id(self, id):                                    # retire un node (selon l'id) au graphe
         #print("aaaaaaaaaaa")
         #print(id)
@@ -182,11 +272,17 @@ class open_digraph: #for open directed graph
         remove_all(self.inputs, id)
         remove_all(self.outputs,id)
 
+    '''méthode appliquée au graphe qui retire plusieurs arretes du graphe, entre les nodes compris dans 2 listes. modifie le graphe
+    arguments : src : node list
+                tgt : node list
+    return : none '''
     def remove_edges(self,src,tgt):#src et tgt sont des listes de nodes    # a tester  # retire plusieurs aretes au graphe
         for i in src :
             for  j in tgt :
                 self.remove_edge(i.id ,j.id)
 
+    '''méthode appliquée au graphe. Retire plusieurs nodes au graphe
+    argument : ids : liste d'ids (les éléments de la liste correspondants aux ids des noeuds que l'on veut enlever.)'''
     def remove_nodes_by_id(self,ids):   #ids une liste de ids        # a tester     # retire plusieurs nodes au graphe
         for i in ids:
             self.remove_node_by_id(i)
@@ -218,7 +314,10 @@ class open_digraph: #for open directed graph
         return True                                             # si aucune erreur n'a ete detectee, alors le graphe est bien forme
 
 
-
+    '''méthode qui change la valeur d'une id d'un noeud du graph, méthode appliquée au graph
+    argument : node_id : id que l'on veut modifier
+               new_id : l'id par laquelle on veut remplacer node_id
+    '''
     def change_id(self, node_id, new_id):
         if(self.id_exists_in_graph(new_id)==False):
             #self.get_node_by_id(node_id).id = new_id
@@ -243,6 +342,8 @@ class open_digraph: #for open directed graph
         else:
             raise ValueError('new id already exists')
 
+    '''méthode qui change plusieurs ids du graphe. Méthode appliquée au graphe.
+    argument: change : liste de couple. Premier élément des couple : id a remplacer. Deuxieme élément ; id par lequel remplacer '''
     def change_ids(self, change):
         sorted(change, key = lambda t: t[1])
         for couple in range(len(change)) :
