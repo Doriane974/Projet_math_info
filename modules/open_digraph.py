@@ -275,12 +275,19 @@ class open_digraph: #for open directed graph
     '''méthode appliquée au graphe qui enleve un noeud ayant l'Id voulue du graphe
     argument : id : id du noeud que l'on veut retirer
     return : none '''
+<<<<<<< HEAD
 
     def remove_node_by_id(self, id):
         for parent in self.get_node_by_id(id).parents :
             parent.remove_child_id_all(id)
         for child in self.get_node_by_id(id).children :
             child.remove_parent_id_all(id)
+=======
+    def remove_node_by_id(self, id):                                    # retire un node (selon l'id) au graphe
+        #########################################
+        #              A modifier               #
+        #########################################
+>>>>>>> 8abdbf7f400f80106a0ffde96184e806b4b38a53
         del self.nodes[id]
 
 

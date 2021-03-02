@@ -34,8 +34,9 @@ n1 = node(1,'B',[0],[2,4])
 n2 = node(2,'C',[1],[3,4])
 n3 = node(3,'D',[2],[]) #la sortie du graphe
 n4 = node(4,'E',[1,2],[])
+n5 = node(5,'F',[1,2], [] )
 
-g = open_digraph([0],[3],[n0,n1,n2,n3,n4]);
+g = open_digraph([0],[3],[n0,n1,n2,n3,n4,n5]);
 
 pentree = point(10,10)
 psortie = point(330, 170 )
@@ -44,12 +45,13 @@ p1 = point (50, 300)
 p2 = point(100,150)
 p3 = point(300,200)
 p4 = point(50,200)
+
 node_pos = { 0 : p0 , 1 : p1 , 2 : p2 , 3 : p3 , 4 : p4 }
 input_pos= [pentree]
 
 output_pos= [psortie]
 
-draw.graph(g, node_pos, input_pos,output_pos, 'random')
+draw.graph(g, node_pos, input_pos,output_pos, 'circle')
 #def drawgraph(self, g, method='manual', node_pos=None, input_pos=None, output_pos=None):
 #draw.arrows(p1, p2)
 #draw.arrete(p2,p3)
@@ -57,4 +59,14 @@ draw.graph(g, node_pos, input_pos,output_pos, 'random')
 #draw.node(n1, p2, True)
 draw.text((5,380), "label", fill='red')
 draw.text((5,390), "Id", fill='blue')
+#draw.node(n1,p1,True)
+pr = point(100,100)
+#draw.arrows(p1,pr)
+
+p1 = p1.rotate(90, pr)
+#draw.node(n1, p1, True)
+#draw.arrows(p1,pr)
+
+
+
 image.save("test.jpg")

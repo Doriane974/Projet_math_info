@@ -46,6 +46,12 @@ class InitTest(unittest.TestCase):
         self.assertEqual(p1.x, -1)
         self.assertEqual(p1.y, 1)
 
+    def test_rotate(self):
+        p1 = point(0,100)
+        p1 = p1.rotate(90)
+        self.assertEqual(p1.x, 100)
+        self.assertEqual(p1.y, 0)
+
 
 
 

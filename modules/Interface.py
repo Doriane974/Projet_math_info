@@ -51,6 +51,22 @@ class point:
     def __sub__(self, p2):                                                      #soustraie 2 points, retourne un nouveau
         return point(self.x - p2.x, self.y - p2.y)
 
+'''méthode appliquée a un point  qui calcule la position du point apres rotation d'angle
+théta autour du point c.
+arguments : theta : float : angle
+            c : point
+return : point
+'''
+def rotate(self, theta, c=point(0,0)):
+    p = point(0,0)
+    theta =theta * math.pi / 180
+    p.x = self.x - c.x
+    p.y = self.y - c.y
+    r = point(0,0)
+    r.x = p.x * math.cos(theta) + p.y * math.sin(theta) + c.x
+    r.y = -p.x * math.sin(theta) + p.y * math.cos(theta) + c.y
+    return r
+
 '''méthode qui dessine une ligne
 arguments : p1 : point de départ de la ligne
             p2 : point d'arrivée de la ligne'''
@@ -82,11 +98,31 @@ def random_layout(g, node_pos, input_pos, output_pos):                          
         j=j+1
     i = 0;
     for id in g.outputs:
-        x = node_pos[id].x
-        y = node_pos[id].y
-
         output_pos[i]=point(node_pos[id].x + 25, node_pos[id].y + 25)
         i=i+1
+    return node_pos, input_pos, output_pos
+
+'''fonction qui définit des positions équiréparties sur un cercle pour les noeuds du graphe
+arguments : g : graphe
+            node_pos : dictionnaire de positions. keyx : ids des noeuds. Values : positions de noeud ayant l'Id
+            input_pos : liste de position correspondants aux inputs du graph
+            output_pos : liste de position correspondants aux outputs du graph'''
+def circle_layout(g, node_pos=None, input_pos=None, output_pos=None):
+    nbnode = len(g.nodes)
+    center = point(200, 200)
+    rayon = 175
+    i=0
+    for id in g.nodes.keys():# la c
+        node_pos[id]=point(rayon * math.cos(i*2*math.pi/nbnode) + center.x, rayon*math.sin(i*2*math.pi/nbnode)+ center.y )
+        i=i+1
+    j=0
+    for id in g.inputs:
+        input_pos[id]=point(node_pos[id].x - 25, node_pos[id].y - 25)
+        j=j+1
+    k = 0;
+    for id in g.outputs:
+        output_pos[k]=point(node_pos[id].x + 25, node_pos[id].y + 25)
+        k=k+1
     return node_pos, input_pos, output_pos
 
 '''méthode qui dessine un graph
@@ -97,9 +133,11 @@ arguments : g : graph que l'on veut dessiner
             méthode : string qui précise la manière de choisir les positions des noeuds. Par défaut 'manual'. Sinon préciser 'random'
             verbose : bool, par défaut false, si True : affiche l' Id des noeuds, sinon la fonction n'affiche que le label par défaut'''
 def drawgraph(self, g, node_pos=None, input_pos=None, output_pos=None, method='manual', verbose=False):     #méthode qui dessine un graphe, choix des positins aléatoire ou manuelle.
-    if (method=='random'):
+    if (method=='random'):                                                                                  #verifier les paramétres
         node_pos, input_pos, output_pos = random_layout(g, node_pos, input_pos, output_pos)
-
+    else:
+        if(method=='circle'):
+            node_pos, input_pos, output_pos = circle_layout(g, node_pos, input_pos, output_pos)
     for i in range(len(g.get_inputs_ids())): #on trace l'entrée
         self.arrows(input_pos[i], node_pos[g.get_inputs_ids()[i]])
     for i in range(len(g.get_outputs_ids())): #on trace la sortie
@@ -111,15 +149,11 @@ def drawgraph(self, g, node_pos=None, input_pos=None, output_pos=None, method='m
         self.node(g.get_node_by_id(id),node_pos[id], verbose)
 
 
-
-
-    #parcourir les nodes de g, tracer une arrete entre chaque node et ses enfants.
-    #faire : tracer une fl`eche de input_pos[i] vers le noeud d’id g.get_input_ids[i]. output_pos quand tu auras compris
+#def slope_angle(p1, p2):
 
 
 
-
-
+point.rotate = rotate
 
 ImageDraw.ImageDraw.arrows = drawarrows # we define the method 'arrows'
                                         # from the function 'arrows' above
