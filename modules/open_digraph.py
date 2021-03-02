@@ -275,19 +275,13 @@ class open_digraph: #for open directed graph
     '''méthode appliquée au graphe qui enleve un noeud ayant l'Id voulue du graphe
     argument : id : id du noeud que l'on veut retirer
     return : none '''
-<<<<<<< HEAD
+
 
     def remove_node_by_id(self, id):
         for parent in self.get_node_by_id(id).parents :
             parent.remove_child_id_all(id)
         for child in self.get_node_by_id(id).children :
             child.remove_parent_id_all(id)
-=======
-    def remove_node_by_id(self, id):                                    # retire un node (selon l'id) au graphe
-        #########################################
-        #              A modifier               #
-        #########################################
->>>>>>> 8abdbf7f400f80106a0ffde96184e806b4b38a53
         del self.nodes[id]
 
 
@@ -310,7 +304,7 @@ class open_digraph: #for open directed graph
     '''Méthode appliquée au graphe qui vérifie si il est bien formé
     arguments : none
     return : bool : True si bien formé, False sinon'''
-    def is_well_formed(self):                       # verifie si le graphe est correctement forme
+    '''def is_well_formed(self):                       # verifie si le graphe est correctement forme
         #########################################
         #              A modifier ?              #
         #########################################
@@ -335,7 +329,7 @@ class open_digraph: #for open directed graph
             for parent_id in node.get_parent_ids() :           # pour chaque node, on parcourt les parents
                 if not (count_occurrences(node.get_parent_ids(), parent_id) == count_occurrences(self.get_node_by_id(parent_id).get_child_ids(), node.get_id())):       # pour chaque parent, on compte le nombre d'occurrence(s) de son id dans les parents du node
                     return False                                                                                                                                        # et on verifie que ce nombre est egal a celui des occurrences du node parmi les enfants du parent
-        return True                                             # si aucune erreur n'a ete detectee, alors le graphe est bien forme
+        return True                                             # si aucune erreur n'a ete detectee, alors le graphe est bien forme'''
 
 
     '''méthode qui change la valeur d'une id d'un noeud du graph, méthode appliquée au graph

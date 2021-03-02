@@ -152,7 +152,18 @@ def drawgraph(self, g, node_pos=None, input_pos=None, output_pos=None, method='m
 argument : p1 : point
            p2 : point
 return : float (angle en radian)'''
-#def slope_angle(p1, p2):
+def slope_angle(p1, p2):
+    if(p1.x == p2.x):
+        return 0
+    if(p1.y == p2.y):
+        return 0
+    t = point(0,0)
+    oppose = p1.y - p2.y
+    adjacent = p1.x - p2.x
+    return math.atan(oppose/adjacent)
+
+
+
 
 
 
