@@ -10,20 +10,44 @@ import inspect
 from PIL import Image, ImageDraw
 
 class point:
+    '''initialise un point avec ses coordonnées
+    arguments : x : abscisse du point
+                y : ordonnée du point
+    return : un point de coordonéee x et y'''
     def __init__(self,x,y):                                                     #initialise un point avec ses coordonnées
         self.x = x
         self.y = y
+
+    '''méthode qui retourne le couple correspondant aux coordonée du point. Méthode appliquée au point dont on veut les coordonées.
+    arguments : none
+    return : un couple (x,y) des coordonnes du point '''
     def n(self):
         return (round(self.x), round(self.y)) # return a simple tuple
+
+    '''méthode qui retourne une copie du point, méthode appliquée au point que l'on veut copier.
+    argument : none
+    return : un point de meme coordonnées que celui sur lesquel est appliqué la méthode '''
     def copy(self):                                                             #copie un point
         return point(self.x, self.y)
+
+    '''additionne les coordonnées de points de coordonnées (x,y) et (x', y')
+    méthode appliquée a un point de coordonée (x,y)
+    argument : p2 : points de coordonnées (x', y')
+    return : point de coorrdonnée (x+x', y+y')'''
     def __add__(self, p2):                                                      #addditionne 2 points, retourne un nouveau
         return point(self.x + p2.x, self.y + p2.y)
 
-
+    '''Multiplie les coordonnées d'un point de coordonnées (x,y) par un scalaire
+    méthode appliquée au point de coordonnée (x,y)
+    argument : s : int par lequel ont veut multiplier le point
+    return : point de coorrdonnée (x*s, y*s) '''
     def __rmul__(self, s):                                                      #multiplie 2 point, retourne un nouveau
         return point(self.x*s, self.y*s)
 
+    '''soustraie les coordonnées de points de coordonnées (x,y) et (x', y')
+    méthode appliquée a un point de coordonée (x,y)
+    argument : p2 : points de coordonnées (x', y')
+    return : point de coorrdonnée (x-x', y-y')'''
     def __sub__(self, p2):                                                      #soustraie 2 points, retourne un nouveau
         return point(self.x - p2.x, self.y - p2.y)
 
@@ -72,7 +96,6 @@ arguments : g : graph que l'on veut dessiner
             output_pos : liste de position correspondants aux outputs du graph (va etre modifié si verbose = 'random')
             méthode : string qui précise la manière de choisir les positions des noeuds. Par défaut 'manual'. Sinon préciser 'random'
             verbose : bool, par défaut false, si True : affiche l' Id des noeuds, sinon la fonction n'affiche que le label par défaut'''
-
 def drawgraph(self, g, node_pos=None, input_pos=None, output_pos=None, method='manual', verbose=False):     #méthode qui dessine un graphe, choix des positins aléatoire ou manuelle.
     if (method=='random'):
         node_pos, input_pos, output_pos = random_layout(g, node_pos, input_pos, output_pos)
