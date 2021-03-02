@@ -110,7 +110,7 @@ class node:
         remove_all(self.parents, parent_id)
 
     '''méthode appliquée au node qui retire tous les ids donnés des enfants du node
-    argument : child_id : id list 
+    argument : child_id : id list
     return : none  '''
     def remove_child_id_all(self, child_id):        # retire tous les ids des enfants du node (int list)
         remove_all(self.children, child_id)
@@ -196,10 +196,15 @@ class open_digraph: #for open directed graph
     def get_node_by_ids(self, node_ids):              # renvoie une liste de noeuds a partir d’une liste d’ids
         return [self.nodes.get(i) for i in node_ids]
 
-
+    '''méthode appliquée au graphe qui affecte input_ids aus inputs du graph
+    argument : inputs_ids : id list
+    return : none '''
     def set_input_ids (self, input_ids) :              # affecte les inputs du graphe a input_ids
         self.inputs = input_ids
 
+    '''méthode appliquée au graphe qui affecte output_ids aus outputs du graph
+    argument : outputs_ids : id list
+    return : none '''
     def set_output_ids (self, output_ids) :             # affecte les outputs du graphe a output_ids
         self.outputs= output_ids
 
@@ -240,6 +245,11 @@ class open_digraph: #for open directed graph
         for i in tgt:
             self.add_edge(src,i)
 
+    '''méthode appliquée au graphe qui ajoute un node au graphe
+    argument : label : label, par défaut ''
+               parents : id list, par défaut []
+               children : id list, par défaut []
+    return : id : l'id du node qui a été ajouté '''
     def add_node(self, label='', parents=[], children=[]):             # ajoute un node au graphe                               # pas sur du tout, et à tester
         #########################################
         #              A modifier               #
@@ -254,6 +264,10 @@ class open_digraph: #for open directed graph
         self.add_edges(id, children)
         return id
 
+    '''méthode appliquée au graphe qui retire une arete du graph
+    argument : src : id
+               tgt : id
+    return : none '''
     def remove_edge(self,src,tgt):                                      # retire une arete du graphe
         #########################################
         #              A modifier               #
@@ -264,7 +278,8 @@ class open_digraph: #for open directed graph
         self.get_node_by_id(tgt).remove_child_id_all(src)
 
     '''méthode appliquée au graphe qui enleve un noeud ayant l'Id voulue du graphe
-    argument : id : id du noeud que l'on veut retirer'''
+    argument : id : id du noeud que l'on veut retirer
+    return : none '''
     def remove_node_by_id(self, id):                                    # retire un node (selon l'id) au graphe
         #print("aaaaaaaaaaa")
         #print(id)
@@ -282,12 +297,15 @@ class open_digraph: #for open directed graph
                 self.remove_edge(i.id ,j.id)
 
     '''méthode appliquée au graphe. Retire plusieurs nodes au graphe
-    argument : ids : liste d'ids (les éléments de la liste correspondants aux ids des noeuds que l'on veut enlever.)'''
+    argument : ids : liste d'ids (les éléments de la liste correspondants aux ids des noeuds que l'on veut enlever.)
+    return : none '''
     def remove_nodes_by_id(self,ids):   #ids une liste de ids        # a tester     # retire plusieurs nodes au graphe
         for i in ids:
             self.remove_node_by_id(i)
 
-
+    '''Méthode appliquée au graphe qui vérifie si il est bien formé
+    arguments : none
+    return : bool : True si bien formé, False sinon'''
     def is_well_formed(self):                       # verifie si le graphe est correctement forme
         #########################################
         #              A modifier ?              #
@@ -317,6 +335,7 @@ class open_digraph: #for open directed graph
     '''méthode qui change la valeur d'une id d'un noeud du graph, méthode appliquée au graph
     argument : node_id : id que l'on veut modifier
                new_id : l'id par laquelle on veut remplacer node_id
+    return : none
     '''
     def change_id(self, node_id, new_id):
         if(self.id_exists_in_graph(new_id)==False):
@@ -343,13 +362,19 @@ class open_digraph: #for open directed graph
             raise ValueError('new id already exists')
 
     '''méthode qui change plusieurs ids du graphe. Méthode appliquée au graphe.
-    argument: change : liste de couple. Premier élément des couple : id a remplacer. Deuxieme élément ; id par lequel remplacer '''
+    argument: change : liste de couple. Premier élément des couple : id a remplacer. Deuxieme élément ; id par lequel remplacer
+    return : none '''
     def change_ids(self, change):
         sorted(change, key = lambda t: t[1])
         for couple in range(len(change)) :
             self.change_id(change[couple][0], change[couple][1])
 
-
+    '''méthode appliquée a un graph qui renvoie un graph correspondant a la matrice d'adjacence de type form , de taille n*n et avec des valeurs entre 0 et bound
+    argument : n : int : taille de la matrice
+               bound : int : la borne maximum de l'intervalle dans lequel on choisit les élements de la liste, bound exclus
+               intputs : int, par défaut 0
+               outputs : int, par défaut 0
+               form : string, par défaut 'free', peut prendre les valeurs : DAG, oriented, undirected, free'''
     def random_graph(self, n, bound, inputs=0, outputs=0, form="free"):     # renvoie un graphe correspondant a la matrice d adjacence de type form, de taille n * n et avec des valeurs entre 0 et bound
         '''
         le fonctionnement est assez simple : on cree la matrice en fonction de la forme voulue, puis on fait le graphe correspondant
@@ -374,7 +399,9 @@ class open_digraph: #for open directed graph
 
 
 
-
+'''Fonction qui revnoie un graphe correspondant a une matrice d'adjacence
+argument : matrix : int list list : matrice d'adjacence
+return : graph '''
 def graph_from_adjacency_matrix(matrix) :           # renvoie un graphe correspondant a la matrice d adjacence matrix
     graph = open_digraph.empty()                    # on cree un graphe vide vide a partir duquel on va construire le graphe voulu
     '''
