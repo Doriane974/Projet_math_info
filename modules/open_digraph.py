@@ -281,11 +281,7 @@ class open_digraph: #for open directed graph
     argument : id : id du noeud que l'on veut retirer
     return : none '''
     def remove_node_by_id(self, id):                                    # retire un node (selon l'id) au graphe
-        #print("aaaaaaaaaaa")
-        #print(id)
-        node_removed = self.nodes.pop(id)
-        remove_all(self.inputs, id)
-        remove_all(self.outputs,id)
+        del self.nodes[id]
 
     '''méthode appliquée au graphe qui retire plusieurs arretes du graphe, entre les nodes compris dans 2 listes. modifie le graphe
     arguments : src : node list
