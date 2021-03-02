@@ -104,10 +104,7 @@ class open_digraph: #for open directed graph
         return self.nodes
 
     def get_nodes(self):                    # renvoie une liste de tous les noeuds
-        L = []
-        for i in self.nodes.values():
-            L.append(i)
-        return L
+        return list(self.nodes.values())
 
     def get_node_ids(self):                 # renvoie une liste des ids des nodes (int list)
         return [i for i in self.nodes.keys()]
@@ -139,10 +136,13 @@ class open_digraph: #for open directed graph
 
     def new_id(self):                                   # renvoie un id non utilise par le graphe
         dict = self.get_id_node_map()
-        if dict :
-            return (max(dict)+1)
-        else :
-            return 0
+        if (dict =={}):
+            return -1
+        else:
+            if dict :
+                return (max(dict)+1) #quand je rajoute default=-1 ca bug
+            else :
+                return 0
 
     def add_edge(self, src, tgt):                       # ajoute une arete entre les nodes
         self.get_node_by_id(src).add_child_id(tgt)
@@ -153,6 +153,9 @@ class open_digraph: #for open directed graph
             self.add_edge(src,i)
 
     def add_node(self, label='', parents=[], children=[]):             # ajoute un node au graphe                               # pas sur du tout, et à tester
+        #########################################
+        #              A modifier               #
+        #########################################
         id=self.new_id()
         n0 = node(id, label, [],[])
         self.nodes[id]=n0
@@ -164,6 +167,9 @@ class open_digraph: #for open directed graph
         return id
 
     def remove_edge(self,src,tgt):                                      # retire une arete du graphe
+        #########################################
+        #              A modifier               #
+        #########################################
         self.get_node_by_id(src).remove_parent_id_all(tgt)
         self.get_node_by_id(src).remove_child_id_all(tgt)
         self.get_node_by_id(tgt).remove_parent_id_all(src)
@@ -187,6 +193,9 @@ class open_digraph: #for open directed graph
 
 
     def is_well_formed(self):                       # verifie si le graphe est correctement forme
+        #########################################
+        #              A modifier ?             #
+        #########################################
         # partie 1
         for input_id in self.inputs :                           # on parcourt les inputs
             if not (input_id in self.get_node_ids()):           # on verifie que chaque input est dans les ids des nodes

@@ -2,9 +2,11 @@ import operator
 import random
 
 def remove_all(l,x):                                      # retire toutes les occurrences de x dans l
-    for i in l:
-        if i == x :
-            l.remove(i)
+    #for i in l:
+    #    if i == x :
+    #        l.remove(i)
+    while x in l:
+        l.remove(x)
     return l
 
 def count_occurrences(l,x):                               # compte toutes les occurrences de x dans l
