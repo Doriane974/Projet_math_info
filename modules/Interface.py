@@ -153,15 +153,14 @@ argument : p1 : point
            p2 : point
 return : float (angle en radian)'''
 def slope_angle(p1, p2):
-    if(p1.x == p2.x):
-        return 0
-    if(p1.y == p2.y):
-        return 0
-    t = point(0,0)
-    oppose = p1.y - p2.y
-    adjacent = p1.x - p2.x
-    return math.atan(oppose/adjacent)
-
+    Ni=1
+    Xvi = 1
+    Yvi = 0
+    Xvp1p2 = p2.x - p1.x
+    Yvp1p2 = p2.y - p1.y
+    Np1p2 = math.sqrt((p2.x-p1.x)*(p2.x-p1.x)+(p2.y-p1.y)*(p2.y-p1.y))
+    scal = Xvi * Xvp1p2 + Yvi * Yvp1p2
+    return math.acos(scal/(Ni*Np1p2))
 
 
 

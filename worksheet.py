@@ -70,6 +70,7 @@ draw.node(n0, p0, True)
 draw.node(n4, p4, True)
 angle = slope_angle(p0, p4)
 print(angle)
+print(slope_angle(p4,p0))
 
 
 image.save("test.jpg")
