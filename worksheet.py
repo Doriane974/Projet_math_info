@@ -30,7 +30,7 @@ draw = ImageDraw.Draw(image)
 #draw.ellipse((100, 100, 150, 200), fill='white', outline='black')
 #draw.line([(200,200), (200,400),(301,1)], 'black')
 n0 = node(0, 'A', [], [1]) #l'entrée du graphe
-n1 = node(1,'B',[0],[2,4])
+n1 = node(1,'B',[0],[2, 2,4])
 n2 = node(2,'C',[1],[3,4])
 n3 = node(3,'D',[2],[]) #la sortie du graphe
 n4 = node(4,'E',[1,2],[])
