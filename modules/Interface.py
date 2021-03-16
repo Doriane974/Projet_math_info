@@ -67,15 +67,77 @@ def rotate(self, theta, c=point(0,0)):
     r.y = -p.x * math.sin(theta) + p.y * math.cos(theta) + c.y
     return r
 
+'''fonction qui calcule l'angle en radian formé entre la ligne qui passe par les point p1 et p2 et l'axe des abscisse
+argument : p1 : point
+           p2 : point
+return : float (angle en radian)'''
+def slope_angle(p1, p2):                #Beugué, il faut pouvoir avoir des angles négatif, la c'est une valeur absolue
+    Ni=1
+    Xvi = 1
+    Yvi = 0
+    Xvp1p2 = p2.x - p1.x
+    Yvp1p2 = p2.y - p1.y
+    Np1p2 = math.sqrt((p2.x-p1.x)*(p2.x-p1.x)+(p2.y-p1.y)*(p2.y-p1.y))
+    scal = Xvi * Xvp1p2 + Yvi * Yvp1p2
+    return math.acos(scal/(Ni*Np1p2))
+
+'''méthode qui dessine une courbe de bézier
+arguments : p0 : point de départ de la courbe
+            paux :
+            p1 : point d'arrivée de la courbe
+            dt : optionnal, le pas de la courbe, par défaut dt = 0.1
+return : none '''
+def Bezier(self, p0, paux, p1, dt = 0.1):
+    
+
+
 '''méthode qui dessine une ligne
 arguments : p1 : point de départ de la ligne
             p2 : point d'arrivée de la ligne'''
-def drawarrows(self, p1, p2):                                                   #méthode qui dessine une ligne enntre 2 points
-    #'''doc : todo'''
+def drawarrows(self, p1, p2, n = 1, m = 1):                                                   #méthode qui dessine une ligne enntre 2 points
     self.line([p1.n(), p2.n()], 'black')
+<<<<<<< HEAD
     self.line()
 
 '''méthode qui dessine un noeud
+=======
+    ph = point(0,0)
+    pb = point(0,0)
+    pm = point(0,0)
+    pm.x = ((p1.x + p2.x)/2)
+    pm.y = ((p1.y + p2.y)/2)
+    ############################################################
+    #                       De p1 à p2                         #
+    if (n > 0):
+        ph.x = (pm.x + 8*math.cos(slope_angle(p1,p2)+math.pi/6))
+        ph.y = (pm.y + 8*math.sin(slope_angle(p1,p2)+math.pi/6))
+        #self.text(ph.x-10,ph.y-10), str(n), fill='black')
+        pb.x = (pm.x + 8*math.cos(slope_angle(p1,p2)-math.pi/6))
+        pb.y = (pm.y + 8*math.sin(slope_angle(p1,p2)-math.pi/6))
+        ps = point(0,0)
+        ps.x = (pm.x + 10*math.cos(slope_angle(p1,p2)-math.pi/2))
+        ps.y = (pm.y + 10*math.sin(slope_angle(p1,p2)-math.pi/2))
+        self.text((ps.x,ps.y), str(n), fill='green')
+        self.line([pm.n(), pb.n()], 'green')
+        self.line([pm.n(), ph.n()], 'green')
+    ############################################################
+    #                       De p2 à p1                         #
+    if(m > 0):
+        ph.x = (pm.x + 8*math.cos(slope_angle(p2,p1)+math.pi/6))
+        ph.y = (pm.y + 8*math.sin(slope_angle(p2,p1)+math.pi/6))
+        #self.text(ph.x-10,ph.y-10), str(n), fill='black')
+        pb.x = (pm.x + 8*math.cos(slope_angle(p2,p1)-math.pi/6))
+        pb.y = (pm.y + 8*math.sin(slope_angle(p2,p1)-math.pi/6))
+        ps = point(0,0)
+        ps.x = (pm.x + 10*math.cos(slope_angle(p2,p1)+math.pi/2))
+        ps.y = (pm.y + 10*math.sin(slope_angle(p2,p1)+math.pi/2))
+        self.text((ps.x,ps.y), str(m), fill='purple')
+        self.line([pm.n(), pb.n()], 'purple')
+        self.line([pm.n(), ph.n()], 'purple')
+
+
+'''méthode apppliquée a draw qui dessine un noeud
+>>>>>>> 1190df54c794d330cfe345709b7818659d80c7dd
 arguments : n : noeud que l'on veut dessiner
             p : point ou l'on veut placer le noeud
             verbose : bool, par défaut false, si True : affiche l' Id, sinon la fonction n'affiche que le label par défaut'''
@@ -126,7 +188,7 @@ def circle_layout(g, node_pos=None, input_pos=None, output_pos=None):
         k=k+1
     return node_pos, input_pos, output_pos
 
-'''méthode qui dessine un graph
+'''méthode appiquée à draw qui dessine un graph
 arguments : g : graph que l'on veut dessiner
             node_pos : dictionnaire de positions. keys : ids des noeuds. Values : positions de noeud ayant l'Id (va etre modifié si verbose = 'random')
             input_pos : liste de position correspondants aux inputs du graph (va etre modifié si verbose = 'random')
@@ -140,20 +202,22 @@ def drawgraph(self, g, node_pos=None, input_pos=None, output_pos=None, method='m
         if(method=='circle'):
             node_pos, input_pos, output_pos = circle_layout(g, node_pos, input_pos, output_pos)
     for i in range(len(g.get_inputs_ids())): #on trace l'entrée
-        self.arrows(input_pos[i], node_pos[g.get_inputs_ids()[i]])
+        self.arrows(input_pos[i], node_pos[g.get_inputs_ids()[i]], 0, 1)
     for i in range(len(g.get_outputs_ids())): #on trace la sortie
-            self.arrows(node_pos[g.get_outputs_ids()[i]],output_pos[i])
+            self.arrows(node_pos[g.get_outputs_ids()[i]],output_pos[i], 1, 0)
     for id in g.nodes.keys(): # on trace les arrete entre les nodes et leurs enfant
         for child in g.nodes[id].get_children_ids():
-            self.arrows(node_pos[id], node_pos[child])
+            n = count_occurrences(g.nodes[id].get_children_ids(), child)
+            m = count_occurrences(g.nodes[id].get_parent_ids(), child)
+            self.arrows(node_pos[id], node_pos[child], n, m)
     for id in g.nodes.keys(): # on trace les nodes
         self.node(g.get_node_by_id(id),node_pos[id], verbose)
 
-'''fonction qui calcule l'angle en radian formé entre la ligne qui passe par les point p1 et p2 et l'axe des abscisse
-argument : p1 : point
-           p2 : point
-return : float (angle en radian)'''
-#def slope_angle(p1, p2):
+
+
+
+
+
 
 
 
