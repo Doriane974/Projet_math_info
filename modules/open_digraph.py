@@ -397,6 +397,21 @@ class open_digraph: #for open directed graph
         print(graph)
         return graph
 
+class bool_circ(open_digraph):
+    def __init__(self, g):
+        #g : open_digraph
+        super().__init__(g.inputs, g.get_nodes(), g.outputs)
+
+
+    def convert(self, circ):
+        #circ :  un circuit booléen bool_circ
+        g = open_digraph([],[],[])
+        g.inputs = self.inputs
+        g.nodes = self.nodes
+        g.outputs = self.outputs
+        return g
+
+
 
 
 '''Fonction qui revnoie un graphe correspondant a une matrice d'adjacence
