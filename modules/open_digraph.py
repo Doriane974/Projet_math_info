@@ -397,6 +397,9 @@ class open_digraph: #for open directed graph
         print(graph)
         return graph
 
+class bool_circ(open_digraph):
+    #def __init__(self):
+
 
 
 '''Fonction qui revnoie un graphe correspondant a une matrice d'adjacence
