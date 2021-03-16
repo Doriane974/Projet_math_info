@@ -400,16 +400,16 @@ class open_digraph: #for open directed graph
 class bool_circ(open_digraph):
     def __init__(self, g):
         #g : open_digraph
-        self.variables = g.inputs
-        self.portes = g.nodes
-        self.sorties = g.outputs
+        super().__init__(g.inputs, g.get_nodes(), g.outputs)
+
 
     def convert(self, circ):
         #circ :  un circuit booléen bool_circ
         g = open_digraph([],[],[])
-        g.inputs = self.variables
-        g.nodes = self.portes
-        g.outputs = self.sorties
+        g.inputs = self.inputs
+        g.nodes = self.nodes
+        g.outputs = self.outputs
+        return g
 
 
 
