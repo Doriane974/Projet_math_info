@@ -73,6 +73,7 @@ arguments : p1 : point de départ de la ligne
 def drawarrows(self, p1, p2):                                                   #méthode qui dessine une ligne enntre 2 points
     #'''doc : todo'''
     self.line([p1.n(), p2.n()], 'black')
+    self.line()
 
 '''méthode qui dessine un noeud
 arguments : n : noeud que l'on veut dessiner
