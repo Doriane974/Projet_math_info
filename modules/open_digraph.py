@@ -397,6 +397,39 @@ class open_digraph: #for open directed graph
         print(graph)
         return graph
 
+    '''Feuille : noeud qui n'est la source d'aucune arrete
+    Si G n'a pas de feuille : il est acyclique
+    On cherche une feuille de G
+        Si il n'en a pas, G est cyclique
+        sinon, on ote la feuille et on recommence du début'''
+
+    '''Comment on va le faire :
+        est cycliqe = vrai
+        si la liste est vide : rendre est cyclique : (qui sera vrai normalement)
+        pour i dans nodes, la liste des nodes du graphe
+
+            if i = len(nodes)-1 : rendre faux
+            sinon : get_node_by_id()
+                    si le node n'a pas d'enfant, enlever le node de la liste, recommencer'''
+
+
+    def is_cyclic_aux(self, listnodes):
+        if(self.nodes == []):
+            return True
+        for i in range(len(listnodes)): #ici, self est un circuit booleen, donc self.nodes est une liste des ids des nodes dans self.
+            if (i==len(listnodes)-1) :
+                return False
+            if (self.get_node_by_id(listnodes[i]).children == []):
+                self.nodes.remove(listnodes[i])
+                self.is_cyclic_aux(listnodes)
+
+    def is_cyclic(self):
+        listnodes=self.get_nodes()
+        return self.is_cyclic_aux(listnodes)
+
+
+
+
 class bool_circ(open_digraph):
     def __init__(self, g):
         #g : open_digraph
@@ -410,6 +443,9 @@ class bool_circ(open_digraph):
         g.nodes = self.nodes
         g.outputs = self.outputs
         return g
+
+
+
 
 
 

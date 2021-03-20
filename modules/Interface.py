@@ -87,12 +87,12 @@ arguments : p0 : point de départ de la courbe
             p1 : point d'arrivée de la courbe
             dt : optionnal, le pas de la courbe, par défaut dt = 0.1
 return : none '''
-def Bezier(self, p0, paux, p1, dt = 0.1):
-    
+'''def Bezier(self, p0, paux, p1, dt = 0.1):
 
 
-'''méthode qui dessine une ligne
-arguments : p1 : point de départ de la ligne
+
+méthode qui dessine une ligne
+    arguments : p1 : point de départ de la ligne
             p2 : point d'arrivée de la ligne'''
 def drawarrows(self, p1, p2, n = 1, m = 1):                                                   #méthode qui dessine une ligne enntre 2 points
     self.line([p1.n(), p2.n()], 'black')

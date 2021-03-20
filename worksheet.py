@@ -72,5 +72,6 @@ angle = slope_angle(p0, p4)
 print(angle)
 print(slope_angle(p4,p0))
 
+print(g.is_cyclic())
 
 image.save("test.jpg")
