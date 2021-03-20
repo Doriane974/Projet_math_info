@@ -419,9 +419,10 @@ class open_digraph: #for open directed graph
         for i in range(len(listnodes)): #ici, self est un circuit booleen, donc self.nodes est une liste des ids des nodes dans self.
             if (i==len(listnodes)-1) :
                 return False
-            if (self.get_node_by_id(listnodes[i]).children == []):
-                self.nodes.remove(listnodes[i])
-                self.is_cyclic_aux(listnodes)
+            else:
+                if (self.get_node_by_id(listnodes[i]).children == []):
+                    self.nodes.remove(listnodes[i])
+                    self.is_cyclic_aux(listnodes)
 
     def is_cyclic(self):
         listnodes=self.get_nodes()

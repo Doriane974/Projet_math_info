@@ -96,11 +96,6 @@ méthode qui dessine une ligne
             p2 : point d'arrivée de la ligne'''
 def drawarrows(self, p1, p2, n = 1, m = 1):                                                   #méthode qui dessine une ligne enntre 2 points
     self.line([p1.n(), p2.n()], 'black')
-<<<<<<< HEAD
-    self.line()
-
-'''méthode qui dessine un noeud
-=======
     ph = point(0,0)
     pb = point(0,0)
     pm = point(0,0)
@@ -137,7 +132,6 @@ def drawarrows(self, p1, p2, n = 1, m = 1):                                     
 
 
 '''méthode apppliquée a draw qui dessine un noeud
->>>>>>> 1190df54c794d330cfe345709b7818659d80c7dd
 arguments : n : noeud que l'on veut dessiner
             p : point ou l'on veut placer le noeud
             verbose : bool, par défaut false, si True : affiche l' Id, sinon la fonction n'affiche que le label par défaut'''
