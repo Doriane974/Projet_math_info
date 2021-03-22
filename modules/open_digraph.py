@@ -166,7 +166,7 @@ class open_digraph: #for open directed graph
     '''méthode appliquée au graphe qui renvoie une liste de tous les nodes du graphes
     argument : none
     return : node list '''
-    def get_nodes(self):                    # renvoie une liste de tous les noeuds
+    def get_nodes(self):    # renvoie une liste de tous les noeuds
         return list(self.nodes.values())
 
     '''méthode appliquée au graphe qui renvoie une liste de tous les ids des nodes du graphes
@@ -404,11 +404,11 @@ class open_digraph: #for open directed graph
         sinon, on ote la feuille et on recommence du début'''
 
     '''Comment on va le faire :
-        est cycliqe = vrai
-        si la liste est vide : rendre est cyclique : (qui sera vrai normalement)
+        si la liste est vide : rendre vrai
         pour i dans nodes, la liste des nodes du graphe
 
-            if i = len(nodes)-1 : rendre faux
+            if i = len(nodes)-1 : rendre faux (ca veut dire qu'on a parcouru toute la liste
+                                                sans trouver de feuille)
             sinon : get_node_by_id()
                     si le node n'a pas d'enfant, enlever le node de la liste, recommencer'''
 
@@ -416,16 +416,18 @@ class open_digraph: #for open directed graph
     def is_cyclic_aux(self, listnodes):
         if(self.nodes == []):
             return True
-        for i in range(len(listnodes)): #ici, self est un circuit booleen, donc self.nodes est une liste des ids des nodes dans self.
+        for i in range(len(listnodes)):
+            print("taille liste =" , len(listnodes))
+            print("i=",i)
             if (i==len(listnodes)-1) :
                 return False
             else:
                 if (self.get_node_by_id(listnodes[i]).children == []):
-                    self.nodes.remove(listnodes[i])
+                    listnodes.remove(listnodes[i])
                     self.is_cyclic_aux(listnodes)
 
     def is_cyclic(self):
-        listnodes=self.get_nodes()
+        listnodes=list(self.nodes.keys())
         return self.is_cyclic_aux(listnodes)
 
 
