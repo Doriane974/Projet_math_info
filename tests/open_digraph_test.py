@@ -128,7 +128,7 @@ class DigraphTest(unittest.TestCase):
         self.n0 = node(0, 'a', [], [1])
         self.n1 = node(1, 'b', [0], [])
         self.d0 = open_digraph([0],[1],[self.n0, self.n1])
-        self.d5 = open_digraph([3],[2], [self.n0, self.n1])                     # to be completed
+        self.d5 = open_digraph([3],[2], [self.n0, self.n1])
 
     def test_copy(self):
         self.n0 = node(0, 'a', [], [1])
@@ -153,8 +153,7 @@ class DigraphTest(unittest.TestCase):
         self.n1 = node(1, 'b', [0], [])
         self.d0 = open_digraph([0],[1],[self.n0, self.n1])
         self.d1 = open_digraph([0],[1],[self.n0, self.n1])
-        #print(set(self.d1.get_id_node_map()) == set(self.d0.get_id_node_map()))
-        #print(self.d1.get_id_node_map())
+
 
     def test_get_nodes(self):
         self.n0 = node(0, 'a', [], [1])
@@ -167,6 +166,13 @@ class DigraphTest(unittest.TestCase):
         self.n1 = node(1, 'b', [0], [])
         self.d0 = open_digraph([0],[1],[self.n0, self.n1])
         self.assertEqual(self.d0.get_node_ids(),[0,1])
+
+    def test_id_exists_in_graph(self):
+        self.n0 = node(0, 'a', [], [1])
+        self.n1 = node(1, 'b', [0], [])
+        self.d0 = open_digraph([0],[1],[self.n0, self.n1])
+        self.assertTrue(self.d0.id_exists_in_graph(0))
+        self.assertFalse(self.d0.id_exists_in_graph(2))
 
     def test_get_node_by_id(self):
         self.n0 = node(0, 'a', [], [1])
@@ -254,6 +260,28 @@ class DigraphTest(unittest.TestCase):
     def test_is_well_formed(self):
         self.assertTrue(self.d0.is_well_formed())
         self.assertTrue(not self.d5.is_well_formed())
+
+
+    #
+    # def test_graph_from_adjacency_matrix(self):
+    #     matrix = [[1, 0, 0, 0, 1], [0, 1, 1, 0, 0], [1, 0, 0, 1, 1], [0, 1, 0, 0, 0], [0, 0, 1, 1, 0]]
+    #     graph = {0: node(0,'node0',[0, 4],[0, 2]), 4: node(4,'node4',[2, 3],[0, 2]), 1: node(1,'node1',[1, 2],[1, 3]), 2: node(2,'node2',[0, 3, 4],[1, 4]), 3: node(3,'node3',[1],[2, 4])}
+    #     self.assertEqual(graph_from_adjacency_matrix(matrix), open_digraph([0], [1], graph))
+
+    def test_change_id(self): # a tester
+        self.n0 = node(0, 'a', [], [1])
+        self.n1 = node(1, 'b', [0], [])
+        self.d0 = open_digraph([0],[1],[self.n0, self.n1])
+        self.d0.change_id(0,2)
+
+    def test_change_ids(self):
+        self.n0 = node(0, 'a', [], [1])
+        self.n1 = node(1, 'b', [0], [])
+        self.d0 = open_digraph([0],[1],[self.n0, self.n1])
+        print(self.d0)
+        self.d0.change_ids([(1,3),(0,2)])
+        print(self.d0)
+
 
 
 
