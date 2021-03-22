@@ -397,38 +397,22 @@ class open_digraph: #for open directed graph
         print(graph)
         return graph
 
-    '''Feuille : noeud qui n'est la source d'aucune arrete
-    Si G n'a pas de feuille : il est acyclique
-    On cherche une feuille de G
-        Si il n'en a pas, G est cyclique
-        sinon, on ote la feuille et on recommence du début'''
-
-    '''Comment on va le faire :
-        si la liste est vide : rendre vrai
-        pour i dans nodes, la liste des nodes du graphe
-
-            if i = len(nodes)-1 : rendre faux (ca veut dire qu'on a parcouru toute la liste
-                                                sans trouver de feuille)
-            sinon : get_node_by_id()
-                    si le node n'a pas d'enfant, enlever le node de la liste, recommencer'''
-
-
-    def is_cyclic_aux(self, listnodes):
-        if(self.nodes == []):
-            return True
-        for i in range(len(listnodes)):
-            print("taille liste =" , len(listnodes))
-            print("i=",i)
-            if (i==len(listnodes)-1) :
-                return False
-            else:
-                if (self.get_node_by_id(listnodes[i]).children == []):
-                    listnodes.remove(listnodes[i])
-                    self.is_cyclic_aux(listnodes)
-
+    '''methode qui teste la cyclicité d'un graphe
+    arguments : none
+    return : True si le graph est cyclic
+             False sinon
+    '''
     def is_cyclic(self):
-        listnodes=list(self.nodes.keys())
-        return self.is_cyclic_aux(listnodes)
+        def is_cyclic_aux(listnodes):
+            if not listnodes:
+                return True
+            for i in range(len(listnodes)):
+                if (self.get_node_by_id(listnodes[i]).get_children_ids() == []):
+                    listnodes.remove(listnodes[i])
+                    return is_cyclic_aux(listnodes)
+                if (i==len(listnodes)-1) :
+                   return False
+        return is_cyclic_aux(self.get_node_ids())
 
 
 
@@ -453,7 +437,7 @@ class bool_circ(open_digraph):
 
 
 
-'''Fonction qui revnoie un graphe correspondant a une matrice d'adjacence
+'''Fonction qui renvoie un graphe correspondant a une matrice d'adjacence
 argument : matrix : int list list : matrice d'adjacence
 return : graph '''
 def graph_from_adjacency_matrix(matrix) :           # renvoie un graphe correspondant a la matrice d adjacence matrix
