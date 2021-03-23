@@ -117,11 +117,19 @@ class node:
 
 
 
-
+    '''méthode qui s'applique a un node qui donne le degre sortant du node
+    argument : none
+    return : int '''
     def outdegree(self):                            # donne le degre sortant du node
         return len(self.get_children_ids())
+    '''méthode qui s'applique a un node qui donne le degre entrant du node
+    argument : none
+    return : int '''
     def indegree(self):                             # donne le degre entrant du node
         return len(self.get_parent_ids())
+    '''méthode qui s'applique a un node qui donne le degré du node (degre entrant + degre sortant)
+    argument : none
+    return : int '''
     def degree(self):                               # donne le degre du node
         return self.indegree() + self.outdegree()
 
@@ -286,8 +294,6 @@ class open_digraph: #for open directed graph
     '''méthode appliquée au graphe qui enleve un noeud ayant l'Id voulue du graphe
     argument : id : id du noeud que l'on veut retirer
     return : none '''
-
-
     def remove_node_by_id(self, id):
         for parent in self.get_node_by_id(id).get_parent_ids() :
             parent.remove_child_id_all(id)
@@ -409,8 +415,9 @@ class open_digraph: #for open directed graph
         return graph
 
 
-
-
+    '''méthode qui s'applique a un graphe qui calcule le degré entrant maximum du graphe
+    argument : none
+    return : int '''
     def max_indegree(self):
         max = 0
         for node in self.get_nodes() :
@@ -419,6 +426,9 @@ class open_digraph: #for open directed graph
                 max = degree
         return max
 
+    '''méthode qui s'applique a un graphe qui calcule le degré entrant minimum du graphe
+    argument : none
+    return : int '''
     def min_indegree(self):
         if not self.get_nodes_ids():
             return -1
@@ -429,6 +439,9 @@ class open_digraph: #for open directed graph
                 min = degree
         return min
 
+    '''méthode qui s'applique a un graphe qui calcule le degré sortant maximum du graphe
+    argument : none
+    return : int '''
     def max_outdegree(self):
         max = 0
         for node in self.get_nodes() :
@@ -437,6 +450,9 @@ class open_digraph: #for open directed graph
                 max = degree
         return max
 
+    '''méthode qui s'applique a un graphe qui calcule le degré sortant minimum du graphe
+    argument : none
+    return : int '''
     def min_outdegree(self):
         if not self.get_nodes_ids():
             return -1
@@ -447,6 +463,9 @@ class open_digraph: #for open directed graph
                 min = degree
         return min
 
+    '''méthode qui s'applique a un graphe qui calcule le degre maximum d'un graphe
+    argument : None
+    return : int '''
     def max_degree(self):
         max = 0
         for node in self.get_nodes() :
@@ -455,6 +474,9 @@ class open_digraph: #for open directed graph
                 max = degree
         return max
 
+    '''méthode qui s'applique a un graphe qui calcule le degre minimum d'un graphe
+    argument : None
+    return : int '''
     def min_degree(self):
         if not self.get_nodes_ids():
             return -1
