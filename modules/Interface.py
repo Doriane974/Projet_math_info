@@ -88,7 +88,7 @@ arguments : p0 : point de départ de la courbe
             dt : optionnal, le pas de la courbe, par défaut dt = 0.1
 return : none '''
 def Bezier(self, p0, paux, p1, dt = 0.1):
-    
+
 
 
 '''méthode qui dessine une ligne
@@ -96,11 +96,6 @@ arguments : p1 : point de départ de la ligne
             p2 : point d'arrivée de la ligne'''
 def drawarrows(self, p1, p2, n = 1, m = 1):                                                   #méthode qui dessine une ligne enntre 2 points
     self.line([p1.n(), p2.n()], 'black')
-<<<<<<< HEAD
-    self.line()
-
-'''méthode qui dessine un noeud
-=======
     ph = point(0,0)
     pb = point(0,0)
     pm = point(0,0)
@@ -137,7 +132,6 @@ def drawarrows(self, p1, p2, n = 1, m = 1):                                     
 
 
 '''méthode apppliquée a draw qui dessine un noeud
->>>>>>> 1190df54c794d330cfe345709b7818659d80c7dd
 arguments : n : noeud que l'on veut dessiner
             p : point ou l'on veut placer le noeud
             verbose : bool, par défaut false, si True : affiche l' Id, sinon la fonction n'affiche que le label par défaut'''
@@ -153,14 +147,14 @@ arguments : g : graphe
             input_pos : liste de position correspondants aux inputs du graph
             output_pos : liste de position correspondants aux outputs du graph'''
 def random_layout(g, node_pos, input_pos, output_pos):                          #fonction qui définit des positions aléatoire pour les noeuds du graphe
-    for id in g.nodes.keys():# la c
+    for id in g.get_nodes().keys():# la c
         node_pos[id]=point(random.randrange(25,375), random.randrange(25,375))
     j=0
-    for id in g.inputs:
+    for id in g.get_inputs_ids():
         input_pos[id]=point(node_pos[id].x - 25, node_pos[id].y - 25)
         j=j+1
     i = 0;
-    for id in g.outputs:
+    for id in g.get_outputs_ids():
         output_pos[i]=point(node_pos[id].x + 25, node_pos[id].y + 25)
         i=i+1
     return node_pos, input_pos, output_pos
@@ -171,19 +165,19 @@ arguments : g : graphe
             input_pos : liste de position correspondants aux inputs du graph
             output_pos : liste de position correspondants aux outputs du graph'''
 def circle_layout(g, node_pos=None, input_pos=None, output_pos=None):
-    nbnode = len(g.nodes)
+    nbnode = len(g.get_nodes())
     center = point(200, 200)
     rayon = 175
     i=0
-    for id in g.nodes.keys():# la c
+    for id in g.get_nodes().keys():# la c
         node_pos[id]=point(rayon * math.cos(i*2*math.pi/nbnode) + center.x, rayon*math.sin(i*2*math.pi/nbnode)+ center.y )
         i=i+1
     j=0
-    for id in g.inputs:
+    for id in g.get_inputs_ids():
         input_pos[id]=point(node_pos[id].x - 25, node_pos[id].y - 25)
         j=j+1
     k = 0;
-    for id in g.outputs:
+    for id in g.get_outputs_ids():
         output_pos[k]=point(node_pos[id].x + 25, node_pos[id].y + 25)
         k=k+1
     return node_pos, input_pos, output_pos
@@ -205,12 +199,12 @@ def drawgraph(self, g, node_pos=None, input_pos=None, output_pos=None, method='m
         self.arrows(input_pos[i], node_pos[g.get_inputs_ids()[i]], 0, 1)
     for i in range(len(g.get_outputs_ids())): #on trace la sortie
             self.arrows(node_pos[g.get_outputs_ids()[i]],output_pos[i], 1, 0)
-    for id in g.nodes.keys(): # on trace les arrete entre les nodes et leurs enfant
-        for child in g.nodes[id].get_children_ids():
-            n = count_occurrences(g.nodes[id].get_children_ids(), child)
-            m = count_occurrences(g.nodes[id].get_parent_ids(), child)
+    for id in g.get_nodes().keys(): # on trace les arrete entre les nodes et leurs enfant
+        for child in g.get_nodes()[id].get_children_ids():
+            n = count_occurrences(g.get_nodes()[id].get_children_ids(), child)
+            m = count_occurrences(g.get_nodes()[id].get_parent_ids(), child)
             self.arrows(node_pos[id], node_pos[child], n, m)
-    for id in g.nodes.keys(): # on trace les nodes
+    for id in g.get_nodes().keys(): # on trace les nodes
         self.node(g.get_node_by_id(id),node_pos[id], verbose)
 
 

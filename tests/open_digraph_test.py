@@ -46,8 +46,8 @@ class NodeTest(unittest.TestCase):
         self.n1 = node(1, 'b', [0], [])
         n2 = self.n0.copy()
         n2.label = 'c'
-        self.assertEqual(n2.id, self.n0.id)
-        self.assertNotEqual(n2.label, self.n0.label)
+        self.assertEqual(n2.get_id(), self.n0.get_id())
+        self.assertNotEqual(n2.get_label(), self.n0.get_label())
         self.assertIsNot(n2, self.n0)
 
     def test_get_id(self):
@@ -60,7 +60,7 @@ class NodeTest(unittest.TestCase):
         self.assertEqual(self.n0.get_label(),'a')
         self.assertNotEqual(self.n0.get_label(),'b')
 
-    def test_get_parents_ids(self):
+    def test_get_parent_ids(self):
         self.n0 = node(0, 'a', [2], [1])
         self.assertEqual(self.n0.get_parent_ids(),[2])
         self.n2 = node(0, 'a', [0], [1])
@@ -103,22 +103,22 @@ class NodeTest(unittest.TestCase):
     def test_remove_parent_id(self):
         self.n0 = node(0, 'a', [2], [1])
         self.n0.remove_parent_id(2)
-        self.assertEqual(self.n0.parents,[])
+        self.assertEqual(self.n0.get_parent_ids(),[])
 
     def test_remove_child_id(self):
         self.n0 = node(0, 'a', [2], [2])
         self.n0.remove_child_id(2)
-        self.assertEqual(self.n0.children,[])
+        self.assertEqual(self.n0.get_children_ids(),[])
 
     def test_remove_parent_id_all(self):
         self.n0 = node(0, 'a', [2,3,2], [2])
         self.n0.remove_parent_id_all(2)
-        self.assertEqual(self.n0.parents,[3])
+        self.assertEqual(self.n0.get_parent_ids(),[3])
 
     def test_remove_child_id_all(self):
         self.n0 = node(0, 'a', [2], [2,3,2])
         self.n0.remove_child_id_all(2)
-        self.assertEqual(self.n0.children,[3])
+        self.assertEqual(self.n0.get_children_ids(),[3])
 
 
 
@@ -212,42 +212,42 @@ class DigraphTest(unittest.TestCase):
         self.n0 = node(0, 'a', [], [2])
         self.n1 = node(1, 'b', [3], [])
         self.d0 = open_digraph([0],[1],[self.n0, self.n1])
-        self.d0.add_edge(self.n0.id, self.n1.id)
-        self.assertEqual(self.n0.children, [2,1])
-        self.assertEqual(self.n1.parents, [3,0])
+        self.d0.add_edge(self.n0.get_id(), self.n1.get_id())
+        self.assertEqual(self.n0.get_children_ids(), [2,1])
+        self.assertEqual(self.n1.get_parent_ids(), [3,0])
 
     def test_add_edges(self):
         self.n0 = node(0, 'a', [], [3])
         self.n1 = node(1, 'b', [4], [])
         self.n2 = node(2, 'a', [], [5])
         self.d0 = open_digraph([0],[1],[self.n0, self.n1, self.n2])
-        self.d0.add_edges(self.n0.id, [self.n1.id, self.n2.id])
-        self.assertEqual(self.n0.children, [3,1,2])
-        self.assertEqual(self.n1.parents, [4,0])
-        self.assertEqual(self.n2.parents, [0])
+        self.d0.add_edges(self.n0.get_id(), [self.n1.get_id(), self.n2.get_id()])
+        self.assertEqual(self.n0.get_children_ids(), [3,1,2])
+        self.assertEqual(self.n1.get_parent_ids(), [4,0])
+        self.assertEqual(self.n2.get_parent_ids(), [0])
 
     def remove_edge(self):
         self.n0 = node(0, 'a', [], [1])
         self.n1 = node(1, 'b', [0], [])
         self.d0 = open_digraph([0],[1],[self.n0, self.n1])
         self.remove_edge(n1,n0)
-        self.assertEqual(self.n0.children, [])
-        self.assertEqual(self.n1.parents, [])
+        self.assertEqual(self.n0.get_children_ids(), [])
+        self.assertEqual(self.n1.get_parent_ids(), [])
 
     def test_remove_node_by_id(self):
         self.n0 = node(0, 'a', [], [1])
         self.n1 = node(1, 'b', [0], [])
         self.d0 = open_digraph([0],[1],[self.n0, self.n1])
         self.d0.remove_node_by_id(1)
-        self.assertEqual(self.d0.nodes, {0:self.n0})
+        self.assertEqual(self.d0.get_nodes(), {0:self.n0})
 
     def test_remove_edges(self):
         self.n0 = node(0, 'a', [], [1])
         self.n1 = node(1, 'b', [0], [])
         self.d0 = open_digraph([0],[1],[self.n0, self.n1])
         self.d0.remove_edges([self.n1],[self.n0])        #tester avec plusieurs noeuds
-        self.assertEqual(self.n0.children, [])
-        self.assertEqual(self.n1.parents, [])
+        self.assertEqual(self.n0.get_children_ids(), [])
+        self.assertEqual(self.n1.get_parent_ids(), [])
 
 
     def test_remove_nodes_by_id(self):
@@ -255,7 +255,7 @@ class DigraphTest(unittest.TestCase):
         self.n1 = node(1, 'b', [0], [])
         self.d0 = open_digraph([0],[1],[self.n0, self.n1])
         self.d0.remove_nodes_by_id([1,0])       #tester avec plusieurs ids
-        self.assertEqual(self.d0.nodes, {})
+        self.assertEqual(self.d0.get_nodes(), {})
 
     def test_is_well_formed(self):
         self.assertTrue(self.d0.is_well_formed())
