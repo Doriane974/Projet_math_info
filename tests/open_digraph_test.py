@@ -325,6 +325,8 @@ class DigraphTest(unittest.TestCase):
     def test_min_degree(self):
         self.assertEqual(self.d0.min_degree(), 1)
 
+    
+
 
 
 

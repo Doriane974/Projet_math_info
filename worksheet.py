@@ -74,4 +74,6 @@ print(slope_angle(p4,p0))
 
 print(g.is_cyclic())
 
+c = bool_circ(g);
+
 image.save("test.jpg")

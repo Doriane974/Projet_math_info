@@ -506,13 +506,25 @@ class open_digraph: #for open directed graph
                    return False
         return is_cyclic_aux(self.get_node_ids())
 
+    '''méthode qui ajoute n a tous les indices du graphe'''
+    def shift_indices(self, n):
+        for node in self.inputs :
+            node.id = node.get_id() + n
+        for node in self.outputs :
+            node.id = node.get_id() + n
+        for id in self.nodes:
+            new_id = self.nodes[id].get_id() + n
+            self.nodes[id].id = new_id
+            self.nodes[new_id] = self.get_node_by_id(new_id)
+            self.nodes.pop(id)
+
 
 
 class bool_circ(open_digraph):
     def __init__(self, g):
         #g : open_digraph
         super().__init__(g.inputs, g.get_nodes(), g.outputs)
-        self.circBool = g.is_well_formed()       # exo 7 TD6, a décommenté quand exo6 fait
+        self.circBool = g.is_well_formed()
 
     '''methode qui convertit un circuit en graphe
     arguments : circ, circuit a convertir
@@ -568,6 +580,7 @@ class bool_circ(open_digraph):
             if(node.get_id()>id):
                 id = node.get_id()
         return id
+
 
 
 
