@@ -521,6 +521,17 @@ class bool_circ(open_digraph):
         return g
 
 
+    def is_well_formed(self) :
+        acyclique = self.is_cyclic()
+        for node in self.get_nodes():
+            if not node.get_label() :
+                valide = node.indegree() == 1
+            elif node.get_label() == '&' or  node.get_label() == '|' :
+                valide = node.outdegree() == 1
+            elif node.get_label() == "~" :
+                valide = node.indegree() == 1 and node.outdegree() == 1
+        return acyclique and valide
+
 
 
 
