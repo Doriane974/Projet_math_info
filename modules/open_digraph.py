@@ -135,7 +135,8 @@ class node:
     def degree(self):                               # donne le degre du node
         return self.indegree() + self.outdegree()
 
-
+    def change_id_node(self, n):
+        node.id = node.id + n
 
 
 class open_digraph: #for open directed graph
@@ -509,9 +510,9 @@ class open_digraph: #for open directed graph
     '''méthode qui ajoute n a tous les indices du graphe'''
     def shift_indices(self, n):
         for node in self.inputs :
-            node.id = node.get_id() + n
+            node.change_id_node(n)
         for node in self.outputs :
-            node.id = node.get_id() + n
+            node.change_id_node(n)
         for id in self.nodes:
             new_id = self.nodes[id].get_id() + n
             self.nodes[id].id = new_id
