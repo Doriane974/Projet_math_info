@@ -96,8 +96,23 @@ arguments : p0 : point de départ de la courbe
             paux :
             p1 : point d'arrivée de la courbe
             dt : optionnal, le pas de la courbe, par défaut dt = 0.1
+<<<<<<< HEAD
 return : none
 def Bezier(self, p0, paux, p1, dt = 0.1):'''
+=======
+return : none '''
+<<<<<<< HEAD
+def Bezier(self, p0, paux, p1, dt = 0.1):
+=======
+'''def Bezier(self, p0, paux, p1, dt = 0.1):
+>>>>>>> f71c6a2d32be377f5bc47100d2a87f13acda173f
+
+
+
+méthode qui dessine une ligne
+    arguments : p1 : point de départ de la ligne
+            p2 : point d'arrivée de la ligne'''
+>>>>>>> 14cb9c2ae3f6cfddd2d3d20217647206c196fd7d
 
 
 '''méthode qui dessine une arrete entre 2 point, en prenant en compte le fait
@@ -109,6 +124,8 @@ argument : p1 : point
 return : none '''
 def drawarrows(self, p1, p2, arretep1p2 = 1, arretep2p1 = 1):
     self.line([p1.n(), p2.n()], 'black')
+<<<<<<< HEAD
+=======
     VectP1P2 = point(p2.x - p1.x, p2.y - p1.y)                                                  # le vecteur entre p1 et p2
     VectP2P1 = (-1)* VectP1P2                                                                   # le vecteur entre p2 et p1
     NormeVP1P2 = math.sqrt(VectP1P2.x**2 + VectP1P2.y**2)                                       #la norme du vecteur entre p1 et p2 (la meme dans les 2 sens)
@@ -144,6 +161,44 @@ def drawarrows(self, p1, p2, arretep1p2 = 1, arretep2p1 = 1):
 
 
 
+<<<<<<< HEAD
+=======
+    '''self.line([p1.n(), p2.n()], 'black')
+>>>>>>> f71c6a2d32be377f5bc47100d2a87f13acda173f
+    ph = point(0,0)
+    pb = point(0,0)
+    pm = point(0,0)
+    pm.x = ((p1.x + p2.x)/2)
+    pm.y = ((p1.y + p2.y)/2)
+    ############################################################
+    #                       De p1 à p2                         #
+    if (n > 0):
+        ph.x = (pm.x + 8*math.cos(slope_angle(p1,p2)+math.pi/6))
+        ph.y = (pm.y + 8*math.sin(slope_angle(p1,p2)+math.pi/6))
+        #self.text(ph.x-10,ph.y-10), str(n), fill='black')
+        pb.x = (pm.x + 8*math.cos(slope_angle(p1,p2)-math.pi/6))
+        pb.y = (pm.y + 8*math.sin(slope_angle(p1,p2)-math.pi/6))
+        ps = point(0,0)
+        ps.x = (pm.x + 10*math.cos(slope_angle(p1,p2)-math.pi/2))
+        ps.y = (pm.y + 10*math.sin(slope_angle(p1,p2)-math.pi/2))
+        self.text((ps.x,ps.y), str(n), fill='green')
+        self.line([pm.n(), pb.n()], 'green')
+        self.line([pm.n(), ph.n()], 'green')
+    ############################################################
+    #                       De p2 à p1                         #
+    if(m > 0):
+        ph.x = (pm.x + 8*math.cos(slope_angle(p2,p1)+math.pi/6))
+        ph.y = (pm.y + 8*math.sin(slope_angle(p2,p1)+math.pi/6))
+        #self.text(ph.x-10,ph.y-10), str(n), fill='black')
+        pb.x = (pm.x + 8*math.cos(slope_angle(p2,p1)-math.pi/6))
+        pb.y = (pm.y + 8*math.sin(slope_angle(p2,p1)-math.pi/6))
+        ps = point(0,0)
+        ps.x = (pm.x + 10*math.cos(slope_angle(p2,p1)+math.pi/2))
+        ps.y = (pm.y + 10*math.sin(slope_angle(p2,p1)+math.pi/2))
+        self.text((ps.x,ps.y), str(m), fill='purple')
+        self.line([pm.n(), pb.n()], 'purple')
+        self.line([pm.n(), ph.n()], 'purple')'''
+>>>>>>> 14cb9c2ae3f6cfddd2d3d20217647206c196fd7d
 
 
 '''méthode apppliquée a draw qui dessine un noeud
@@ -162,14 +217,14 @@ arguments : g : graphe
             input_pos : liste de position correspondants aux inputs du graph
             output_pos : liste de position correspondants aux outputs du graph'''
 def random_layout(g, node_pos, input_pos, output_pos):                          #fonction qui définit des positions aléatoire pour les noeuds du graphe
-    for id in g.nodes.keys():# la c
+    for id in g.get_nodes().keys():# la c
         node_pos[id]=point(random.randrange(25,375), random.randrange(25,375))
     j=0
-    for id in g.inputs:
+    for id in g.get_inputs_ids():
         input_pos[id]=point(node_pos[id].x - 25, node_pos[id].y - 25)
         j=j+1
     i = 0;
-    for id in g.outputs:
+    for id in g.get_outputs_ids():
         output_pos[i]=point(node_pos[id].x + 25, node_pos[id].y + 25)
         i=i+1
     return node_pos, input_pos, output_pos
@@ -180,19 +235,19 @@ arguments : g : graphe
             input_pos : liste de position correspondants aux inputs du graph
             output_pos : liste de position correspondants aux outputs du graph'''
 def circle_layout(g, node_pos=None, input_pos=None, output_pos=None):
-    nbnode = len(g.nodes)
+    nbnode = len(g.get_nodes())
     center = point(200, 200)
     rayon = 175
     i=0
-    for id in g.nodes.keys():# la c
+    for id in g.get_nodes().keys():# la c
         node_pos[id]=point(rayon * math.cos(i*2*math.pi/nbnode) + center.x, rayon*math.sin(i*2*math.pi/nbnode)+ center.y )
         i=i+1
     j=0
-    for id in g.inputs:
+    for id in g.get_inputs_ids():
         input_pos[id]=point(node_pos[id].x - 25, node_pos[id].y - 25)
         j=j+1
     k = 0;
-    for id in g.outputs:
+    for id in g.get_outputs_ids():
         output_pos[k]=point(node_pos[id].x + 25, node_pos[id].y + 25)
         k=k+1
     return node_pos, input_pos, output_pos
@@ -214,12 +269,12 @@ def drawgraph(self, g, node_pos=None, input_pos=None, output_pos=None, method='m
         self.arrows(input_pos[i], node_pos[g.get_inputs_ids()[i]], 0, 1)
     for i in range(len(g.get_outputs_ids())): #on trace la sortie
             self.arrows(node_pos[g.get_outputs_ids()[i]],output_pos[i], 1, 0)
-    for id in g.nodes.keys(): # on trace les arrete entre les nodes et leurs enfant
-        for child in g.nodes[id].get_children_ids():
-            n = count_occurrences(g.nodes[id].get_children_ids(), child)
-            m = count_occurrences(g.nodes[id].get_parent_ids(), child)
+    for id in g.get_nodes().keys(): # on trace les arrete entre les nodes et leurs enfant
+        for child in g.get_nodes()[id].get_children_ids():
+            n = count_occurrences(g.get_nodes()[id].get_children_ids(), child)
+            m = count_occurrences(g.get_nodes()[id].get_parent_ids(), child)
             self.arrows(node_pos[id], node_pos[child], n, m)
-    for id in g.nodes.keys(): # on trace les nodes
+    for id in g.get_nodes().keys(): # on trace les nodes
         self.node(g.get_node_by_id(id),node_pos[id], verbose)
 
 

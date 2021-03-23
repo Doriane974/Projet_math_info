@@ -117,6 +117,17 @@ class node:
 
 
 
+
+    def outdegree(self):                            # donne le degre sortant du node
+        return len(self.get_children_ids())
+    def indegree(self):                             # donne le degre entrant du node
+        return len(self.get_parent_ids())
+    def degree(self):                               # donne le degre du node
+        return self.indegree() + self.outdegree()
+
+
+
+
 class open_digraph: #for open directed graph
 
     def __init__(self, inputs, outputs, nodes):
@@ -278,9 +289,9 @@ class open_digraph: #for open directed graph
 
 
     def remove_node_by_id(self, id):
-        for parent in self.get_node_by_id(id).parents :
+        for parent in self.get_node_by_id(id).get_parent_ids() :
             parent.remove_child_id_all(id)
-        for child in self.get_node_by_id(id).children :
+        for child in self.get_node_by_id(id).get_children_ids() :
             child.remove_parent_id_all(id)
         del self.nodes[id]
 
@@ -304,25 +315,25 @@ class open_digraph: #for open directed graph
     '''Méthode appliquée au graphe qui vérifie si il est bien formé
     arguments : none
     return : bool : True si bien formé, False sinon'''
-    '''def is_well_formed(self):                       # verifie si le graphe est correctement forme
+    def is_well_formed(self):                       # verifie si le graphe est correctement forme
         #########################################
         #              A modifier ?              #
         #########################################
         # partie 1
-        for input_id in self.inputs :                           # on parcourt les inputs
+        for input_id in self.get_inputs_ids() :                           # on parcourt les inputs
             if not (input_id in self.get_node_ids()):           # on verifie que chaque input est dans les ids des nodes
                 return False
-        for output_id in self.outputs :                         # idem pour les outputs
+        for output_id in self.get_outputs_ids() :                         # idem pour les outputs
             if not (output_id in self.get_node_ids()):
                 return False
 
         # partie 2
-        for key in self.nodes.keys() :                          # on parcourt les clefs du dict nodes
+        for key in self.get_nodes().keys() :                          # on parcourt les clefs du dict nodes
             if key != self.get_node_by_id(key).get_id()         # on verifie que la clef correspond a l'id d'un node
                 return False
 
         # partie 3
-        for node in self.nodes.values() :                       # on parcourt les nodes
+        for node in self.get_nodes().values() :                       # on parcourt les nodes
             for child_id in node.get_children_ids() :           # pour chaque node, on parcourt les enfants
                 if not (count_occurrences(node.get_children_ids(), child_id) == count_occurrences(self.get_node_by_id(child_id).get_parent_ids(), node.get_id())):      # pour chaque enfant, on compte le nombre d'occurrence(s) de son id dans les enfants du node
                     return False                                                                                                                                        # et on verifie que ce nombre est egal a celui des occurrences du node parmi les parents de l'enfant
@@ -340,23 +351,23 @@ class open_digraph: #for open directed graph
     def change_id(self, node_id, new_id):
         if(self.id_exists_in_graph(new_id)==False):
             #self.get_node_by_id(node_id).id = new_id
-            for i in self.get_node_by_id(node_id).parents:
-                children= self.get_node_by_id(i).children
+            for i in self.get_node_by_id(node_id).get_parent_ids():
+                children= self.get_node_by_id(i).get_children_ids()
                 for j in range(len(children)):
                     if (children[j] == node_id):
                         children[j] = new_id
-            for i in self.get_node_by_id(node_id).children:
-                parents =  self.get_node_by_id(i).parents
+            for i in self.get_node_by_id(node_id).get_children_ids():
+                parents =  self.get_node_by_id(i).get_parent_ids()
                 for j in range(len(parents)):
                     if(parents[j] == node_id):
                         parents[j]=new_id
-            for i in range(len(self.inputs)):
-                if (self.inputs[i]==node_id):
+            for i in range(len(self.get_inputs_ids())):
+                if (self.get_inputs_ids()[i]==node_id):
                     self.inputs[i]=new_id
-            for i in range(len(self.outputs)):
-                if (self.outputs[i]==node_id):
+            for i in range(len(self.get_outputs_ids())):
+                if (self.get_outputs_ids()[i]==node_id):
                     self.outputs[i]=new_id
-            self.nodes[new_id]=self.nodes[node_id]
+            self.nodes[new_id]=self.get_nodes()[node_id]
             self.nodes.pop(node_id)
         else:
             raise ValueError('new id already exists')
@@ -397,6 +408,63 @@ class open_digraph: #for open directed graph
         print(graph)
         return graph
 
+
+
+
+    def max_indegree(self):
+        max = 0
+        for node in self.get_nodes() :
+            degree = node.indegree()
+            if degree > max :
+                max = degree
+        return max
+
+    def min_indegree(self):
+        if not self.get_nodes_ids():
+            return -1
+        min = self.get_node_by_id(self.get_nodes_ids()[0]).indegree()              # on prend le degree entrant d'un node quelquonque comme premier minimum
+        for node in self.get_nodes() :
+            degree = node.indegree()
+            if degree < max :
+                min = degree
+        return min
+
+    def max_outdegree(self):
+        max = 0
+        for node in self.get_nodes() :
+            degree = node.outdegree()
+            if degree > max :
+                max = degree
+        return max
+
+    def min_outdegree(self):
+        if not self.get_nodes_ids():
+            return -1
+        min = self.get_node_by_id(self.get_nodes_ids()[0]).outdegree()              # on prend le degree sortant d'un node quelquonque comme premier minimum
+        for node in self.get_nodes() :
+            degree = node.outdegree()
+            if degree < max :
+                min = degree
+        return min
+
+    def max_degree(self):
+        max = 0
+        for node in self.get_nodes() :
+            degree = node.degree()
+            if degree > max :
+                max = degree
+        return max
+
+    def min_degree(self):
+        if not self.get_nodes_ids():
+            return -1
+        min = self.get_node_by_id(self.get_nodes_ids()[0]).degree()              # on prend le degree d'un node quelquonque comme premier minimum
+        for node in self.get_nodes() :
+            degree = node.degree()
+            if degree < max :
+                min = degree
+        return min
+
     '''methode qui teste la cyclicité d'un graphe
     arguments : none
     return : True si le graph est cyclic
@@ -416,7 +484,6 @@ class open_digraph: #for open directed graph
 
 
 
-
 class bool_circ(open_digraph):
     def __init__(self, g):
         #g : open_digraph
@@ -426,9 +493,9 @@ class bool_circ(open_digraph):
     def convert(self, circ):
         #circ :  un circuit booléen bool_circ
         g = open_digraph([],[],[])
-        g.inputs = self.inputs
-        g.nodes = self.nodes
-        g.outputs = self.outputs
+        g.inputs = self.get_inputs_ids()
+        g.nodes = self.get_nodes()
+        g.outputs = self.get_outputs_ids()
         return g
 
 
