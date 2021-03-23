@@ -329,7 +329,7 @@ class open_digraph: #for open directed graph
 
         # partie 2
         for key in self.get_nodes().keys() :                          # on parcourt les clefs du dict nodes
-            if key != self.get_node_by_id(key).get_id()         # on verifie que la clef correspond a l'id d'un node
+            if key != self.get_node_by_id(key).get_id():         # on verifie que la clef correspond a l'id d'un node
                 return False
 
         # partie 3
