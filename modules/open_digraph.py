@@ -545,6 +545,33 @@ class bool_circ(open_digraph):
                 valide = node.indegree() == 1 and node.outdegree() == 1
         return acyclique and valide
 
+    '''méthode appliquée a un circuit booleen, qui donne l'indice minimum du circuit
+    argument : none
+    return : un indice '''
+    def min_id(self):
+        if(self.nodes == []):
+            return 0
+        id = self.nodes[0].get_id()
+        for node in self.nodes :
+            if (node.get_id()<id) :
+                id = node.get_id()
+        return id
+
+    '''méthode appliquée a un circuit booleen, qui donne l'indice maximum du circuit
+    argument : none
+    return : un indice '''
+    def max_id(self):
+        if (self.nodes == []):
+            return 0
+        id = self.nodes[0].get_id()
+        for node in self.node :
+            if(node.get_id()>id):
+                id = node.get_id()
+        return id
+
+
+
+
 
 
 
