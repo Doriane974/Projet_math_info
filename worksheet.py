@@ -72,6 +72,22 @@ angle = slope_angle(p0, p4)
 print(angle)
 print(slope_angle(p4,p0))
 
-print(g.is_cyclic())
+#print(g.is_cyclic())
+
+
+b1 = node(1, '1', [], [3]) #l'entrée du graphe
+b2 = node(2,'2',[],[4])
+b3 = node(3,'~',[1],[4])
+b4 = node(4,'&',[3,2],[5]) #la sortie du graphe
+b5 = node(5,'~',[4],[])
+b= open_digraph([1,2],[5],[b1,b2,b3,b4,b5])
+
+
+c = bool_circ(b);
+print("indice min :", c.min_id())
+print("indice max :" , c.max_id())
+c.shift_indices(15)
+print("indice min :", c.min_id())
+print("indice max :" , c.max_id())
 
 image.save("test.jpg")
