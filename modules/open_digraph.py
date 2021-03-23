@@ -177,7 +177,7 @@ class open_digraph: #for open directed graph
     '''méthode appliquée au graphe qui renvoie une liste de tous les nodes du graphes
     argument : none
     return : node list '''
-    def get_nodes(self):                    # renvoie une liste de tous les noeuds
+    def get_nodes(self):    # renvoie une liste de tous les noeuds
         return list(self.nodes.values())
 
     '''méthode appliquée au graphe qui renvoie une liste de tous les ids des nodes du graphes
@@ -465,6 +465,23 @@ class open_digraph: #for open directed graph
                 min = degree
         return min
 
+    '''methode qui teste la cyclicité d'un graphe
+    arguments : none
+    return : True si le graph est cyclic
+             False sinon
+    '''
+    def is_cyclic(self):
+        def is_cyclic_aux(listnodes):
+            if not listnodes:
+                return True
+            for i in range(len(listnodes)):
+                if (self.get_node_by_id(listnodes[i]).get_children_ids() == []):
+                    listnodes.remove(listnodes[i])
+                    return is_cyclic_aux(listnodes)
+                if (i==len(listnodes)-1) :
+                   return False
+        return is_cyclic_aux(self.get_node_ids())
+
 
 
 class bool_circ(open_digraph):
@@ -484,7 +501,10 @@ class bool_circ(open_digraph):
 
 
 
-'''Fonction qui revnoie un graphe correspondant a une matrice d'adjacence
+
+
+
+'''Fonction qui renvoie un graphe correspondant a une matrice d'adjacence
 argument : matrix : int list list : matrice d'adjacence
 return : graph '''
 def graph_from_adjacency_matrix(matrix) :           # renvoie un graphe correspondant a la matrice d adjacence matrix

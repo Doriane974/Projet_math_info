@@ -18,11 +18,19 @@ class point:
         self.x = x
         self.y = y
 
+
     '''méthode qui retourne le couple correspondant aux coordonée du point. Méthode appliquée au point dont on veut les coordonées.
     arguments : none
     return : un couple (x,y) des coordonnes du point '''
     def n(self):
         return (round(self.x), round(self.y)) # return a simple tuple
+
+    def __str__(self):
+        return "(" + str(self.x) +"," + str(self.y)+ ")"
+        '''output : str ; the string given by str(node)'''
+
+    def __repr__(self):
+        return "point"+str(self)
 
     '''méthode qui retourne une copie du point, méthode appliquée au point que l'on veut copier.
     argument : none
@@ -79,7 +87,7 @@ def slope_angle(p1, p2):                #Beugué, il faut pouvoir avoir des angl
     Yvp1p2 = p2.y - p1.y
     Np1p2 = math.sqrt((p2.x-p1.x)*(p2.x-p1.x)+(p2.y-p1.y)*(p2.y-p1.y))
     scal = Xvi * Xvp1p2 + Yvi * Yvp1p2
-    return math.acos(scal/(Ni*Np1p2))
+    return math.acos(Xvp1p2/(Np1p2))
 
 '''méthode qui dessine une courbe de bézier
 arguments : p0 : point de départ de la courbe
@@ -87,15 +95,66 @@ arguments : p0 : point de départ de la courbe
             p1 : point d'arrivée de la courbe
             dt : optionnal, le pas de la courbe, par défaut dt = 0.1
 return : none '''
+<<<<<<< HEAD
 def Bezier(self, p0, paux, p1, dt = 0.1):
+=======
+'''def Bezier(self, p0, paux, p1, dt = 0.1):
+>>>>>>> f71c6a2d32be377f5bc47100d2a87f13acda173f
 
 
 
-'''méthode qui dessine une ligne
-arguments : p1 : point de départ de la ligne
+méthode qui dessine une ligne
+    arguments : p1 : point de départ de la ligne
             p2 : point d'arrivée de la ligne'''
-def drawarrows(self, p1, p2, n = 1, m = 1):                                                   #méthode qui dessine une ligne enntre 2 points
+
+''''Vecteur dir en tre p1 et p2, on le normaliste pour qu'il ai tout le temps la meme taille (*10/par la norme)
+*-1 si on le veut dans l'autre sens
+Tu calcules le vecteur orthogonal (pour le texte par exemple)
+Tu calcules ton milieu, tu le copie une fois, tu ajoute ton vecteur directeur, tu le recopies pour avoir les 2 coté de la fleche,
+et tu rotate pour avoir l'autre coté.
+
+'''
+def drawarrows(self, p1, p2, arretep1p2 = 1, arretep2p1 = 1):
     self.line([p1.n(), p2.n()], 'black')
+<<<<<<< HEAD
+=======
+    VectP1P2 = point(p2.x - p1.x, p2.y - p1.y)                                                  # le vecteur entre p1 et p2
+    VectP2P1 = (-1)* VectP1P2                                                                   # le vecteur entre p2 et p1
+    NormeVP1P2 = math.sqrt(VectP1P2.x**2 + VectP1P2.y**2)                                       #la norme du vecteur entre p1 et p2 (la meme dans les 2 sens)
+    NormalizeNvP1P2 = point(10*VectP1P2.x / NormeVP1P2, 10*VectP1P2.y/ NormeVP1P2 )             #le vecteur entre p1 et p2, mais normalisé
+    NormalizeNvP2P1 = (-1)*NormalizeNvP1P2                                                      #le vecteur entre p2 et p1, mais normalisé
+    pMilieu = point((p1.x +p2.x)/2, (p1.y + p2.y)/2)                                            #Le point milieu
+    #pBasP1P2 = point((pFlecheP1P2.x + 8*math.cos(slope_angle(p1,p2)-math.pi/6)),(pFlecheP1P2.y + 8*math.sin(slope_angle(p1,p2)-math.pi/6)))
+    #pBasP2P1 = point((pFlecheP2P1.x + 8*math.cos(slope_angle(p2,p1)-math.pi/6)), (pFlecheP2P1.y + 8*math.sin(slope_angle(p2,p1)-math.pi/6)))
+
+    if (arretep1p2>0):                                                                          #On rentre dans le if si il y au moins une arrete a tracer entre p1 et p2
+        VorthoP1P2 = point(-VectP1P2.x, VectP1P2.y)                                                 #Le vecteur orthogonal
+        NormalizeVorthoP1P2 = point(VorthoP1P2.x * 10 / NormeVP1P2, VorthoP1P2.y * 10 / NormeVP1P2)
+        pFlecheP1P2 = point((p1.x + pMilieu.x)/2, (p1.y + pMilieu.y)/2)                             #la position ou placer les fleches pour les arretes de p1 à p2
+        pHautP1P2 = point((pFlecheP1P2.x + 10*math.cos(slope_angle(p1,p2)+math.pi/4)) , (pFlecheP1P2.y + 8*math.sin(slope_angle(p1,p2)+math.pi/4))) #une des éxtrémité des lignes de la fleche
+        pBasP1P2 = pHautP1P2.rotate(100, pFlecheP1P2)                                         #l'opposé
+
+        self.line([pFlecheP1P2.n(), pHautP1P2.n()], 'purple')                                   #une des lignes de la fleche
+        self.line([pFlecheP1P2.n(), pBasP1P2.n()], 'purple')                                    #l'autre ligne
+        ptext = point(pFlecheP1P2.x + 10*math.cos(slope_angle(p1,p2)-math.pi/2) , pFlecheP1P2.y + 10*math.sin(slope_angle(p1,p2)-math.pi/2))    #la position du texte pour dire il y a combien d'arrete entre 2 points
+        self.text(ptext.n(), str(arretep1p2), 'purple')                                         #le texte
+
+    if (arretep2p1 > 0):
+        VorthoP2P1 = point(VectP1P2.x, -VectP1P2.y)                                                 #Le vecteur orthogonal opposé
+        NormalizeVorthoP2P1 = point(VorthoP2P1.x * 10 / NormeVP1P2, VorthoP2P1.y * 10 / NormeVP1P2)
+        pFlecheP2P1 = point((p2.x + pMilieu.x)/2, (p2.y + pMilieu.y)/2)                             #La position ou placer les fleches pour les arretes de p1 à p2
+        pHautP2P1 = point((pFlecheP2P1.x + 10*math.cos(slope_angle(p2,p1)+math.pi/4)) ,( pFlecheP2P1.y + 8*math.sin(slope_angle(p2,p1)+math.pi/4))) #une des éxtrémité des lignes de la fleche#l'opposé
+        pBasP2P1 = pHautP2P1.rotate(-100, pFlecheP2P1)                                       #l'opposé
+
+        self.line([pFlecheP2P1.n(), pHautP2P1.n()], 'green')
+        self.line([pFlecheP2P1.n(), pBasP2P1.n()], 'green')
+        ptext = point(pMilieu.x + NormalizeVorthoP2P1.x , pMilieu.y + NormalizeVorthoP2P1.y )
+        self.text(ptext.n(), str(arretep2p1), 'green')
+
+
+
+    '''self.line([p1.n(), p2.n()], 'black')
+>>>>>>> f71c6a2d32be377f5bc47100d2a87f13acda173f
     ph = point(0,0)
     pb = point(0,0)
     pm = point(0,0)
@@ -128,7 +187,7 @@ def drawarrows(self, p1, p2, n = 1, m = 1):                                     
         ps.y = (pm.y + 10*math.sin(slope_angle(p2,p1)+math.pi/2))
         self.text((ps.x,ps.y), str(m), fill='purple')
         self.line([pm.n(), pb.n()], 'purple')
-        self.line([pm.n(), ph.n()], 'purple')
+        self.line([pm.n(), ph.n()], 'purple')'''
 
 
 '''méthode apppliquée a draw qui dessine un noeud

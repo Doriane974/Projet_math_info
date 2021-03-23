@@ -51,7 +51,7 @@ input_pos= [pentree]
 
 output_pos= [psortie]
 
-draw.graph(g, node_pos, input_pos,output_pos, 'manual')
+draw.graph(g, node_pos, input_pos,output_pos, 'random')
 #def drawgraph(self, g, method='manual', node_pos=None, input_pos=None, output_pos=None):
 #draw.arrows(p1, p2)
 #draw.arrete(p2,p3)
@@ -72,5 +72,6 @@ angle = slope_angle(p0, p4)
 print(angle)
 print(slope_angle(p4,p0))
 
+print(g.is_cyclic())
 
 image.save("test.jpg")
