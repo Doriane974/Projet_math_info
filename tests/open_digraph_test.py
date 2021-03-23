@@ -123,7 +123,17 @@ class NodeTest(unittest.TestCase):
 
     def test_outdegree(self):
         self.assertEqual(self.n0.outdegree(), 1)
+        self.assertEqual(self.n1.outdegree(), 0)
 
+
+    def test_indegree(self):
+        self.assertEqual(self.n0.indegree(), 0)
+        self.assertEqual(self.n1.indegree(), 1)
+
+
+    def test_degree(self):
+        self.assertEqual(self.n0.degree(), 1)
+        self.assertEqual(self.n1.degree(), 1)
 
 
 class DigraphTest(unittest.TestCase):
@@ -230,6 +240,14 @@ class DigraphTest(unittest.TestCase):
         self.assertEqual(self.n1.get_parent_ids(), [4,0])
         self.assertEqual(self.n2.get_parent_ids(), [0])
 
+    def test_add_node(self):
+        self.n0 = node(0, 'a', [], [2])
+        self.n1 = node(1, 'b', [3], [])
+        self.d0 = open_digraph([0],[1],[self.n0, self.n1])
+        self.d0.add_node('c', [1], [0])
+        self.assertEqual(len(self.d0.get_node_ids()), 3)
+
+
     def remove_edge(self):
         self.n0 = node(0, 'a', [], [1])
         self.n1 = node(1, 'b', [0], [])
@@ -266,6 +284,9 @@ class DigraphTest(unittest.TestCase):
         self.assertTrue(not self.d5.is_well_formed())
 
 
+    def test_random_graph(self):
+        self.assertTrue(self.d0.random_graph(2,2).is_well_formed())
+
     #
     # def test_graph_from_adjacency_matrix(self):
     #     matrix = [[1, 0, 0, 0, 1], [0, 1, 1, 0, 0], [1, 0, 0, 1, 1], [0, 1, 0, 0, 0], [0, 0, 1, 1, 0]]
@@ -285,6 +306,24 @@ class DigraphTest(unittest.TestCase):
         print(self.d0)
         self.d0.change_ids([(1,3),(0,2)])
         print(self.d0)
+
+    def test_max_indegree(self):
+        self.assertEqual(self.d0.max_indegree(), 1)
+
+    def test_min_indegree(self):
+        self.assertEqual(self.d0.min_indegree(), 0)
+
+    def test_max_outdegree(self):
+        self.assertEqual(self.d0.max_outdegree(), 1)
+
+    def test_min_outdegree(self):
+        self.assertEqual(self.d0.min_outdegree(), 0)
+
+    def test_max_degree(self):
+        self.assertEqual(self.d0.max_degree(), 1)
+
+    def test_min_degree(self):
+        self.assertEqual(self.d0.min_degree(), 1)
 
 
 

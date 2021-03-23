@@ -432,12 +432,12 @@ class open_digraph: #for open directed graph
     argument : none
     return : int '''
     def min_indegree(self):
-        if not self.get_nodes_ids():
+        if not self.get_node_ids():
             return -1
-        min = self.get_node_by_id(self.get_nodes_ids()[0]).indegree()              # on prend le degree entrant d'un node quelquonque comme premier minimum
+        min = self.get_node_by_id(self.get_node_ids()[0]).indegree()              # on prend le degree entrant d'un node quelquonque comme premier minimum
         for node in self.get_nodes() :
             degree = node.indegree()
-            if degree < max :
+            if degree < min :
                 min = degree
         return min
 
@@ -456,12 +456,12 @@ class open_digraph: #for open directed graph
     argument : none
     return : int '''
     def min_outdegree(self):
-        if not self.get_nodes_ids():
+        if not self.get_node_ids():
             return -1
-        min = self.get_node_by_id(self.get_nodes_ids()[0]).outdegree()              # on prend le degree sortant d'un node quelquonque comme premier minimum
+        min = self.get_node_by_id(self.get_node_ids()[0]).outdegree()              # on prend le degree sortant d'un node quelquonque comme premier minimum
         for node in self.get_nodes() :
             degree = node.outdegree()
-            if degree < max :
+            if degree < min :
                 min = degree
         return min
 
@@ -480,12 +480,12 @@ class open_digraph: #for open directed graph
     argument : None
     return : int '''
     def min_degree(self):
-        if not self.get_nodes_ids():
+        if not self.get_node_ids():
             return -1
-        min = self.get_node_by_id(self.get_nodes_ids()[0]).degree()              # on prend le degree d'un node quelquonque comme premier minimum
+        min = self.get_node_by_id(self.get_node_ids()[0]).degree()              # on prend le degree d'un node quelquonque comme premier minimum
         for node in self.get_nodes() :
             degree = node.degree()
-            if degree < max :
+            if degree < min :
                 min = degree
         return min
 
@@ -574,5 +574,4 @@ def graph_from_adjacency_matrix(matrix) :           # renvoie un graphe correspo
             for _ in range(matrix[i][j]) :
                 graph.add_edge(j, i)                # on a decide arbitrairement que la valeur de matrix[i][j] correspondrait a une arete de j vers i
 
-    return graph                                    # bug a regler : pb si matrice tro petite : certains sommets n existent pas mais sont des enfants quand meme
-                                                    # test a finir
+    return graph
