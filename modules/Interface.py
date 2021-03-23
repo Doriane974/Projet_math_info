@@ -79,6 +79,8 @@ def rotate(self, theta, c=point(0,0)):
 argument : p1 : point
            p2 : point
 return : float (angle en radian)'''
+################################################################################
+#                        Demander une vérification                             #
 def slope_angle(p1, p2):                #Beugué, il faut pouvoir avoir des angles négatif, la c'est une valeur absolue
     Ni=1
     Xvi = 1
@@ -94,22 +96,17 @@ arguments : p0 : point de départ de la courbe
             paux :
             p1 : point d'arrivée de la courbe
             dt : optionnal, le pas de la courbe, par défaut dt = 0.1
+return : none
+def Bezier(self, p0, paux, p1, dt = 0.1):'''
+
+
+'''méthode qui dessine une arrete entre 2 point, en prenant en compte le fait
+que le graphe soit orienté et que il puisse y avoir plusieurs arrete entre 2 point
+argument : p1 : point
+           p2 : point
+           arretep1p2: le nomdre d'arrete entre p1 et p2 (par défaut 1)
+           arretep2p1: le nombre d'arrete entre p2 et p1 (par défaut 1)
 return : none '''
-'''def Bezier(self, p0, paux, p1, dt = 0.1):
-
-
-
-méthode qui dessine une ligne
-    arguments : p1 : point de départ de la ligne
-            p2 : point d'arrivée de la ligne'''
-
-''''Vecteur dir en tre p1 et p2, on le normaliste pour qu'il ai tout le temps la meme taille (*10/par la norme)
-*-1 si on le veut dans l'autre sens
-Tu calcules le vecteur orthogonal (pour le texte par exemple)
-Tu calcules ton milieu, tu le copie une fois, tu ajoute ton vecteur directeur, tu le recopies pour avoir les 2 coté de la fleche,
-et tu rotate pour avoir l'autre coté.
-
-'''
 def drawarrows(self, p1, p2, arretep1p2 = 1, arretep2p1 = 1):
     self.line([p1.n(), p2.n()], 'black')
     VectP1P2 = point(p2.x - p1.x, p2.y - p1.y)                                                  # le vecteur entre p1 et p2
@@ -147,40 +144,6 @@ def drawarrows(self, p1, p2, arretep1p2 = 1, arretep2p1 = 1):
 
 
 
-    '''self.line([p1.n(), p2.n()], 'black')
-    ph = point(0,0)
-    pb = point(0,0)
-    pm = point(0,0)
-    pm.x = ((p1.x + p2.x)/2)
-    pm.y = ((p1.y + p2.y)/2)
-    ############################################################
-    #                       De p1 à p2                         #
-    if (n > 0):
-        ph.x = (pm.x + 8*math.cos(slope_angle(p1,p2)+math.pi/6))
-        ph.y = (pm.y + 8*math.sin(slope_angle(p1,p2)+math.pi/6))
-        #self.text(ph.x-10,ph.y-10), str(n), fill='black')
-        pb.x = (pm.x + 8*math.cos(slope_angle(p1,p2)-math.pi/6))
-        pb.y = (pm.y + 8*math.sin(slope_angle(p1,p2)-math.pi/6))
-        ps = point(0,0)
-        ps.x = (pm.x + 10*math.cos(slope_angle(p1,p2)-math.pi/2))
-        ps.y = (pm.y + 10*math.sin(slope_angle(p1,p2)-math.pi/2))
-        self.text((ps.x,ps.y), str(n), fill='green')
-        self.line([pm.n(), pb.n()], 'green')
-        self.line([pm.n(), ph.n()], 'green')
-    ############################################################
-    #                       De p2 à p1                         #
-    if(m > 0):
-        ph.x = (pm.x + 8*math.cos(slope_angle(p2,p1)+math.pi/6))
-        ph.y = (pm.y + 8*math.sin(slope_angle(p2,p1)+math.pi/6))
-        #self.text(ph.x-10,ph.y-10), str(n), fill='black')
-        pb.x = (pm.x + 8*math.cos(slope_angle(p2,p1)-math.pi/6))
-        pb.y = (pm.y + 8*math.sin(slope_angle(p2,p1)-math.pi/6))
-        ps = point(0,0)
-        ps.x = (pm.x + 10*math.cos(slope_angle(p2,p1)+math.pi/2))
-        ps.y = (pm.y + 10*math.sin(slope_angle(p2,p1)+math.pi/2))
-        self.text((ps.x,ps.y), str(m), fill='purple')
-        self.line([pm.n(), pb.n()], 'purple')
-        self.line([pm.n(), ph.n()], 'purple')'''
 
 
 '''méthode apppliquée a draw qui dessine un noeud
