@@ -512,7 +512,10 @@ class bool_circ(open_digraph):
         super().__init__(g.inputs, g.get_nodes(), g.outputs)
         self.circBool = g.is_well_formed()       # exo 7 TD6, a décommenté quand exo6 fait
 
-
+    '''methode qui convertit un circuit en graphe
+    arguments : circ, circuit a convertir
+    return : g, le graphe correspondant au circuit circ
+    '''
     def convert(self, circ):
         #circ :  un circuit booléen bool_circ
         g = open_digraph([],[],[])
@@ -521,6 +524,13 @@ class bool_circ(open_digraph):
         g.outputs = self.get_outputs_ids()
         return g
 
+
+
+    '''methode qui verifie si un circuit est bien un circuit booleen
+    arguments : non
+    return : True si le circuit est bien forme i.e. si il est valide et acyclique
+            False sinon
+    '''
 
     def is_well_formed(self) :
         acyclique = self.is_cyclic()
@@ -564,13 +574,3 @@ def graph_from_adjacency_matrix(matrix) :           # renvoie un graphe correspo
 
     return graph                                    # bug a regler : pb si matrice tro petite : certains sommets n existent pas mais sont des enfants quand meme
                                                     # test a finir
-
-        #
-        # def graph_from_adjacency_matrix(matrix) :
-        #     return True #justepour pouvoir compiler
-        #     #graph = open_digraph.empty()
-        #     #for i in range len(matrix) :
-        #     #    #for j in range len(matrix[i]) :
-        #     #        if matrix[i][j] != 0 :
-        #     #            graph.add_node('a', )
-        #
