@@ -508,6 +508,34 @@ class open_digraph: #for open directed graph
 
 
 
+
+        #TD7
+
+    '''methode qui compose parallelement deux cycles booleen, en en modifiant un mais pas l'autre
+    arguments : g, le graphe a composer dans self
+    return : none
+    '''
+    def iparallel(self,g):
+        for input_id in g.get_inputs_ids():
+            self.add_input_id(input_id)
+        for output_id in g.get_outputs_ids():
+            self.add_output_id(output_id)
+        for node_id in g.get_node_ids():
+            slef.add_node(str(g.get_node_by_id(node_id).get_label()), g.get_parent_ids(), g.get_children_ids())
+
+    '''methode qui compose parallelement deux cycles booleen, sans les modifier
+    arguments : g, le graphe a composer avec self
+    return : graph, un nouveau graph qui est la composition parallele de g et de self
+    '''
+    def parallel(self,g):
+        graph = self.copy()
+        graph.iparallel(g)
+        return graph
+
+
+
+
+
 class bool_circ(open_digraph):
     def __init__(self, g):
         #g : open_digraph
