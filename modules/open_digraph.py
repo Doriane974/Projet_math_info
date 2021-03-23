@@ -510,7 +510,7 @@ class bool_circ(open_digraph):
     def __init__(self, g):
         #g : open_digraph
         super().__init__(g.inputs, g.get_nodes(), g.outputs)
-        #self.bool = g.is_well_formed()       # exo 7 TD6, a décommenté quand exo6 fait 
+        #self.circBool = g.is_well_formed()       # exo 7 TD6, a décommenté quand exo6 fait 
 
 
     def convert(self, circ):
