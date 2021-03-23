@@ -121,6 +121,10 @@ class NodeTest(unittest.TestCase):
         self.assertEqual(self.n0.get_children_ids(),[3])
 
 
+    def test_outdegree(self):
+        self.assertEqual(self.n0.outdegree(), 1)
+
+
 
 class DigraphTest(unittest.TestCase):
 
@@ -239,7 +243,7 @@ class DigraphTest(unittest.TestCase):
         self.n1 = node(1, 'b', [0], [])
         self.d0 = open_digraph([0],[1],[self.n0, self.n1])
         self.d0.remove_node_by_id(1)
-        self.assertEqual(self.d0.get_nodes(), {0:self.n0})
+        self.assertEqual(self.d0.get_nodes(), [self.n0])
 
     def test_remove_edges(self):
         self.n0 = node(0, 'a', [], [1])
@@ -255,7 +259,7 @@ class DigraphTest(unittest.TestCase):
         self.n1 = node(1, 'b', [0], [])
         self.d0 = open_digraph([0],[1],[self.n0, self.n1])
         self.d0.remove_nodes_by_id([1,0])       #tester avec plusieurs ids
-        self.assertEqual(self.d0.get_nodes(), {})
+        self.assertEqual(self.d0.get_nodes(), [])
 
     def test_is_well_formed(self):
         self.assertTrue(self.d0.is_well_formed())
