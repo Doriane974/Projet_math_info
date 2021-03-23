@@ -136,7 +136,7 @@ class node:
         return self.indegree() + self.outdegree()
 
     def change_id_node(self, n):
-        node.id = node.id + n
+        self.id = self.get_id() + n
 
 
 class open_digraph: #for open directed graph
@@ -147,7 +147,7 @@ class open_digraph: #for open directed graph
         #nodes: node list;
         self.inputs = inputs
         self.outputs = outputs
-        self.nodes = {node.id:node for node in nodes} # self.nodes: <int,node> dict
+        self.nodes = {node.get_id() : node for node in nodes} # self.nodes: <int,node> dict
 
     def __str__(self):
         return "(" + str(self.inputs) +"," + str(self.outputs) +","+ str(print(self.nodes)) + ")" #il faut utiliser __repr__
@@ -201,7 +201,7 @@ class open_digraph: #for open directed graph
     argument : id : l'id dont on veut savoir si elle existe ou non
     return : bool : True si l'id existe, False sinon '''
     def id_exists_in_graph(self,id):
-        if id in self.nodes:
+        if id in self.get_id_node_map():
             return True
         else:
             return False
@@ -218,7 +218,7 @@ class open_digraph: #for open directed graph
     def get_node_by_ids(self, node_ids):              # renvoie une liste de noeuds a partir d’une liste d’ids
         return [self.nodes.get(i) for i in node_ids]
 
-    '''méthode appliquée au graphe qui affecte input_ids aus inputs du graph
+    '''méthode appliquée au graphe qui affecte input_ids aux inputs du graph
     argument : inputs_ids : id list
     return : none '''
     def set_input_ids (self, input_ids) :              # affecte les inputs du graphe a input_ids
@@ -358,28 +358,31 @@ class open_digraph: #for open directed graph
     return : none
     '''
     def change_id(self, node_id, new_id):
-        if(self.id_exists_in_graph(new_id)==False):
-            #self.get_node_by_id(node_id).id = new_id
-            for i in self.get_node_by_id(node_id).get_parent_ids():
-                children= self.get_node_by_id(i).get_children_ids()
-                for j in range(len(children)):
-                    if (children[j] == node_id):
-                        children[j] = new_id
-            for i in self.get_node_by_id(node_id).get_children_ids():
-                parents =  self.get_node_by_id(i).get_parent_ids()
-                for j in range(len(parents)):
-                    if(parents[j] == node_id):
-                        parents[j]=new_id
-            for i in range(len(self.get_inputs_ids())):
-                if (self.get_inputs_ids()[i]==node_id):
-                    self.inputs[i]=new_id
-            for i in range(len(self.get_outputs_ids())):
-                if (self.get_outputs_ids()[i]==node_id):
-                    self.outputs[i]=new_id
-            self.nodes[new_id]=self.get_nodes()[node_id]
-            self.nodes.pop(node_id)
-        else:
-            raise ValueError('new id already exists')
+        #if(self.id_exists_in_graph(new_id) ):
+        #self.get_node_by_id(node_id).id = new_id
+        for i in self.get_node_by_id(node_id).get_parent_ids():                 #i parcours une liste des parents du node d'id node_id
+            children= self.get_node_by_id(i).get_children_ids()                 #children prend la valeur de la liste des ids des children du node d'id i (donc chaque parent du node d'id node_id)
+            for j in range(len(children)):                                      #on parcours tous les elemens de children
+                if (children[j] == node_id):
+                    children[j] = new_id
+            self.get_node_by_id(i).children = children
+        for i in self.get_node_by_id(node_id).get_children_ids():
+            parents =  self.get_node_by_id(i).get_parent_ids()
+            for j in range(len(parents)):
+                if(parents[j] == node_id):
+                    parents[j]=new_id
+            self.get_node_by_id(i).parents = parents 
+        for i in range(len(self.get_inputs_ids())):
+            if (self.get_inputs_ids()[i]==node_id):
+                self.inputs[i]=new_id
+        for i in range(len(self.get_outputs_ids())):
+            if (self.get_outputs_ids()[i]==node_id):
+                self.outputs[i]=new_id
+        self.nodes[new_id]=self.get_node_by_id(node_id)
+        self.nodes.pop(node_id)
+        #else:
+        #    print(new_id)
+        #    raise ValueError('new id already exists')
 
     '''méthode qui change plusieurs ids du graphe. Méthode appliquée au graphe.
     argument: change : liste de couple. Premier élément des couple : id a remplacer. Deuxieme élément ; id par lequel remplacer
@@ -509,23 +512,30 @@ class open_digraph: #for open directed graph
 
     '''méthode qui ajoute n a tous les indices du graphe'''
     def shift_indices(self, n):
-        for node in self.inputs :
-            node.change_id_node(n)
-        for node in self.outputs :
-            node.change_id_node(n)
-        for id in self.nodes:
-            new_id = self.nodes[id].get_id() + n
-            self.nodes[id].id = new_id
-            self.nodes[new_id] = self.get_node_by_id(new_id)
-            self.nodes.pop(id)
+        for id in self.inputs :
+            self.get_node_by_id(id).change_id_node(n)
+        for id in self.outputs :
+            self.get_node_by_id(id).change_id_node(n)
+        L = []
+        for id in self.get_node_ids():
+            L.append((id, id + n))
+            self.change_ids(L)
+
 
 
 
 class bool_circ(open_digraph):
-    def __init__(self, g):
-        #g : open_digraph
-        super().__init__(g.inputs, g.get_nodes(), g.outputs)
-        self.circBool = g.is_well_formed()
+    def __init__(self,g):
+        '''
+        Méthode __init__ :
+        Initialise un circuit booléen à partir du graph
+        g: open_digraph
+        '''
+        self.inputs = g.get_inputs_ids()
+        self.outputs = g.get_outputs_ids()
+        self.nodes = g.get_id_node_map() # self.nodes: <int,node> dict
+        if (g.is_well_formed() == False ):
+            raise Exception("Désolé, le circuit booleen est mal formé")
 
     '''methode qui convertit un circuit en graphe
     arguments : circ, circuit a convertir
@@ -562,25 +572,25 @@ class bool_circ(open_digraph):
     argument : none
     return : un indice '''
     def min_id(self):
-        if(self.nodes == []):
+        if(self.get_node_ids() == []):
             return 0
-        id = self.nodes[0].get_id()
-        for node in self.nodes :
-            if (node.get_id()<id) :
-                id = node.get_id()
-        return id
+        idmin = self.get_node_ids()[0]
+        for id in self.get_node_ids() :
+            if (id <idmin) :
+                idmin = id
+        return idmin
 
     '''méthode appliquée a un circuit booleen, qui donne l'indice maximum du circuit
     argument : none
     return : un indice '''
     def max_id(self):
-        if (self.nodes == []):
+        if (self.get_node_ids() == []):
             return 0
-        id = self.nodes[0].get_id()
-        for node in self.node :
-            if(node.get_id()>id):
-                id = node.get_id()
-        return id
+        idmax = self.get_node_ids()[0]
+        for id in self.get_node_ids() :
+            if (id >idmax) :
+                idmax = id
+        return idmax
 
 
 
