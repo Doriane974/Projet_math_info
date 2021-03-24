@@ -523,6 +523,8 @@ class open_digraph: #for open directed graph
                    return False
         return is_cyclic_aux(self.get_node_ids())
 
+    #TD7
+
     '''méthode qui ajoute n a tous les indices du graphe'''
     def shift_indices(self, n):
         for id in self.inputs : #changer ici
@@ -535,12 +537,7 @@ class open_digraph: #for open directed graph
         self.change_ids(L)
 
 
-
-
-
-        #TD7
-
-    '''methode qui compose parallelement deux cycles booleen, en en modifiant un mais pas l'autre
+    '''methode qui compose parallelement deux open_digraph, en en modifiant un mais pas l'autre
     arguments : g, le graphe a composer dans self
     return : none
     '''
@@ -552,7 +549,7 @@ class open_digraph: #for open directed graph
         for node_id in g.get_node_ids():
             slef.add_node(str(g.get_node_by_id(node_id).get_label()), g.get_parent_ids(), g.get_children_ids())
 
-    '''methode qui compose parallelement deux cycles booleen, sans les modifier
+    '''methode qui compose parallelement deux open_digraph, sans les modifier
     arguments : g, le graphe a composer avec self
     return : graph, un nouveau graph qui est la composition parallele de g et de self
     '''
@@ -561,6 +558,10 @@ class open_digraph: #for open directed graph
         graph.iparallel(g)
         return graph
 
+    '''methode qui compose séquentiellement deux open_digraph, en en modifiant un (self) mais pas l'autre
+    arguments : g, le graphe a composer dans self
+    return : none
+    '''
     def icompose(self, g):
         if(len(self.get_inputs_ids()) != len(g.get_outputs_ids())):
             raise Exception("les entrées de self ne coincident pas avec les sorties de g")
@@ -575,11 +576,21 @@ class open_digraph: #for open directed graph
             self.remove_node_by_id(id)
         self.set_input_ids(g.get_inputs_ids())
 
+    '''methode qui compose séquentiellement 2 open_digraphs, sans les modifier
+    arguments : g, le graphe a composer avec self
+    return : graph, un nouveau graph qui est la composition parallele de g et de self
+    '''
     def compose(self, g):
         graph = self.copy()
         graph.icompose(g)
-        return graph 
+        return graph
 
+    '''méthode qui renvoie le nombre de composante donnexe d'un graphe, et un
+    dictionnaire qui associe a chaque id de noeuds du graph un int qui correspond à une composante connexe
+    arguments : none
+    return : int, dict
+    '''
+    '''def connected_components(self):'''
 
 
 
