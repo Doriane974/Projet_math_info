@@ -91,6 +91,13 @@ class node:
     def add_parent_id (self, parent_id) :           # ajoute une valeur a la liste des id des parents du node (int)
         self.parents.append(parent_id)
 
+    '''méthode appliquée au node qui ajoute une liste de valeur a la liste des ids des parents de ce node
+    arguments : parents_ids : liste d'id à ajouter
+    return : none '''
+    def add_parents_ids (self, parents_ids):
+        for id in parents_ids :
+            self.add_parent_id(id)
+
     '''méthode appliquée au node qui retire la valeur spécifiée a la liste des ids des parents du node
     argument : parent id : id
     return : none '''
@@ -204,10 +211,8 @@ class open_digraph: #for open directed graph
         print("id =", id)
         print("liste node = ",self.get_node_ids())
         if id in self.get_node_ids():
-            print("True")
             return True
         else:
-            print("print False")
             return False
 
     '''Méthode appliquée au graphe qui renvoie le node dont l'id correspond a id
@@ -306,7 +311,10 @@ class open_digraph: #for open directed graph
             self.get_node_by_id(parent).remove_child_id_all(id)
         for child in self.get_node_by_id(id).get_children_ids() :
             self.get_node_by_id(child).remove_parent_id_all(id)
-        del self.nodes[id]
+        remove_all(self.inputs, id)
+        remove_all(self.outputs, id)
+        self.nodes.pop(id)
+
 
     ''''''
     '''méthode appliquée au graphe qui retire plusieurs arretes du graphe, entre les nodes compris dans 2 listes. modifie le graphe
@@ -552,6 +560,27 @@ class open_digraph: #for open directed graph
         graph = self.copy()
         graph.iparallel(g)
         return graph
+
+    def icompose(self, g):
+        if(len(self.get_inputs_ids()) != len(g.get_outputs_ids())):
+            raise Exception("les entrées de self ne coincident pas avec les sorties de g")
+        Lg_outputs = []
+        for id in g.get_node_ids():
+            new_id = self.add_node(g.get_node_by_id().get_label(), g.get_node_by_id().get_parent_ids(), g.get_node_by_id().get_children_ids())
+            if id in g.get_outputs_ids() :
+                Lg_outputs.append(new_id)
+        for output_de_g, input_de_self in zip(Lg_outputs, self.get_inputs_ids()):
+            self.add_edge(output_de_g, self.get_node_by_id(input_de_self).get_children_ids())
+        for id in self.get_inputs_ids():
+            self.remove_node_by_id(id)
+        self.set_input_ids(g.get_inputs_ids())
+
+    def compose(self, g):
+        graph = self.copy()
+        graph.icompose(g)
+        return graph 
+
+
 
 
 
