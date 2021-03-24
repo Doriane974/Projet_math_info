@@ -201,9 +201,13 @@ class open_digraph: #for open directed graph
     argument : id : l'id dont on veut savoir si elle existe ou non
     return : bool : True si l'id existe, False sinon '''
     def id_exists_in_graph(self,id):
-        if id in self.get_id_node_map():
+        print("id =", id)
+        print("liste node = ",self.get_node_ids())
+        if id in self.get_node_ids():
+            print("True")
             return True
         else:
+            print("print False")
             return False
 
     '''Méthode appliquée au graphe qui renvoie le node dont l'id correspond a id
@@ -358,39 +362,40 @@ class open_digraph: #for open directed graph
     return : none
     '''
     def change_id(self, node_id, new_id):
-        #if(self.id_exists_in_graph(new_id) ):
-        #self.get_node_by_id(node_id).id = new_id
-        for i in self.get_node_by_id(node_id).get_parent_ids():                 #i parcours une liste des parents du node d'id node_id
-            children= self.get_node_by_id(i).get_children_ids()                 #children prend la valeur de la liste des ids des children du node d'id i (donc chaque parent du node d'id node_id)
-            for j in range(len(children)):                                      #on parcours tous les elemens de children
-                if (children[j] == node_id):
-                    children[j] = new_id
-            self.get_node_by_id(i).children = children
-        for i in self.get_node_by_id(node_id).get_children_ids():
-            parents =  self.get_node_by_id(i).get_parent_ids()
-            for j in range(len(parents)):
-                if(parents[j] == node_id):
-                    parents[j]=new_id
-            self.get_node_by_id(i).parents = parents 
-        for i in range(len(self.get_inputs_ids())):
-            if (self.get_inputs_ids()[i]==node_id):
-                self.inputs[i]=new_id
-        for i in range(len(self.get_outputs_ids())):
-            if (self.get_outputs_ids()[i]==node_id):
-                self.outputs[i]=new_id
-        self.nodes[new_id]=self.get_node_by_id(node_id)
-        self.nodes.pop(node_id)
-        #else:
-        #    print(new_id)
-        #    raise ValueError('new id already exists')
+        if(not self.id_exists_in_graph(new_id)):
+            print("node_id =", node_id," new_id = ", new_id)
+            for i in self.get_node_by_id(node_id).get_parent_ids():                 #i parcours une liste des parents du node d'id node_id
+                print("i=",i)
+                children= self.get_node_by_id(i).get_children_ids()                 #children prend la valeur de la liste des ids des children du node d'id i (donc chaque parent du node d'id node_id)
+                for j in range(len(children)):                                      #on parcours tous les elemens de children
+                    if (children[j] == node_id):
+                        children[j] = new_id
+                self.get_node_by_id(i).children = children
+            for i in self.get_node_by_id(node_id).get_children_ids():
+                parents =  self.get_node_by_id(i).get_parent_ids()
+                for j in range(len(parents)):
+                    if(parents[j] == node_id):
+                        parents[j]=new_id
+                self.get_node_by_id(i).parents = parents
+            for i in range(len(self.get_inputs_ids())):
+                if (self.get_inputs_ids()[i]==node_id):
+                    self.inputs[i]=new_id
+            for i in range(len(self.get_outputs_ids())):
+                if (self.get_outputs_ids()[i]==node_id):
+                    self.outputs[i]=new_id
+            self.nodes[new_id]=self.get_node_by_id(node_id)
+            self.nodes.pop(node_id)
+        else:
+            print(new_id)
+            raise ValueError('new id already exists')
 
     '''méthode qui change plusieurs ids du graphe. Méthode appliquée au graphe.
     argument: change : liste de couple. Premier élément des couple : id a remplacer. Deuxieme élément ; id par lequel remplacer
     return : none '''
     def change_ids(self, change):
         sorted(change, key = lambda t: t[1])
-        for couple in range(len(change)) :
-            self.change_id(change[couple][0], change[couple][1])
+        for couple in change :
+            self.change_id(couple[0], couple[1])
 
     '''méthode appliquée a un graph qui renvoie un graph correspondant a la matrice d'adjacence de type form , de taille n*n et avec des valeurs entre 0 et bound
     argument : n : int : taille de la matrice
@@ -512,14 +517,14 @@ class open_digraph: #for open directed graph
 
     '''méthode qui ajoute n a tous les indices du graphe'''
     def shift_indices(self, n):
-        for id in self.inputs :
+        for id in self.inputs : #changer ici
             self.get_node_by_id(id).change_id_node(n)
         for id in self.outputs :
             self.get_node_by_id(id).change_id_node(n)
         L = []
         for id in self.get_node_ids():
             L.append((id, id + n))
-            self.change_ids(L)
+        self.change_ids(L)
 
 
 
