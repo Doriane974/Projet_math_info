@@ -72,7 +72,7 @@ angle = slope_angle(p0, p4)
 print(angle)
 print(slope_angle(p4,p0))
 
-#print(g.is_cyclic())
+print("g is cyclic = ", g.is_cyclic())
 
 
 b1 = node(1, '1', [], [3]) #l'entrée du graphe
@@ -89,5 +89,16 @@ print("indice max :" , c.max_id())
 c.shift_indices(15)
 print("indice min :", c.min_id())
 print("indice max :" , c.max_id())
+
+b0 = node(0, 'a', [], [1])
+b1 = node(1, 'b', [0], [2])
+b2 = node(2, 'c', [1], [])
+b = open_digraph([0],[2],[b0, b1, b2])
+c0 = node(0, 'a', [], [1, 2])
+c1 = node(1, 'b', [0], [])
+c2 = node(2, 'c', [0], [])
+c0 = open_digraph([0],[1,2],[c0, c1, c2])
+
+c0.icompose(b)
 
 image.save("test.jpg")

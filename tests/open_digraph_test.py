@@ -325,7 +325,61 @@ class DigraphTest(unittest.TestCase):
     def test_min_degree(self):
         self.assertEqual(self.d0.min_degree(), 1)
 
-    
+    def test_is_cyclic(self):
+        self.n0 = node(0, 'a', [2], [1])
+        self.n1 = node(1, 'b', [0], [2])
+        self.n2 = node(2, 'c', [1], [0])
+        self.d0 = open_digraph([0],[2],[self.n0, self.n1, self.n2])
+        self.assertTrue(self.d0.is_cyclic())
+        self.b0 = node(0, 'a', [], [1])
+        self.b1 = node(1, 'b', [0], [2])
+        self.b2 = node(2, 'c', [1], [])
+        self.b = open_digraph([0],[2],[self.b0, self.b1, self.b2])
+        self.assertFalse(self.b.is_cyclic())
+
+    def test_shift_indice(self):
+        self.n0 = node(0, 'a', [2], [1])
+        self.n1 = node(1, 'b', [0], [2])
+        self.n2 = node(2, 'c', [1], [0])
+        self.d0 = open_digraph([0],[2],[self.n0, self.n1, self.n2])
+        self.d0.shift_indices(3)
+        self.assertEqual(self.d0.get_node_ids(), [3,4,5])
+        self.b0 = node(0, 'a', [], [1])
+        self.b1 = node(1, 'b', [0], [2])
+        self.b2 = node(2, 'c', [1], [])
+        self.b = open_digraph([0],[2],[self.b0, self.b1, self.b2])
+        self.b.shift_indices(-7)
+        self.assertEqual(self.b.get_node_ids(), [-7, -6, -5])
+        self.c0 = node(0, 'a', [2], [1])
+        self.c1 = node(1, 'b', [0], [2])
+        self.c2 = node(2, 'c', [1], [0])
+        self.c0 = open_digraph([0],[2],[self.c0, self.c1, self.c2])
+        self.c0.shift_indices(8)
+        self.assertEqual(self.c0.get_node_ids(), [8,9,10])
+
+    def test_icompose(self):
+        b0 = node(0, 'a', [], [1])
+        b1 = node(1, 'b', [0], [2])
+        b2 = node(2, 'c', [1], [])
+        b = open_digraph([0],[2],[b0, b1, b2])
+        b2 = open_digraph([0],[2],[b0, b1, b2])
+        c0 = node(0, 'a', [], [1, 2])
+        c1 = node(1, 'b', [0], [])
+        c2 = node(2, 'c', [0], [])
+        c0 = open_digraph([0],[1,2],[c0, c1, c2])
+        c0.icompose(b)
+        self.assertEqual(c0.get_node_ids(), [1,2,3,4,5])
+        self.assertEqual(c0.get_inputs_ids(), [3])
+
+
+
+
+
+
+
+
+
+
 
 
 

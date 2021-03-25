@@ -219,7 +219,7 @@ class open_digraph: #for open directed graph
     argument : id : id dont ont veut obtenir le node correspondant
     return : node '''
     def get_node_by_id(self, id):            # renvoie le node dont l'id correspond a id
-        return self.nodes.get(id)
+        return self.nodes.get(id) #get() se fait sur un dictionnaire, ici self.nodes est bien un dictionnaire
 
     '''méthode appliquée au graphe qui renvoie une liste de noeuds a partir d'une liste d'id
     argument : node_ids : id list
@@ -336,6 +336,8 @@ class open_digraph: #for open directed graph
     '''Méthode appliquée au graphe qui vérifie si il est bien formé
     arguments : none
     return : bool : True si bien formé, False sinon'''
+    ############################################################################
+    ###                   Ne passe pas le test je crois                        #
     def is_well_formed(self):                       # verifie si le graphe est correctement forme
         #########################################
         #              A modifier ?              #
@@ -512,20 +514,25 @@ class open_digraph: #for open directed graph
              False sinon
     '''
     def is_cyclic(self):
-        def is_cyclic_aux(listnodes):
-            if not listnodes:
-                return True
+        def is_cyclic_aux(g, listnodes):
+            if (listnodes==[]):
+                return False
             for i in range(len(listnodes)):
-                if (self.get_node_by_id(listnodes[i]).get_children_ids() == []):
+                print(listnodes)
+                if (g.get_node_by_id(listnodes[i]).get_children_ids() == []):
+                    g.remove_node_by_id(listnodes[i])
                     listnodes.remove(listnodes[i])
-                    return is_cyclic_aux(listnodes)
+                    return is_cyclic_aux(g, listnodes)
                 if (i==len(listnodes)-1) :
-                   return False
-        return is_cyclic_aux(self.get_node_ids())
+                   return True
+        g = self.copy()
+        return is_cyclic_aux(g, g.get_node_ids())
 
     #TD7
 
-    '''méthode qui ajoute n a tous les indices du graphe'''
+    '''méthode qui ajoute n a tous les indices du graphe
+    arguments : n : int
+    return : none '''
     def shift_indices(self, n):
         for id in self.inputs : #changer ici
             self.get_node_by_id(id).change_id_node(n)
@@ -562,24 +569,34 @@ class open_digraph: #for open directed graph
     arguments : g, le graphe a composer dans self
     return : none
     '''
+    ############################################################################
+    ##                               A tester                                 ##
     def icompose(self, g):
         if(len(self.get_inputs_ids()) != len(g.get_outputs_ids())):
             raise Exception("les entrées de self ne coincident pas avec les sorties de g")
         Lg_outputs = []
+        lg_inputs = []
         for id in g.get_node_ids():
-            new_id = self.add_node(g.get_node_by_id().get_label(), g.get_node_by_id().get_parent_ids(), g.get_node_by_id().get_children_ids())
+            new_id = self.add_node(g.get_node_by_id(id).get_label(), g.get_node_by_id(id).get_parent_ids(), g.get_node_by_id(id).get_children_ids())
             if id in g.get_outputs_ids() :
                 Lg_outputs.append(new_id)
+            if id in g.get_inputs_ids():
+                lg.inputs.append(new_id)
         for output_de_g, input_de_self in zip(Lg_outputs, self.get_inputs_ids()):
-            self.add_edge(output_de_g, self.get_node_by_id(input_de_self).get_children_ids())
+            self.add_edges(output_de_g, self.get_node_by_id(input_de_self).get_children_ids())
         for id in self.get_inputs_ids():
             self.remove_node_by_id(id)
         self.set_input_ids(g.get_inputs_ids())
+        print("la liste des inputs du nouveau graphe = ",self.get_inputs_ids())
+        print("la liste des outputs du nouveau graphe = ",self.get_outputs_ids())
+        print("la liste des ids du nouveau graphe = ",self.get_node_ids())
 
     '''methode qui compose séquentiellement 2 open_digraphs, sans les modifier
     arguments : g, le graphe a composer avec self
     return : graph, un nouveau graph qui est la composition parallele de g et de self
     '''
+    ############################################################################
+    ##                               A tester                                 ##
     def compose(self, g):
         graph = self.copy()
         graph.icompose(g)
@@ -644,6 +661,8 @@ class bool_circ(open_digraph):
     '''méthode appliquée a un circuit booleen, qui donne l'indice minimum du circuit
     argument : none
     return : un indice '''
+    ############################################################################
+    ##                               A tester                                 ##
     def min_id(self):
         if(self.get_node_ids() == []):
             return 0
@@ -656,6 +675,8 @@ class bool_circ(open_digraph):
     '''méthode appliquée a un circuit booleen, qui donne l'indice maximum du circuit
     argument : none
     return : un indice '''
+    ############################################################################
+    ##                               A tester                                 ##
     def max_id(self):
         if (self.get_node_ids() == []):
             return 0
