@@ -534,9 +534,14 @@ class open_digraph: #for open directed graph
     arguments : n : int
     return : none '''
     def shift_indices(self, n):
-        for id in self.inputs : #changer ici
+        #trier dans l'ordre décroissant a chaque fois. edit : en fait ca résout pas le problème
+        list_inputs = self.get_inputs_ids()
+        list_inputs.sort(reverse=True)
+        list_outputs = self.get_outputs_ids()
+        list_outputs.sort(reverse=True)
+        for id in list_inputs :
             self.get_node_by_id(id).change_id_node(n)
-        for id in self.outputs :
+        for id in list_outputs :
             self.get_node_by_id(id).change_id_node(n)
         L = []
         for id in self.get_node_ids():

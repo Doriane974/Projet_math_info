@@ -356,6 +356,12 @@ class DigraphTest(unittest.TestCase):
         self.c0 = open_digraph([0],[2],[self.c0, self.c1, self.c2])
         self.c0.shift_indices(8)
         self.assertEqual(self.c0.get_node_ids(), [8,9,10])
+        '''self.f0 = node(0, 'a', [2], [1])
+        self.f1 = node(1, 'b', [0], [2])
+        self.f2 = node(2, 'c', [1], [0])
+        self.f0 = open_digraph([0],[2],[self.f0, self.f1, self.f2])
+        self.f0.shift_indices(2)
+        self.assertEqual(self.f0.get_node_ids(), [2,3,4])'''
 
     def test_icompose(self):
         b0 = node(0, 'a', [], [1])
@@ -389,7 +395,7 @@ class bool_circ(unittest.TestCase):
 
     def test_convert(self):
         pass
-    
+
     def test_min_id(self):
         pass
 
