@@ -384,8 +384,17 @@ class DigraphTest(unittest.TestCase):
         c0 = open_digraph([0],[1,2],[c0, c1, c2])
         f = c0.compose(b)
         c0.icompose(b)
-        
 
+class bool_circ(unittest.TestCase):
+
+    def test_convert(self):
+        pass
+    
+    def test_min_id(self):
+        pass
+
+    def test_max_id(self):
+        pass
 
 
 
