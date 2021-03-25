@@ -569,8 +569,6 @@ class open_digraph: #for open directed graph
     arguments : g, le graphe a composer dans self
     return : none
     '''
-    ############################################################################
-    ##                               A tester                                 ##
     def icompose(self, g):
         if(len(self.get_inputs_ids()) != len(g.get_outputs_ids())):
             raise Exception("les entrées de self ne coincident pas avec les sorties de g")
@@ -581,22 +579,19 @@ class open_digraph: #for open directed graph
             if id in g.get_outputs_ids() :
                 Lg_outputs.append(new_id)
             if id in g.get_inputs_ids():
-                lg.inputs.append(new_id)
+                lg_inputs.append(new_id)
         for output_de_g, input_de_self in zip(Lg_outputs, self.get_inputs_ids()):
             self.add_edges(output_de_g, self.get_node_by_id(input_de_self).get_children_ids())
         for id in self.get_inputs_ids():
+            print()
             self.remove_node_by_id(id)
-        self.set_input_ids(g.get_inputs_ids())
-        print("la liste des inputs du nouveau graphe = ",self.get_inputs_ids())
-        print("la liste des outputs du nouveau graphe = ",self.get_outputs_ids())
-        print("la liste des ids du nouveau graphe = ",self.get_node_ids())
+        self.set_input_ids(lg_inputs)
+
 
     '''methode qui compose séquentiellement 2 open_digraphs, sans les modifier
     arguments : g, le graphe a composer avec self
     return : graph, un nouveau graph qui est la composition parallele de g et de self
     '''
-    ############################################################################
-    ##                               A tester                                 ##
     def compose(self, g):
         graph = self.copy()
         graph.icompose(g)

@@ -370,6 +370,21 @@ class DigraphTest(unittest.TestCase):
         c0.icompose(b)
         self.assertEqual(c0.get_node_ids(), [1,2,3,4,5])
         self.assertEqual(c0.get_inputs_ids(), [3])
+        self.assertEqual(c0.get_outputs_ids(), [1,2])
+
+    def test_compose(self):
+        b0 = node(0, 'a', [], [1])
+        b1 = node(1, 'b', [0], [2])
+        b2 = node(2, 'c', [1], [])
+        b = open_digraph([0],[2],[b0, b1, b2])
+        b2 = open_digraph([0],[2],[b0, b1, b2])
+        c0 = node(0, 'a', [], [1, 2])
+        c1 = node(1, 'b', [0], [])
+        c2 = node(2, 'c', [0], [])
+        c0 = open_digraph([0],[1,2],[c0, c1, c2])
+        f = c0.compose(b)
+        c0.icompose(b)
+        
 
 
 
