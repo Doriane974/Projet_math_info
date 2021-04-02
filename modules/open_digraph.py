@@ -610,6 +610,100 @@ class open_digraph: #for open directed graph
     '''def connected_components(self):'''
 
 
+    '''algorithme de dijkstra
+    arguments : src : id du node initial
+                tgt : optionnel : id du node dont on veut donnaitre l eplus court chemian entre lui et src
+                direction : optionnel : peut prendre la valeur 1, -1 ou None, décrit la drirection dans laquelle
+                                        on va chercher le plus court chemin '''
+    def dijkstra(self, src, tgt = None, direction = None) :
+        Q = [src]
+        dist = {}
+        dist[src] = 0
+        prev = {}
+        while(Q != []):
+            u = min(Q, key = lambda x:dist[x] ) #une fonction qui a x associe dist x
+            remove_all(Q, u)
+            neighbour=[]
+            if (direction == -1):
+                neighbour = self.get_node_by_id(u).get_parent_ids()
+            if(direction == 1 ):
+                neighbour = self.get_node_by_id(u).get_children_ids()
+            if (direction == None):
+                neighbour = self.get_node_by_id(u).get_parent_ids()
+                for id in self.get_node_by_id(u).get_children_ids():
+                    neighbour.append(id)
+            for v in neighbour:
+                if(not (v in dist)):
+                    Q.append(v)
+                if ( (not(v in dist)) or (dist[v]>dist[u]+1)):
+                    dist[v] = dist[u]+1
+                    prev[v] = u
+        '''Faire la 1ere partie de exo 2 '''
+        return dist, prev
+
+    '''Méthode qui s'applique a un graphe, qui calcule le chemin le plus court entre 2 node, de src vers tgt
+    arguments : src : node
+                tgt : node
+    return : int : shortest distance entre src et tgt '''
+    def shortest_path(self, src, tgt):
+        dist, prev = self.dijkstra(src, tgt)
+        return dist[tgt]
+
+    '''méthode qui s'applique a un graphe, qui, étant donné 2 noeuds, renvoie un dictionnaire
+    qui associe a chaque ancetres commun des deux noeuds sa distance a chacun des 2 noeuds
+    arguments : src1 : noeud
+                src2 : noeud
+    return : dictionnaire
+    '''
+    def dist_common_ancestors(self, src1, src2):
+        dist_1, prev_1 = self.dijkstra(src1, tgt = None, direction = -1)
+        dist_2, prev_2 = self.dijkstra(src2)
+        dist_common_ancestors = {}
+        for id_node_ancetre_de_1 in dist_1:
+            for id_node_ancetre_de_2 in dist_2:
+                if (id_node_ancetre_de_1 == id_node_ancetre_de_2):
+                    dist_common_ancestors[id_node_ancetre_de_2] = (dist_1[id_node_ancetre_de_1], dist_2[id_node_ancetre_de_2])
+        return dist_common_ancestors
+
+
+
+
+
+
+        '''stopSoon = False
+        if (tgt != None):
+            StopSoon = True
+        Initial = src
+        path = {}
+        adj_node = {}
+        queue = []
+        if(!stopSoon):
+            if (direction == None) :
+                for nodeId in self.get_node_ids():
+                    path[nodeId]=float("infini")
+                    adj_node[nodeId]=None
+                    queue.append(nodeId)
+            if(direction == 1):
+                i=0
+                for nodeId in self.get_node_ids():
+                    if (nodeId == Src):
+                        return i
+                    else :
+                        i++
+
+
+            while queue :
+                key_min = queue[0]
+                min_val = path[key_min]
+                for n in range(1,(len(queue))):
+                    if path[queue[n]] < min_val :
+                        key_min = queue[n]'''
+
+
+
+
+
+
 
 
 

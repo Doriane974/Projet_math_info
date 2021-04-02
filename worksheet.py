@@ -83,7 +83,7 @@ b5 = node(5,'~',[4],[])
 b= open_digraph([1,2],[5],[b1,b2,b3,b4,b5])
 
 
-c = bool_circ(b);
+'''c = bool_circ(b);
 print("indice min :", c.min_id())
 print("indice max :" , c.max_id())
 c.shift_indices(15)
@@ -99,6 +99,13 @@ c1 = node(1, 'b', [0], [])
 c2 = node(2, 'c', [0], [])
 c0 = open_digraph([0],[1,2],[c0, c1, c2])
 
-c0.icompose(b)
+c0.icompose(b)'''
+
+dist, prev = b.dijkstra(3, -1)
+print("dist de dijsktra :",dist)
+print("previous de djilstra", prev)
+print("shortest path de 2 à 5 =", b.shortest_path(2,5))
+print("dist_common_ancestors, dist dist_common_ancestors de 3 et 4 :", b.dist_common_ancestors(3,4))
+
 
 image.save("test.jpg")
