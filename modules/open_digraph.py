@@ -612,7 +612,7 @@ class open_digraph: #for open directed graph
 
     '''algorithme de dijkstra
     arguments : src : id du node initial
-                tgt : optionnel : id du node dont on veut donnaitre l eplus court chemian entre lui et src
+                tgt : optionnel : id du node dont on veut donnaitre l eplus court chemin entre lui et src
                 direction : optionnel : peut prendre la valeur 1, -1 ou None, décrit la drirection dans laquelle
                                         on va chercher le plus court chemin '''
     def dijkstra(self, src, tgt = None, direction = None) :
@@ -664,49 +664,6 @@ class open_digraph: #for open directed graph
                 if (id_node_ancetre_de_1 == id_node_ancetre_de_2):
                     dist_common_ancestors[id_node_ancetre_de_2] = (dist_1[id_node_ancetre_de_1], dist_2[id_node_ancetre_de_2])
         return dist_common_ancestors
-
-
-
-
-
-
-        '''stopSoon = False
-        if (tgt != None):
-            StopSoon = True
-        Initial = src
-        path = {}
-        adj_node = {}
-        queue = []
-        if(!stopSoon):
-            if (direction == None) :
-                for nodeId in self.get_node_ids():
-                    path[nodeId]=float("infini")
-                    adj_node[nodeId]=None
-                    queue.append(nodeId)
-            if(direction == 1):
-                i=0
-                for nodeId in self.get_node_ids():
-                    if (nodeId == Src):
-                        return i
-                    else :
-                        i++
-
-
-            while queue :
-                key_min = queue[0]
-                min_val = path[key_min]
-                for n in range(1,(len(queue))):
-                    if path[queue[n]] < min_val :
-                        key_min = queue[n]'''
-
-
-
-
-
-
-
-
-
 
 class bool_circ(open_digraph):
     def __init__(self,g):
@@ -779,6 +736,29 @@ class bool_circ(open_digraph):
             if (id >idmax) :
                 idmax = id
         return idmax
+
+
+
+    def parse_parenthese(s):
+        g = bool_circ(0,'',[],[]);
+        current_node = 0
+        s2 = ''
+        for char in s :
+            if(char == '()'):
+                g.get_node_by_id(current_node).set_label(s2) # est ce que c'ets bon? ou on ne fait juste rien? ou on crée une nouvelle méthode add_label ?
+                new = g.add_node('',[],[current_node])
+                current_node = new
+                s2 = ''
+            else:
+                if( char == ')' ):
+                    g.get_node_by_id(current_node).set_label(s2)
+                    id = g.get_node_by_id(current_node).get_children_ids()
+                    current_node = id[0]
+                    s2 = ''
+                else :
+                    s2 = s2 + char
+        return g 
+
 
 
 
