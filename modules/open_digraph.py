@@ -607,19 +607,14 @@ class open_digraph: #for open directed graph
     arguments : none
     return : int, dict
     '''
-    def connected_components(self):
-        nb_CC = 0
-        dic = {}
-        for node in self.get_nodes()
-        return (nb_CC, dic)
-
-
-
+    '''def connected_components(self):'''
 
 
     '''algorithme de dijkstra
+    ############################################################################
+    ###########                   A DEBUGUER                         ###########
     arguments : src : id du node initial
-                tgt : optionnel : id du node dont on veut donnaitre l eplus court chemin entre lui et src
+                tgt : optionnel : id du node dont on veut donnaitre le plus court chemin entre lui et src
                 direction : optionnel : peut prendre la valeur 1, -1 ou None, décrit la drirection dans laquelle
                                         on va chercher le plus court chemin '''
     def dijkstra(self, src, tgt = None, direction = None) :
@@ -671,6 +666,41 @@ class open_digraph: #for open directed graph
                 if (id_node_ancetre_de_1 == id_node_ancetre_de_2):
                     dist_common_ancestors[id_node_ancetre_de_2] = (dist_1[id_node_ancetre_de_1], dist_2[id_node_ancetre_de_2])
         return dist_common_ancestors
+
+    '''méthode appliquée a ungraphe qui fuisionne 2 nodes en un seul.
+    arguments : id1 : id du premier noeud à fusionner
+                id 2 : id du deuxieme noeud a fusionner
+                label : par défaut : none, le label a donner au noeud créé par la fusion.
+                        Si rien n'est préciser, le label de la fusion sera le label du noeud d'id id1
+    return : None
+    '''
+    def fusion_nodes(self, id1, id2, label = None):
+        #on ajoute aux enfant de id1 les enfants de id2
+        print("fusion node,id1 =", id1)
+        print("fusion node,self.get_node_by_id(id1) = ", self.get_node_by_id(id1))
+        for child2 in self.get_node_by_id(id2).get_children_ids():
+            self.get_node_by_id(id1).add_child_id(child2)
+        #on ajoute aux parents de id1 les parents de id2
+        for parent2 in self.get_node_by_id(id2).get_parent_ids():
+            self.get_node_by_id(id1).add_parent_id(parent2);
+        #on ajoute remplace id1 par id2 dans la liste des inputs
+        for i in range(len(self.get_inputs_ids())):
+            if ( self.get_inputs_ids()[i] == id2):
+                self.inputs[i] = id1
+        #on ajoute remplace id1 par id2 dans la liste des outputs
+        for i in range(len(self.get_outputs_ids())):
+            if ( self.get_outputs_ids()[i] == id2):
+                self.outputs[i] = id1
+        #on ajoute le bon label
+        if(label != None ):
+            self.get_node_by_id(id1).set_label(label)
+        self.remove_node_by_id(id2)
+
+
+
+
+
+
 
 class bool_circ(open_digraph):
     def __init__(self,g):
@@ -734,7 +764,7 @@ class bool_circ(open_digraph):
     argument : none
     return : un indice '''
     ############################################################################
-    ##                               A tester                                 ##
+    ##                               A TESTER                                 ##
     def max_id(self):
         if (self.get_node_ids() == []):
             return 0
@@ -745,28 +775,85 @@ class bool_circ(open_digraph):
         return idmax
 
 
-
+    '''fonction qui transfore une formule propositionnelle en circuit booleen
+    argument : s : string, la formule propociitonnelle a transformer
+    return : un circuit booleen '''
+    #############################   A TESTER   #################################
     def parse_parenthese(s):
-        g = bool_circ(0,'',[],[]);
+        prems = node(0,'',[],[])
+        g = open_digraph([],[0],[prems]);
+        bc = bool_circ(g);
         current_node = 0
         s2 = ''
         for char in s :
-            if(char == '()'):
-                g.get_node_by_id(current_node).set_label(s2) # est ce que c'ets bon? ou on ne fait juste rien? ou on crée une nouvelle méthode add_label ?
-                new = g.add_node('',[],[current_node])
+            if(char == '('):
+                bc.get_node_by_id(current_node).set_label(bc.get_node_by_id(current_node).get_label() + s2) # il faut concatener
+                new = bc.add_node('',[],[current_node])
                 current_node = new
                 s2 = ''
             else:
                 if( char == ')' ):
-                    g.get_node_by_id(current_node).set_label(s2)
-                    id = g.get_node_by_id(current_node).get_children_ids()
+                    bc.get_node_by_id(current_node).set_label(bc.get_node_by_id(current_node).get_label() + s2)
+                    id = bc.get_node_by_id(current_node).get_children_ids()
                     current_node = id[0]
                     s2 = ''
                 else :
                     s2 = s2 + char
-        return g 
+        '''exo3 '''
+        passe_prochain = False
+        for i in range(len(s)) :
+            if (passe_prochain == True):
+                passe_prochain = False
+            else:
+                if( (s[i] != '&') and (s[i]!= '~') and (s[i] != '|')):
+                    passe_prochain = True
+                    bc.add_input_id(s[i] + s[i+1])
 
 
+        return bc
+
+    '''version temporaire pour exo3 en cours'''
+    def parse_parenthese_2(s):
+        prems = node(0,'',[],[])
+        g = open_digraph([],[0],[prems]);
+        bc = bool_circ(g);
+        current_node = 0
+        s2 = ''
+        passe_prochain = False
+        for char in s :
+            if (passe_prochain == true) :
+                passe_prochain = False
+            else :
+                if(char == '('):
+                    bc.get_node_by_id(current_node).set_label(bc.get_node_by_id(current_node).get_label() + s2) # il faut concatener
+                    new = bc.add_node('',[],[current_node])
+                    current_node = new
+                    s2 = ''
+                else:
+                    if( char == ')' ):
+                        bc.get_node_by_id(current_node).set_label(bc.get_node_by_id(current_node).get_label() + s2)
+                        id = bc.get_node_by_id(current_node).get_children_ids()
+                        current_node = id[0]
+                        s2 = ''
+                    else :
+                        s2 = s2 + char
+                        if( (s[i] != '&') and (s[i]!= '~') and (s[i] != '|')):
+                            passe_prochain = True
+                            bc.add_node(s2,  )
+
+
+        '''exo3'''
+        passe_prochain = False
+        for i in range(len(s)) :
+            if (passe_prochain == True):
+                passe_prochain = False
+            else:
+                if( (s[i] != '&') and (s[i]!= '~') and (s[i] != '|')):
+                    passe_prochain = True
+                    bc.add_input_id(s[i] + s[i+1])
+
+
+        return bc
 
 
 
@@ -801,3 +888,9 @@ def graph_from_adjacency_matrix(matrix) :           # renvoie un graphe correspo
                 graph.add_edge(j, i)                # on a decide arbitrairement que la valeur de matrix[i][j] correspondrait a une arete de j vers i
 
     return graph
+
+
+
+#bug parse_parenthese
+#rajouter s2 au label de current node ?? dans parse parenthese, seudo code
+#exo 2 : fusionner, quand est il des inputs, outputs?
