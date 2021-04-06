@@ -607,7 +607,14 @@ class open_digraph: #for open directed graph
     arguments : none
     return : int, dict
     '''
-    '''def connected_components(self):'''
+    def connected_components(self):
+        nb_CC = 0
+        dic = {}
+        for node in self.get_nodes()
+        return (nb_CC, dic)
+
+
+
 
 
     '''algorithme de dijkstra
