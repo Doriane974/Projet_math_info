@@ -824,27 +824,35 @@ class bool_circ(open_digraph):
                 else :
                     s2 = s2 + char
         #il ajouter aux inputs les nodes qui n'ont pas de parents
-        for node in bc.get_nodes():
-            if (node.get_parent_ids() == []):
-                bc.inputs.append(node.get_id())
+        for node1 in bc.get_nodes():
+            if (node1.get_parent_ids() == []):
+                bc.add_input_id(node1.get_id())
         #Il faut fusionner les nodes qui ont le meme label
         fusion = []
         fusionner = False
-        for i in range(len(bc.get_nodes())):
-            label = bc.get_nodes()[i].get_label()
-            for j in range(i, len(bc.get_nodes())):
-                if(label == bc.get_nodes()[j]):
+        print(bc.get_inputs_ids())
+        for i in range(len(bc.get_inputs_ids())):
+            label = bc.get_node_by_id(bc.get_inputs_ids()[i]).get_label()
+            print("label = ",label)
+            print("fusionner = ", fusionner)
+            #while((fusionner == False) and (i != len(bc.get_inputs_ids()) -1)):
+            print("i =", i)
+            for j in range(i+1 , len(bc.get_inputs_ids())):
+                if(label == bc.get_node_by_id(bc.get_inputs_ids()[j]).get_label()):
                     fusionner = True
-                    fusion = [bc.get_nodes()[i], bc.get_nodes()[j]]
+                    fusion = [bc.get_node_by_id(bc.get_inputs_ids()[i]), bc.get_node_by_id(bc.get_inputs_ids()[j])]
         while (fusionner == True) :
             bc.fusion_nodes(fusion[0].get_id(), fusion[1].get_id())
             fusionner = False
-            for i in range(len(bc.get_nodes())):
-                label = bc.get_nodes()[i].get_label()
-                for j in range(i, len(bc.get_nodes())):
-                    if(label == bc.get_nodes()[j]):
+            for i in range(len(bc.get_inputs_ids())):
+                print("i dans le deuxieme while = ", i)
+                label = bc.get_node_by_id(bc.get_inputs_ids()[i]).get_label()
+                #while((fusionner == False) and (i != len(bc.get_inputs_ids()) -1)):
+                for j in range(i+1 , len(bc.get_inputs_ids())):
+                    print("j dans le deuxieme while = ", j )
+                    if(label == bc.get_node_by_id(bc.get_inputs_ids()[j]).get_label()):
                         fusionner = True
-                        fusion = [bc.get_nodes()[i], bc.get_nodes()[j]]
+                        fusion = [bc.get_node_by_id(bc.get_inputs_ids()[i]), bc.get_node_by_id(bc.get_inputs_ids()[j])]
         return bc
 
 

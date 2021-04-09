@@ -99,10 +99,6 @@ c1 = node(1, 'b', [0], [])
 c2 = node(2, 'c', [0], [])
 c0 = open_digraph([0],[1,2],[c0, c1, c2])
 
-
-
-print("test dans Worksheet, avant fusion_node, c0.get_node_by_id(0) = ", c0.get_node_by_id(0)) # Ca me renvoie none ??
-print("test dans Worksheet, avant fusion_node, c0.get_node_by_id(1) = ", c0.get_node_by_id(1))
 c0.fusion_nodes(0,1)
 
 '''dist, prev = b.dijkstra(3, -1)
@@ -111,7 +107,7 @@ print("previous de djilstra", prev)
 print("shortest path de 2 à 5 =", b.shortest_path(2,5))
 print("dist_common_ancestors, dist dist_common_ancestors de 3 et 4 :", b.dist_common_ancestors(3,4))'''
 
-bc = bool_circ.parse_parenthese("((x0)&((x1)&(x2)))|((x1)&(~(x2)))")
+bc = bool_circ.parse_parenthese_2("((x0)&((x1)&(x2)))|((x1)&(~(x2)))")
 
 
 
