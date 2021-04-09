@@ -799,17 +799,6 @@ class bool_circ(open_digraph):
                     s2 = ''
                 else :
                     s2 = s2 + char
-        '''exo3 '''
-        passe_prochain = False
-        for i in range(len(s)) :
-            if (passe_prochain == True):
-                passe_prochain = False
-            else:
-                if( (s[i] != '&') and (s[i]!= '~') and (s[i] != '|')):
-                    passe_prochain = True
-                    bc.add_input_id(s[i] + s[i+1])
-
-
         return bc
 
     '''version temporaire pour exo3 en cours'''
@@ -819,40 +808,43 @@ class bool_circ(open_digraph):
         bc = bool_circ(g);
         current_node = 0
         s2 = ''
-        passe_prochain = False
         for char in s :
-            if (passe_prochain == true) :
-                passe_prochain = False
-            else :
-                if(char == '('):
-                    bc.get_node_by_id(current_node).set_label(bc.get_node_by_id(current_node).get_label() + s2) # il faut concatener
-                    new = bc.add_node('',[],[current_node])
-                    current_node = new
-                    s2 = ''
-                else:
-                    if( char == ')' ):
-                        bc.get_node_by_id(current_node).set_label(bc.get_node_by_id(current_node).get_label() + s2)
-                        id = bc.get_node_by_id(current_node).get_children_ids()
-                        current_node = id[0]
-                        s2 = ''
-                    else :
-                        s2 = s2 + char
-                        if( (s[i] != '&') and (s[i]!= '~') and (s[i] != '|')):
-                            passe_prochain = True
-                            bc.add_node(s2,  )
+            if(char == '('):
+                bc.get_node_by_id(current_node).set_label(bc.get_node_by_id(current_node).get_label() + s2) # il faut concatener
+                new = bc.add_node('',[],[current_node])
+                current_node = new
 
-
-        '''exo3'''
-        passe_prochain = False
-        for i in range(len(s)) :
-            if (passe_prochain == True):
-                passe_prochain = False
+                s2 = ''
             else:
-                if( (s[i] != '&') and (s[i]!= '~') and (s[i] != '|')):
-                    passe_prochain = True
-                    bc.add_input_id(s[i] + s[i+1])
-
-
+                if( char == ')' ):
+                    bc.get_node_by_id(current_node).set_label(bc.get_node_by_id(current_node).get_label() + s2)
+                    id = bc.get_node_by_id(current_node).get_children_ids()
+                    current_node = id[0]
+                    s2 = ''
+                else :
+                    s2 = s2 + char
+        #il ajouter aux inputs les nodes qui n'ont pas de parents
+        for node in bc.get_nodes():
+            if (node.get_parent_ids() == []):
+                bc.inputs.append(node.get_id())
+        #Il faut fusionner les nodes qui ont le meme label
+        fusion = []
+        fusionner = False
+        for i in range(len(bc.get_nodes())):
+            label = bc.get_nodes()[i].get_label()
+            for j in range(i, len(bc.get_nodes())):
+                if(label == bc.get_nodes()[j]):
+                    fusionner = True
+                    fusion = [bc.get_nodes()[i], bc.get_nodes()[j]]
+        while (fusionner == True) :
+            bc.fusion_nodes(fusion[0].get_id(), fusion[1].get_id())
+            fusionner = False
+            for i in range(len(bc.get_nodes())):
+                label = bc.get_nodes()[i].get_label()
+                for j in range(i, len(bc.get_nodes())):
+                    if(label == bc.get_nodes()[j]):
+                        fusionner = True
+                        fusion = [bc.get_nodes()[i], bc.get_nodes()[j]]
         return bc
 
 

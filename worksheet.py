@@ -113,4 +113,6 @@ print("dist_common_ancestors, dist dist_common_ancestors de 3 et 4 :", b.dist_co
 
 bc = bool_circ.parse_parenthese("((x0)&((x1)&(x2)))|((x1)&(~(x2)))")
 
+
+
 image.save("test.jpg")
