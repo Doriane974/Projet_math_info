@@ -224,7 +224,7 @@ def circle_layout(g, node_pos=None, input_pos=None, output_pos=None):
     center = point(200, 200)
     rayon = 175
     i=0
-    for id in g.get_nodes().keys():# la c
+    for id in g.get_id_node_map().keys():# la c
         node_pos[id]=point(rayon * math.cos(i*2*math.pi/nbnode) + center.x, rayon*math.sin(i*2*math.pi/nbnode)+ center.y )
         i=i+1
     j=0
@@ -236,6 +236,42 @@ def circle_layout(g, node_pos=None, input_pos=None, output_pos=None):
         output_pos[k]=point(node_pos[id].x + 25, node_pos[id].y + 25)
         k=k+1
     return node_pos, input_pos, output_pos
+
+def DAG_layout(g):
+    height = 400
+    j = g.copy()
+    couche = 0
+    for input_id in g.get_inputs_ids():
+        cpt = j.compte_generation(input_id, 0,0)
+        if(couche < cpt):
+            couche = cpt
+    ecarthauteur = height/couche
+    nodes = g.get_node_ids()
+    nodes_pos = {}
+    input_pos = []
+    output_pos = []
+    #On place tous les inputs
+    for input_id in g.get_inputs_ids():
+        abs = random.randrange(25,375)
+        nodes_pos[input_id] = point(abs, ecarthauteur)
+        input_pos.append(point(abs, ecarthauteur-25))
+        del nodes[input_id]
+
+    for output_id in g.get_outputs_ids():
+        abs = random.randrange(25,375)
+        nodes_pos[output_id] = point(abs, ecarthauteur)
+        output_pos.append(point(abs, ecarthauteur-25))
+        del nodes[output_id]
+
+    for id_node in nodes :
+        i=0
+        while(g.get_node_by_id(id_node).get_parent_ids()!=[]):
+            i = i+1
+            id_node = g.get_node_by_id(id_node).get_parent_ids()[0]
+        abs = random.randrange(25,375)
+        nodes_pos[id_node] = point(abs, ecarthauteur*i)
+
+    return nodes_pos, input_pos, output_pos
 
 '''méthode appiquée à draw qui dessine un graph
 arguments : g : graph que l'on veut dessiner
@@ -250,6 +286,9 @@ def drawgraph(self, g, node_pos=None, input_pos=None, output_pos=None, method='m
     else:
         if(method=='circle'):
             node_pos, input_pos, output_pos = circle_layout(g, node_pos, input_pos, output_pos)
+        else:
+            if(method == 'DAG'):
+                node_pos, input_pos, output_pos = DAG_layout(g)
     for i in range(len(g.get_inputs_ids())): #on trace l'entrée
         self.arrows(input_pos[i], node_pos[g.get_inputs_ids()[i]], 0, 1)
     for i in range(len(g.get_outputs_ids())): #on trace la sortie
@@ -258,6 +297,8 @@ def drawgraph(self, g, node_pos=None, input_pos=None, output_pos=None, method='m
         for child in g.get_nodes()[id].get_children_ids():
             n = count_occurrences(g.get_nodes()[id].get_children_ids(), child)
             m = count_occurrences(g.get_nodes()[id].get_parent_ids(), child)
+            print("Dans drawGraph, n = ",n, " et m = ",m)
+            print("Dans drawGraph, node_pos[id] =", node_pos.get(id, None), " et node_pos[child] = ",node_pos.get(child, -1))
             self.arrows(node_pos[id], node_pos[child], n, m)
     for id in g.get_node_ids(): # on trace les nodes
         self.node(g.get_node_by_id(id),node_pos[id], verbose)
