@@ -700,7 +700,23 @@ class open_digraph: #for open directed graph
         self.remove_node_by_id(id2)
         #print("fusion faite")
 
-
+    '''methode qui s'applique a un graphe qui compte le nombre maximal d'enfant d'un node.
+    arguments : id : l'id du noeud dont on veut connaitre le nombre de génération d'héritier il a
+                comptGlobal : un compteur, initialisé a 0 par défaut
+    return : le nombre de génération en dessous du node d'id id .
+    '''
+    def compte_generation(self, id_base, comptGlobal, comptLocal):
+        for id in self.get_node_by_id(id_base).get_children_ids(): #on parcourts les enfants de id_base
+            #print("compte_generation, dans la boucle for, id = ", id)
+            comptLocal = comptLocal + 1#si il a un enfant, on incrémente
+            if(self.get_node_by_id(id).get_children_ids() == []):#si cet enfant n'a pas d'enfant, on compare avec le cpt global
+                #print("dans Compte_generation, dans la boucle for, dans le if, i= ", comptLocal, "et cptGloabl = ", comptGlobal)
+                if ( comptLocal > comptGlobal):
+                    comptGlobal = comptLocal
+                    comptLocal = 0
+            else:
+                return self.compte_generation(id, comptGlobal,comptLocal)#si l'enfant a un enfant, on réappelle la fonction mais avec l'enfant de l'id de base ,
+        return comptGlobal
 
 
 
