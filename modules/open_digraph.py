@@ -208,8 +208,8 @@ class open_digraph: #for open directed graph
     argument : id : l'id dont on veut savoir si elle existe ou non
     return : bool : True si l'id existe, False sinon '''
     def id_exists_in_graph(self,id):
-        print("id =", id)
-        print("liste node = ",self.get_node_ids())
+        #print("id =", id)
+        #print("liste node = ",self.get_node_ids())
         if id in self.get_node_ids():
             return True
         else:
@@ -285,10 +285,10 @@ class open_digraph: #for open directed graph
         id=self.new_id()
         n0 = node(id, label, [],[])
         self.nodes[id]=n0
-        print('add_node1', n0, children)
+        #print('add_node1', n0, children)
         for i in parents:
             self.add_edge(i, id)
-        print('add_node2', n0, children)
+        #print('add_node2', n0, children)
         self.add_edges(id, children)
         return id
 
@@ -373,9 +373,9 @@ class open_digraph: #for open directed graph
     '''
     def change_id(self, node_id, new_id):
         if(not self.id_exists_in_graph(new_id)):
-            print("node_id =", node_id," new_id = ", new_id)
+            #print("node_id =", node_id," new_id = ", new_id)
             for i in self.get_node_by_id(node_id).get_parent_ids():                 #i parcours une liste des parents du node d'id node_id
-                print("i=",i)
+                #print("i=",i)
                 children= self.get_node_by_id(i).get_children_ids()                 #children prend la valeur de la liste des ids des children du node d'id i (donc chaque parent du node d'id node_id)
                 for j in range(len(children)):                                      #on parcours tous les elemens de children
                     if (children[j] == node_id):
@@ -396,7 +396,7 @@ class open_digraph: #for open directed graph
             self.nodes[new_id]=self.get_node_by_id(node_id)
             self.nodes.pop(node_id)
         else:
-            print(new_id)
+            #print(new_id)
             raise ValueError('new id already exists')
 
     '''méthode qui change plusieurs ids du graphe. Méthode appliquée au graphe.
@@ -431,8 +431,8 @@ class open_digraph: #for open directed graph
         elif form =="undirected":
             matrix = random_symetric_int_matrix(n, bound)
         graph = graph_from_adjacency_matrix(matrix)
-        print(matrix)
-        print(graph)
+        #print(matrix)
+        #print(graph)
         return graph
 
 
@@ -518,7 +518,7 @@ class open_digraph: #for open directed graph
             if (listnodes==[]):
                 return False
             for i in range(len(listnodes)):
-                print(listnodes)
+                #print(listnodes)
                 if (g.get_node_by_id(listnodes[i]).get_children_ids() == []):
                     g.remove_node_by_id(listnodes[i])
                     listnodes.remove(listnodes[i])
@@ -588,7 +588,6 @@ class open_digraph: #for open directed graph
         for output_de_g, input_de_self in zip(Lg_outputs, self.get_inputs_ids()):
             self.add_edges(output_de_g, self.get_node_by_id(input_de_self).get_children_ids())
         for id in self.get_inputs_ids():
-            print()
             self.remove_node_by_id(id)
         self.set_input_ids(lg_inputs)
 
@@ -676,25 +675,30 @@ class open_digraph: #for open directed graph
     '''
     def fusion_nodes(self, id1, id2, label = None):
         #on ajoute aux enfant de id1 les enfants de id2
-        print("fusion node,id1 =", id1)
-        print("fusion node,self.get_node_by_id(id1) = ", self.get_node_by_id(id1))
+        #print("fusion node,id1, id2 =", id1, "   ", id2)
+        #print("fusion node,self.get_node_by_id(id1) = ", self.get_node_by_id(id1))
         for child2 in self.get_node_by_id(id2).get_children_ids():
             self.get_node_by_id(id1).add_child_id(child2)
+        #print("fusion1")
         #on ajoute aux parents de id1 les parents de id2
         for parent2 in self.get_node_by_id(id2).get_parent_ids():
             self.get_node_by_id(id1).add_parent_id(parent2);
+        #print("fusion2")
         #on ajoute remplace id1 par id2 dans la liste des inputs
         for i in range(len(self.get_inputs_ids())):
             if ( self.get_inputs_ids()[i] == id2):
                 self.inputs[i] = id1
+        #print("fusion3")
         #on ajoute remplace id1 par id2 dans la liste des outputs
         for i in range(len(self.get_outputs_ids())):
             if ( self.get_outputs_ids()[i] == id2):
                 self.outputs[i] = id1
+        #print("fusion4")
         #on ajoute le bon label
         if(label != None ):
             self.get_node_by_id(id1).set_label(label)
         self.remove_node_by_id(id2)
+        #print("fusion faite")
 
 
 
@@ -804,8 +808,8 @@ class bool_circ(open_digraph):
     '''version temporaire pour exo3 en cours'''
     def parse_parenthese_2(s):
         prems = node(0,'',[],[])
-        g = open_digraph([],[0],[prems]);
-        bc = bool_circ(g);
+        g = open_digraph([],[0],[prems])
+        bc = bool_circ(g)
         current_node = 0
         s2 = ''
         for char in s :
@@ -828,31 +832,27 @@ class bool_circ(open_digraph):
             if (node1.get_parent_ids() == []):
                 bc.add_input_id(node1.get_id())
         #Il faut fusionner les nodes qui ont le meme label
-        fusion = []
-        fusionner = False
-        print(bc.get_inputs_ids())
-        for i in range(len(bc.get_inputs_ids())):
-            label = bc.get_node_by_id(bc.get_inputs_ids()[i]).get_label()
-            print("label = ",label)
-            print("fusionner = ", fusionner)
-            #while((fusionner == False) and (i != len(bc.get_inputs_ids()) -1)):
-            print("i =", i)
-            for j in range(i+1 , len(bc.get_inputs_ids())):
-                if(label == bc.get_node_by_id(bc.get_inputs_ids()[j]).get_label()):
-                    fusionner = True
-                    fusion = [bc.get_node_by_id(bc.get_inputs_ids()[i]), bc.get_node_by_id(bc.get_inputs_ids()[j])]
-        while (fusionner == True) :
-            bc.fusion_nodes(fusion[0].get_id(), fusion[1].get_id())
+        fusionner = True
+        #print(bc.get_inputs_ids())
+        while (fusionner) :
             fusionner = False
             for i in range(len(bc.get_inputs_ids())):
-                print("i dans le deuxieme while = ", i)
-                label = bc.get_node_by_id(bc.get_inputs_ids()[i]).get_label()
-                #while((fusionner == False) and (i != len(bc.get_inputs_ids()) -1)):
+                #print("i = ", i)
+                nodei = bc.get_node_by_id(bc.get_inputs_ids()[i])
+                labeli = nodei.get_label()
+                #print("labeli = ",labeli)
+                #print("fusionner = ", fusionner)
                 for j in range(i+1 , len(bc.get_inputs_ids())):
-                    print("j dans le deuxieme while = ", j )
-                    if(label == bc.get_node_by_id(bc.get_inputs_ids()[j]).get_label()):
+                    #print("j = ", j )
+                    nodej = bc.get_node_by_id(bc.get_inputs_ids()[j])
+                    labelj = nodej.get_label()
+                    #print("labelj = ",labelj)
+                    #print("fusionner = ", fusionner)
+                    if(labeli == labelj and nodei != nodej) :
+                        #print("fusioooooooon !")
                         fusionner = True
-                        fusion = [bc.get_node_by_id(bc.get_inputs_ids()[i]), bc.get_node_by_id(bc.get_inputs_ids()[j])]
+                        bc.fusion_nodes(nodei.get_id(), nodej.get_id())
+                #print("pouet")
         return bc
 
 
