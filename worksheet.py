@@ -1,8 +1,8 @@
-print('hello world');
+#print('hello world');
 
 from modules.open_digraph import *
 from modules.utils import *
-from modules.Interface import *
+#from modules.Interface import *
 import inspect
 
 
@@ -16,7 +16,7 @@ import inspect
 # print(graph_from_adjacency_matrix(matrix))
 #print(g.random_graph(5, 2, 'oriented'))
 
-
+'''
 
 
 
@@ -29,14 +29,8 @@ draw = ImageDraw.Draw(image)
 #draw.text((150,170), "& | ~", fill='black')
 #draw.ellipse((100, 100, 150, 200), fill='white', outline='black')
 #draw.line([(200,200), (200,400),(301,1)], 'black')
-n0 = node(0, 'A', [], [1]) #l'entrée du graphe
-n1 = node(1,'B',[0],[2, 2,4])
-n2 = node(2,'C',[1],[3,4])
-n3 = node(3,'D',[2],[]) #la sortie du graphe
-n4 = node(4,'E',[1,2],[])
-n5 = node(5,'F',[1,2], [] )
 
-g = open_digraph([0],[3],[n0,n1,n2,n3,n4,n5]);
+
 
 pentree = point(10,10)
 psortie = point(330, 170 )
@@ -75,6 +69,19 @@ draw.node(n4, p4, True)
 angle = slope_angle(p0, p4)
 print(angle)
 print(slope_angle(p4,p0))
+'''
+
+
+
+n0 = node(0, 'A', [], [1]) #l'entrée du graphe
+n1 = node(1,'B',[0],[2, 2,4])
+n2 = node(2,'C',[1],[3,4])
+n3 = node(3,'D',[2],[]) #la sortie du graphe
+n4 = node(4,'E',[1,2],[])
+n5 = node(5,'F',[1,2], [] )
+
+
+g = open_digraph([0],[3],[n0,n1,n2,n3,n4]);
 
 #print("g is cyclic = ", g.is_cyclic())
 
@@ -87,12 +94,12 @@ b5 = node(5,'~',[4],[])
 b= open_digraph([1,2],[5],[b1,b2,b3,b4,b5])
 
 
-'''c = bool_circ(b);
-print("indice min :", c.min_id())
-print("indice max :" , c.max_id())
+c = bool_circ(b);
+#print("indice min :", c.min_id())
+#print("indice max :" , c.max_id())
 c.shift_indices(15)
-print("indice min :", c.min_id())
-print("indice max :" , c.max_id())'''
+#print("indice min :", c.min_id())
+#print("indice max :" , c.max_id())
 
 '''b0 = node(0, 'a', [], [1])
 b1 = node(1, 'b', [0], [2])
@@ -116,4 +123,4 @@ print("compte generation, b.compte_generation = ",b.compte_generation(5,0,0))
 #print("compte generation, c.compte_generation = ",c.compte_generation(1,0))
 
 
-image.save("test.jpg")
+#image.save("test.jpg")

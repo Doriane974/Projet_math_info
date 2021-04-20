@@ -2,12 +2,6 @@ import operator
 import sys
 sys.path.append('../')
 from modules.utils import *
-from modules.open_digraph_composition_mx import *
-from modules.open_digraph_getters_mx import *
-from modules.open_digraph_add_mx import *
-from modules.open_digraph_calc_degrees_mx import *
-from modules.node_getters_mx import *
-
 
 
 class node:
@@ -60,7 +54,6 @@ class node:
     return : id list  '''
     def get_children_ids(self):         # renvoie la liste des enfants du node (int list)
         return self.children
-
 
     '''méthode appliquée au node qui affecte une valeur a l'id du node
     argument : id : id que l'on veut affecter
@@ -149,15 +142,11 @@ class node:
     def degree(self):                               # donne le degre du node
         return self.indegree() + self.outdegree()
 
-    '''méthode appliquée a un node qui change l'id de ce node, en additionnant n
-    à l'id actuel
-    argumetns : n : nombre a ajouté
-    return : none '''
     def change_id_node(self, n):
         self.id = self.get_id() + n
 
 
-class open_digraph(open_digraph_composition_mx, open_digraph_getters_mx,  open_digraph_calc_degrees_mx): #for open directed graph
+class open_digraph: #for open directed graph
 
     def __init__(self, inputs, outputs, nodes):
         #inputs: int list; the ids of the input nodes
@@ -185,16 +174,58 @@ class open_digraph(open_digraph_composition_mx, open_digraph_getters_mx,  open_d
     def empty():                            # renvoie un graphe vide (digraph)
         return open_digraph([],[],[])
 
+    '''méthode appliquée au graphe qui extrait la liste des ids des inputs du graphe
+    argument : none
+    return : int list '''
+    def get_inputs_ids(self):               # extrait la liste des ids des inputs du graphe (int list)
+        return self.inputs
+
+    '''méthode appliquée au graphe qui extrait la liste des ids des outputs du graphe
+    argument : none
+    return : int list '''
+    def get_outputs_ids(self):              # extrait la liste des ids des outputs du graphe (int list)
+        return self.outputs
+
+    '''méthode appliquée au graphe qui extrait le dictinnaire des nodes du graphe
+    argument : none
+    return : dictionnaire : keys : ids, values : nodes  '''
+    def get_id_node_map(self): #renvoie un dictionnaire id:nodes
+        return self.nodes
+
+    '''méthode appliquée au graphe qui renvoie une liste de tous les nodes du graphes
+    argument : none
+    return : node list '''
+    def get_nodes(self):    # renvoie une liste de tous les noeuds
+        return list(self.nodes.values())
+
+    '''méthode appliquée au graphe qui renvoie une liste de tous les ids des nodes du graphes
+    argument : none
+    return : int list '''
+    def get_node_ids(self):                 # renvoie une liste des ids des nodes (int list)
+        return [i for i in self.nodes.keys()]
+
     '''méthode appliquée au graphe qui vérifie si une id existe deja dans le graphe
     argument : id : l'id dont on veut savoir si elle existe ou non
     return : bool : True si l'id existe, False sinon '''
     def id_exists_in_graph(self,id):
-        print("id =", id)
-        print("liste node = ",self.get_node_ids())
+        #print("id =", id)
+        #print("liste node = ",self.get_node_ids())
         if id in self.get_node_ids():
             return True
         else:
             return False
+
+    '''Méthode appliquée au graphe qui renvoie le node dont l'id correspond a id
+    argument : id : id dont ont veut obtenir le node correspondant
+    return : node '''
+    def get_node_by_id(self, id):            # renvoie le node dont l'id correspond a id
+        return self.nodes.get(id) #get() se fait sur un dictionnaire, ici self.nodes est bien un dictionnaire
+
+    '''méthode appliquée au graphe qui renvoie une liste de noeuds a partir d'une liste d'id
+    argument : node_ids : id list
+    return : node list '''
+    def get_node_by_ids(self, node_ids):              # renvoie une liste de noeuds a partir d’une liste d’ids
+        return [self.nodes.get(i) for i in node_ids]
 
     '''méthode appliquée au graphe qui affecte input_ids aux inputs du graph
     argument : inputs_ids : id list
@@ -217,6 +248,19 @@ class open_digraph(open_digraph_composition_mx, open_digraph_getters_mx,  open_d
     argument : output_id : id à ajouter  '''
     def add_output_id (self, output_id) :               # ajoute une valeur a la liste des outputs du graphe
         self.outputs.append(output_id)
+
+    '''méthode appliquée au graphe qui  retourne un Id qui n'est pas utilisé dans le graphe
+    argument : none
+    return : un id '''
+    def new_id(self):                                   # renvoie un id non utilise par le graphe
+        dict = self.get_id_node_map()
+        if (dict =={}):
+            return -1
+        else:
+            if dict :
+                return (max(dict)+1) #quand je rajoute default=-1 ca bug
+            else :
+                return 0
 
     '''méthode appliquée au graphe qui ajoute une arrete entre 2 nodes
     argument : src : Id du node qui deviendra le parent
@@ -241,26 +285,12 @@ class open_digraph(open_digraph_composition_mx, open_digraph_getters_mx,  open_d
         id=self.new_id()
         n0 = node(id, label, [],[])
         self.nodes[id]=n0
-        print('add_node1', n0, children)
+        #print('add_node1', n0, children)
         for i in parents:
             self.add_edge(i, id)
-        print('add_node2', n0, children)
+        #print('add_node2', n0, children)
         self.add_edges(id, children)
         return id
-
-    '''méthode appliquée au graphe qui  retourne un Id qui n'est pas utilisé dans le graphe
-    argument : none
-    return : un id '''
-    def new_id(self):                                   # renvoie un id non utilise par le graphe
-        dict = self.get_id_node_map()
-        if (dict =={}):
-            return -1
-        else:
-            if dict :
-                return (max(dict)+1) #quand je rajoute default=-1 ca bug
-            else :
-                return 0
-
 
     '''méthode appliquée au graphe qui retire une arete du graph
     argument : src : id
@@ -343,9 +373,9 @@ class open_digraph(open_digraph_composition_mx, open_digraph_getters_mx,  open_d
     '''
     def change_id(self, node_id, new_id):
         if(not self.id_exists_in_graph(new_id)):
-            print("node_id =", node_id," new_id = ", new_id)
+            #print("node_id =", node_id," new_id = ", new_id)
             for i in self.get_node_by_id(node_id).get_parent_ids():                 #i parcours une liste des parents du node d'id node_id
-                print("i=",i)
+                #print("i=",i)
                 children= self.get_node_by_id(i).get_children_ids()                 #children prend la valeur de la liste des ids des children du node d'id i (donc chaque parent du node d'id node_id)
                 for j in range(len(children)):                                      #on parcours tous les elemens de children
                     if (children[j] == node_id):
@@ -366,7 +396,7 @@ class open_digraph(open_digraph_composition_mx, open_digraph_getters_mx,  open_d
             self.nodes[new_id]=self.get_node_by_id(node_id)
             self.nodes.pop(node_id)
         else:
-            print(new_id)
+            #print(new_id)
             raise ValueError('new id already exists')
 
     '''méthode qui change plusieurs ids du graphe. Méthode appliquée au graphe.
@@ -401,11 +431,82 @@ class open_digraph(open_digraph_composition_mx, open_digraph_getters_mx,  open_d
         elif form =="undirected":
             matrix = random_symetric_int_matrix(n, bound)
         graph = graph_from_adjacency_matrix(matrix)
-        print(matrix)
-        print(graph)
+        #print(matrix)
+        #print(graph)
         return graph
 
 
+    '''méthode qui s'applique a un graphe qui calcule le degré entrant maximum du graphe
+    argument : none
+    return : int '''
+    def max_indegree(self):
+        max = 0
+        for node in self.get_nodes() :
+            degree = node.indegree()
+            if degree > max :
+                max = degree
+        return max
+
+    '''méthode qui s'applique a un graphe qui calcule le degré entrant minimum du graphe
+    argument : none
+    return : int '''
+    def min_indegree(self):
+        if not self.get_node_ids():
+            return -1
+        min = self.get_node_by_id(self.get_node_ids()[0]).indegree()              # on prend le degree entrant d'un node quelquonque comme premier minimum
+        for node in self.get_nodes() :
+            degree = node.indegree()
+            if degree < min :
+                min = degree
+        return min
+
+    '''méthode qui s'applique a un graphe qui calcule le degré sortant maximum du graphe
+    argument : none
+    return : int '''
+    def max_outdegree(self):
+        max = 0
+        for node in self.get_nodes() :
+            degree = node.outdegree()
+            if degree > max :
+                max = degree
+        return max
+
+    '''méthode qui s'applique a un graphe qui calcule le degré sortant minimum du graphe
+    argument : none
+    return : int '''
+    def min_outdegree(self):
+        if not self.get_node_ids():
+            return -1
+        min = self.get_node_by_id(self.get_node_ids()[0]).outdegree()              # on prend le degree sortant d'un node quelquonque comme premier minimum
+        for node in self.get_nodes() :
+            degree = node.outdegree()
+            if degree < min :
+                min = degree
+        return min
+
+    '''méthode qui s'applique a un graphe qui calcule le degre maximum d'un graphe
+    argument : None
+    return : int '''
+    def max_degree(self):
+        max = 0
+        for node in self.get_nodes() :
+            degree = node.degree()
+            if degree > max :
+                max = degree
+        return max
+
+    '''méthode qui s'applique a un graphe qui calcule le degre minimum d'un graphe
+    argument : None
+    return : int '''
+    def min_degree(self):
+        if not self.get_node_ids():
+            return -1
+        min = self.get_node_by_id(self.get_node_ids()[0]).degree()              # on prend le degree d'un node quelquonque comme premier minimum
+        for node in self.get_nodes() :
+            degree = node.degree()
+            if degree < min :
+                min = degree
+        return min
 
     '''methode qui teste la cyclicité d'un graphe
     arguments : none
@@ -417,7 +518,7 @@ class open_digraph(open_digraph_composition_mx, open_digraph_getters_mx,  open_d
             if (listnodes==[]):
                 return False
             for i in range(len(listnodes)):
-                print(listnodes)
+                #print(listnodes)
                 if (g.get_node_by_id(listnodes[i]).get_children_ids() == []):
                     g.remove_node_by_id(listnodes[i])
                     listnodes.remove(listnodes[i])
@@ -447,6 +548,58 @@ class open_digraph(open_digraph_composition_mx, open_digraph_getters_mx,  open_d
             L.append((id, id + n))
         self.change_ids(L)
 
+
+    '''methode qui compose parallelement deux open_digraph, en en modifiant un mais pas l'autre
+    arguments : g, le graphe a composer dans self
+    return : none
+    '''
+    def iparallel(self,g):
+        for input_id in g.get_inputs_ids():
+            self.add_input_id(input_id)
+        for output_id in g.get_outputs_ids():
+            self.add_output_id(output_id)
+        for node_id in g.get_node_ids():
+            slef.add_node(str(g.get_node_by_id(node_id).get_label()), g.get_parent_ids(), g.get_children_ids())
+
+    '''methode qui compose parallelement deux open_digraph, sans les modifier
+    arguments : g, le graphe a composer avec self
+    return : graph, un nouveau graph qui est la composition parallele de g et de self
+    '''
+    def parallel(self,g):
+        graph = self.copy()
+        graph.iparallel(g)
+        return graph
+
+    '''methode qui compose séquentiellement deux open_digraph, en en modifiant un (self) mais pas l'autre
+    arguments : g, le graphe a composer dans self
+    return : none
+    '''
+    def icompose(self, g):
+        if(len(self.get_inputs_ids()) != len(g.get_outputs_ids())):
+            raise Exception("les entrées de self ne coincident pas avec les sorties de g")
+        Lg_outputs = []
+        lg_inputs = []
+        for id in g.get_node_ids():
+            new_id = self.add_node(g.get_node_by_id(id).get_label(), g.get_node_by_id(id).get_parent_ids(), g.get_node_by_id(id).get_children_ids())
+            if id in g.get_outputs_ids() :
+                Lg_outputs.append(new_id)
+            if id in g.get_inputs_ids():
+                lg_inputs.append(new_id)
+        for output_de_g, input_de_self in zip(Lg_outputs, self.get_inputs_ids()):
+            self.add_edges(output_de_g, self.get_node_by_id(input_de_self).get_children_ids())
+        for id in self.get_inputs_ids():
+            self.remove_node_by_id(id)
+        self.set_input_ids(lg_inputs)
+
+
+    '''methode qui compose séquentiellement 2 open_digraphs, sans les modifier
+    arguments : g, le graphe a composer avec self
+    return : graph, un nouveau graph qui est la composition parallele de g et de self
+    '''
+    def compose(self, g):
+        graph = self.copy()
+        graph.icompose(g)
+        return graph
 
     '''méthode qui renvoie le nombre de composante donnexe d'un graphe, et un
     dictionnaire qui associe a chaque id de noeuds du graph un int qui correspond à une composante connexe
@@ -522,25 +675,30 @@ class open_digraph(open_digraph_composition_mx, open_digraph_getters_mx,  open_d
     '''
     def fusion_nodes(self, id1, id2, label = None):
         #on ajoute aux enfant de id1 les enfants de id2
-        print("fusion node,id1 =", id1)
-        print("fusion node,self.get_node_by_id(id1) = ", self.get_node_by_id(id1))
+        #print("fusion node,id1, id2 =", id1, "   ", id2)
+        #print("fusion node,self.get_node_by_id(id1) = ", self.get_node_by_id(id1))
         for child2 in self.get_node_by_id(id2).get_children_ids():
             self.get_node_by_id(id1).add_child_id(child2)
+        #print("fusion1")
         #on ajoute aux parents de id1 les parents de id2
         for parent2 in self.get_node_by_id(id2).get_parent_ids():
             self.get_node_by_id(id1).add_parent_id(parent2);
+        #print("fusion2")
         #on ajoute remplace id1 par id2 dans la liste des inputs
         for i in range(len(self.get_inputs_ids())):
             if ( self.get_inputs_ids()[i] == id2):
                 self.inputs[i] = id1
+        #print("fusion3")
         #on ajoute remplace id1 par id2 dans la liste des outputs
         for i in range(len(self.get_outputs_ids())):
             if ( self.get_outputs_ids()[i] == id2):
                 self.outputs[i] = id1
+        #print("fusion4")
         #on ajoute le bon label
         if(label != None ):
             self.get_node_by_id(id1).set_label(label)
         self.remove_node_by_id(id2)
+        #print("fusion faite")
 
     '''methode qui s'applique a un graphe qui compte le nombre maximal d'enfant d'un node.
     arguments : id : l'id du noeud dont on veut connaitre le nombre de génération d'héritier il a
@@ -666,8 +824,8 @@ class bool_circ(open_digraph):
     '''version temporaire pour exo3 en cours'''
     def parse_parenthese_2(s):
         prems = node(0,'',[],[])
-        g = open_digraph([],[0],[prems]);
-        bc = bool_circ(g);
+        g = open_digraph([],[0],[prems])
+        bc = bool_circ(g)
         current_node = 0
         s2 = ''
         for char in s :
@@ -690,31 +848,27 @@ class bool_circ(open_digraph):
             if (node1.get_parent_ids() == []):
                 bc.add_input_id(node1.get_id())
         #Il faut fusionner les nodes qui ont le meme label
-        fusion = []
-        fusionner = False
-        print(bc.get_inputs_ids())
-        for i in range(len(bc.get_inputs_ids())):
-            label = bc.get_node_by_id(bc.get_inputs_ids()[i]).get_label()
-            print("label = ",label)
-            print("fusionner = ", fusionner)
-            #while((fusionner == False) and (i != len(bc.get_inputs_ids()) -1)):
-            print("i =", i)
-            for j in range(i+1 , len(bc.get_inputs_ids())):
-                if(label == bc.get_node_by_id(bc.get_inputs_ids()[j]).get_label()):
-                    fusionner = True
-                    fusion = [bc.get_node_by_id(bc.get_inputs_ids()[i]), bc.get_node_by_id(bc.get_inputs_ids()[j])]
-        while (fusionner == True) :
-            bc.fusion_nodes(fusion[0].get_id(), fusion[1].get_id())
+        fusionner = True
+        #print(bc.get_inputs_ids())
+        while (fusionner) :
             fusionner = False
             for i in range(len(bc.get_inputs_ids())):
-                print("i dans le deuxieme while = ", i)
-                label = bc.get_node_by_id(bc.get_inputs_ids()[i]).get_label()
-                #while((fusionner == False) and (i != len(bc.get_inputs_ids()) -1)):
+                #print("i = ", i)
+                nodei = bc.get_node_by_id(bc.get_inputs_ids()[i])
+                labeli = nodei.get_label()
+                #print("labeli = ",labeli)
+                #print("fusionner = ", fusionner)
                 for j in range(i+1 , len(bc.get_inputs_ids())):
-                    print("j dans le deuxieme while = ", j )
-                    if(label == bc.get_node_by_id(bc.get_inputs_ids()[j]).get_label()):
+                    #print("j = ", j )
+                    nodej = bc.get_node_by_id(bc.get_inputs_ids()[j])
+                    labelj = nodej.get_label()
+                    #print("labelj = ",labelj)
+                    #print("fusionner = ", fusionner)
+                    if(labeli == labelj and nodei != nodej) :
+                        #print("fusioooooooon !")
                         fusionner = True
-                        fusion = [bc.get_node_by_id(bc.get_inputs_ids()[i]), bc.get_node_by_id(bc.get_inputs_ids()[j])]
+                        bc.fusion_nodes(nodei.get_id(), nodej.get_id())
+                #print("pouet")
         return bc
 
 
