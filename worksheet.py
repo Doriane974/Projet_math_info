@@ -36,7 +36,7 @@ n3 = node(3,'D',[2],[]) #la sortie du graphe
 n4 = node(4,'E',[1,2],[])
 n5 = node(5,'F',[1,2], [] )
 
-g = open_digraph([0],[3],[n0,n1,n2,n3,n4]);
+g = open_digraph([0],[3],[n0,n1,n2,n3,n4,n5]);
 
 pentree = point(10,10)
 psortie = point(330, 170 )
@@ -76,7 +76,7 @@ angle = slope_angle(p0, p4)
 print(angle)
 print(slope_angle(p4,p0))
 
-print("g is cyclic = ", g.is_cyclic())
+#print("g is cyclic = ", g.is_cyclic())
 
 
 b1 = node(1, '1', [], [3]) #l'entrée du graphe
