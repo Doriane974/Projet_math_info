@@ -726,6 +726,61 @@ class bool_circ(open_digraph):
                 #print("pouet")
         return bc
 
+
+
+
+    # version exo 4 (incomplete)
+    def parse_parenthese_3(s):      # s une sequence de chaine de caractere
+        prems = node(0,'',[],[])
+        g = open_digraph([],[0],[prems])
+        bc = bool_circ(g)
+        current_node = 0
+        s2 = ''
+        for char in s :
+            if(char == '('):
+                bc.get_node_by_id(current_node).set_label(bc.get_node_by_id(current_node).get_label() + s2) # il faut concatener
+                new = bc.add_node('',[],[current_node])
+                current_node = new
+
+                s2 = ''
+            else:
+                if( char == ')' ):
+                    bc.get_node_by_id(current_node).set_label(bc.get_node_by_id(current_node).get_label() + s2)
+                    id = bc.get_node_by_id(current_node).get_children_ids()
+                    current_node = id[0]
+                    s2 = ''
+                else :
+                    s2 = s2 + char
+        #il ajouter aux inputs les nodes qui n'ont pas de parents
+        for node1 in bc.get_nodes():
+            if (node1.get_parent_ids() == []):
+                bc.add_input_id(node1.get_id())
+        #Il faut fusionner les nodes qui ont le meme label
+        fusionner = True
+        #print(bc.get_inputs_ids())
+        while (fusionner) :
+            fusionner = False
+            for i in range(len(bc.get_inputs_ids())):
+                #print("i = ", i)
+                nodei = bc.get_node_by_id(bc.get_inputs_ids()[i])
+                labeli = nodei.get_label()
+                #print("labeli = ",labeli)
+                #print("fusionner = ", fusionner)
+                for j in range(i+1 , len(bc.get_inputs_ids())):
+                    #print("j = ", j )
+                    nodej = bc.get_node_by_id(bc.get_inputs_ids()[j])
+                    labelj = nodej.get_label()
+                    #print("labelj = ",labelj)
+                    #print("fusionner = ", fusionner)
+                    if(labeli == labelj and nodei != nodej) :
+                        #print("fusioooooooon !")
+                        fusionner = True
+                        bc.fusion_nodes(nodei.get_id(), nodej.get_id())
+                #print("pouet")
+        return bc
+
+
+
     ########################################################################
     ################                A tester                ################
     def int_to_bool_circ(self, n, size_register):
@@ -753,7 +808,7 @@ class bool_circ(open_digraph):
         Applies the "data copy" rule of boolean circuits on the given nodes.
         output : int list; the list of nodes that were created
         '''
-        def apply_copy_rule(self, data_node_id, cp_node_id):            
+        def apply_copy_rule(self, data_node_id, cp_node_id):
             data = self.get_node_by_id(data_node_id).get_label()
             assert data in ['0','1'], "wrong data label"
             assert self.get_node_by_id(data_node_id).get_children()==[cp_node_id], \
@@ -805,9 +860,13 @@ def graph_from_adjacency_matrix(matrix) :           # renvoie un graphe correspo
     for i in range(len(matrix)) :
         for j in range(len(matrix[i])) :
             for _ in range(matrix[i][j]) :
+                #print('matrix =', matrix)
+                #print('i =', i)
+                #print('j =', j)
                 graph.add_edge(j, i)                # on a decide arbitrairement que la valeur de matrix[i][j] correspondrait a une arete de j vers i
 
     return graph
+    # Attention bug sneaky non resolu quand appel sur petit graph
 
 
 

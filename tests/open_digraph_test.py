@@ -285,7 +285,7 @@ class DigraphTest(unittest.TestCase):
 
 
     def test_random_graph(self):
-        self.assertTrue(self.d0.random_graph(2,2).is_well_formed())
+        self.assertTrue(self.d0.random_graph(5,5).is_well_formed())
 
     #
     # def test_graph_from_adjacency_matrix(self):
