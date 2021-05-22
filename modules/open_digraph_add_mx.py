@@ -22,9 +22,9 @@ class open_digraph_add_mx:
         id=self.new_id()
         n0 = node(id, label, [],[])
         self.nodes[id]=n0
-        print('add_node1', n0, children)
+        print("dans add_node, add_node1", n0, children)
         for i in parents:
             self.add_edge(i, id)
-        print('add_node2', n0, children)
+        print("dans add_node, add_node2", n0, children)
         self.add_edges(id, children)
         return id
