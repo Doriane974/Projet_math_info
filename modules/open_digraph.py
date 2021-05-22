@@ -157,6 +157,10 @@ class node:
         return : int '''
         return len(self.get_children_ids())
 
+
+    '''méthode qui s'applique a un node qui donne le degre entrant du node
+    argument : none
+    return : int '''
     def indegree(self):                             # donne le degre entrant du node
         '''méthode qui s'applique a un node qui donne le degre entrant du node
         argument : none
@@ -848,6 +852,12 @@ class bool_circ(open_digraph):
         return bc
 
 
+<<<<<<< HEAD
+=======
+        #def parse_parenthese_3(s):      # s est ici une séquence de chaînes de caractères
+
+
+>>>>>>> d46293cc9348b1d9fe5ab2b0e84d8d31349735de
 
 
     # version exo 4 (incomplete)

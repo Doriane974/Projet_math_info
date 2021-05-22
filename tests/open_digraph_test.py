@@ -284,8 +284,8 @@ class DigraphTest(unittest.TestCase):
         self.assertTrue(not self.d5.is_well_formed())
 
 
-    '''def test_random_graph(self):
-        self.assertTrue(self.d0.random_graph(2,2).is_well_formed())'''
+    def test_random_graph(self):
+        self.assertTrue(self.d0.random_graph(5,5).is_well_formed())
 
     #
     # def test_graph_from_adjacency_matrix(self):
@@ -466,7 +466,7 @@ class bool_circTest(unittest.TestCase):
         self.assertEqual(grapheBc.get_node_ids(), andBc.get_node_ids())
 
     def apply_xor_rule(self):
-        
+
 
 
 
