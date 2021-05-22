@@ -284,8 +284,8 @@ class DigraphTest(unittest.TestCase):
         self.assertTrue(not self.d5.is_well_formed())
 
 
-    def test_random_graph(self):
-        self.assertTrue(self.d0.random_graph(2,2).is_well_formed())
+    '''def test_random_graph(self):
+        self.assertTrue(self.d0.random_graph(2,2).is_well_formed())'''
 
     #
     # def test_graph_from_adjacency_matrix(self):
@@ -391,7 +391,7 @@ class DigraphTest(unittest.TestCase):
         f = c0.compose(b)
         c0.icompose(b)
 
-class bool_circ(unittest.TestCase):
+class bool_circTest(unittest.TestCase):
 
     def test_convert(self):
         pass
@@ -402,14 +402,71 @@ class bool_circ(unittest.TestCase):
     def test_max_id(self):
         pass
 
+    def test_apply_copy_rule(self):
+        copy0 = node(0, '0', [], [1])
+        copy1 = node(1, '', [0], [])
+        copygraph = open_digraph([0],[1], [copy0, copy1])
+        copyBc = bool_circ(copygraph)
 
+        copyBc.apply_copy_rule(0,1)
 
+        graphe = open_digraph([0,1],[0,1],[copy0, copy1])
+        grapheBc = bool_circ(graphe)
 
+        self.assertEqual(grapheBc.get_inputs_ids(), copyBc.get_inputs_ids())
+        self.assertEqual(grapheBc.get_outputs_ids(), copyBc.get_outputs_ids())
+        self.assertEqual(grapheBc.get_node_ids(), copyBc.get_node_ids())
 
+    def test_apply_no_rule(self):
+        no0 = node(0, '0', [], [1])
+        no1 = node(1, '~', [0], [])
+        nograph = open_digraph([0],[1], [no0, no1])
+        noBc = bool_circ(nograph)
 
+        noBc.apply_no_rule(0,1)
 
+        no = node(0, '1', [],[])
+        graphe = open_digraph([0],[0],[no])
+        grapheBc=bool_circ(graphe)
 
+        self.assertEqual(grapheBc.get_inputs_ids(), noBc.get_inputs_ids())
+        self.assertEqual(grapheBc.get_outputs_ids(), noBc.get_outputs_ids())
+        self.assertEqual(grapheBc.get_node_ids(), noBc.get_node_ids())
 
+    def test_apply_and_rule(self):
+        and0 = node(0, '0', [], [1])
+        and1 = node(1, '&', [0], [])
+        andgraph = open_digraph([0],[1], [and0, and1])
+        andBc = bool_circ(andgraph)
+
+        andBc.apply_and_rule(0,1)
+
+        andd = node(0, '0', [],[])
+        graphe = open_digraph([0],[0],[andd])
+        grapheBc=bool_circ(graphe)
+
+        self.assertEqual(grapheBc.get_inputs_ids(), andBc.get_inputs_ids())
+        self.assertEqual(grapheBc.get_outputs_ids(), andBc.get_outputs_ids())
+        self.assertEqual(grapheBc.get_node_ids(), andBc.get_node_ids())
+
+    def apply_or_rule(self):
+        or0 = node(0, '1', [], [1])
+        or1 = node(1, '&', [0], [])
+        orgraph = open_digraph([0],[1], [or0, or1])
+        orBc = bool_circ(orgraph)
+
+        orBc.apply_or_rule(0,1)
+
+        orr = node(0, '1', [],[])
+        graphe = open_digraph([0],[0],[orr])
+        grapheBc=bool_circ(graphe)
+
+        self.assertEqual(grapheBc.get_inputs_ids(), andBc.get_inputs_ids())
+        self.assertEqual(grapheBc.get_outputs_ids(), andBc.get_outputs_ids())
+        self.assertEqual(grapheBc.get_node_ids(), andBc.get_node_ids())
+
+    def apply_xor_rule(self):
+        
 
 
 

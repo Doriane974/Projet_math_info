@@ -79,9 +79,13 @@ def rotate(self, theta, c=point(0,0)):
 argument : p1 : point
            p2 : point
 return : float (angle en radian)'''
-################################################################################
-#                        Demander une vérification                             #
-def slope_angle(p1, p2):                #Beugué, il faut pouvoir avoir des angles négatif, la c'est une valeur absolue
+def slope_angle(p1, p2):
+    xneg = False
+    yneg = False
+    if(p2.x < p1.x):
+        xneg = True
+    if(p2.y < p1.y):
+        yneg = False
     Ni=1
     Xvi = 1
     Yvi = 0
@@ -89,7 +93,16 @@ def slope_angle(p1, p2):                #Beugué, il faut pouvoir avoir des angl
     Yvp1p2 = p2.y - p1.y
     Np1p2 = math.sqrt((p2.x-p1.x)*(p2.x-p1.x)+(p2.y-p1.y)*(p2.y-p1.y))
     scal = Xvi * Xvp1p2 + Yvi * Yvp1p2
-    return math.acos(Xvp1p2/(Np1p2))
+    result = 0
+    if (xneg == True):
+        result = -(Xvp1p2/Np1p2)
+    else :
+        result = Xvp1p2/Np1p2
+    if (yneg == True):
+        result = -(math.acos(result))
+    else :
+        result = math.acos(result)
+    return result
 
 '''méthode qui dessine une courbe de bézier
 arguments : p0 : point de départ de la courbe
@@ -127,13 +140,24 @@ def drawarrows(self, p1, p2, arretep1p2 = 1, arretep2p1 = 1):
 
     if (arretep1p2>0):                                                                          #On rentre dans le if si il y au moins une arrete a tracer entre p1 et p2
         VorthoP1P2 = point(-VectP1P2.x, VectP1P2.y)                                                 #Le vecteur orthogonal
+
         NormalizeVorthoP1P2 = point(VorthoP1P2.x * 10 / NormeVP1P2, VorthoP1P2.y * 10 / NormeVP1P2)
+
         pFlecheP1P2 = point((p1.x + pMilieu.x)/2, (p1.y + pMilieu.y)/2)                             #la position ou placer les fleches pour les arretes de p1 à p2
-        pHautP1P2 = point((pFlecheP1P2.x + 10*math.cos(slope_angle(p1,p2)+math.pi/4)) , (pFlecheP1P2.y + 8*math.sin(slope_angle(p1,p2)+math.pi/4))) #une des éxtrémité des lignes de la fleche
-        pBasP1P2 = pHautP1P2.rotate(100, pFlecheP1P2)                                         #l'opposé
+        #PorthoFlecheHaut= point(pFlecheP1P2.x + 10 * NormalizeVorthoP1P2.x , pFlecheP1P2.y + 10 * NormalizeVorthoP1P2.y)
+        #PorthoFlecheBas= point(pFlecheP1P2.x - 10 * NormalizeVorthoP1P2.x , pFlecheP1P2.y - 10 * NormalizeVorthoP1P2.y)
+        #pHautP1P2=point((pFlecheP1P2.x + PorthoFlecheHaut.x)/2, (pFlecheP1P2.y + PorthoFlecheHaut.y)/2)
+        #pBasP1P2=point((pFlecheP1P2.x + PorthoFlecheBas.x)/2, (pFlecheP1P2.y + PorthoFlecheBas.y)/2)
+
+        #pCenterNoRotateUp = point(pFlecheP1P2.x - 10, pFlecheP1P2.y - 8)
+        #pCenterNoRotateDown = point(pFlecheP1P2.x - 10, pFlecheP1P2.y + 8)
+        #pHautP1P2 = pCenterNoRotateUp.rotate(slope_angle(p1,p2), pFlecheP1P2)
+        pHautP1P2 = point((pFlecheP1P2.x + 10*math.cos(slope_angle(p1,p2)+math.pi/4)) , (pFlecheP1P2.y + 10*math.sin(slope_angle(p1,p2)+math.pi/4))) #une des éxtrémité des lignes de la fleche
+        #pBasP1P2 = pCenterNoRotateDown.rotate(slope_angle(p1,p2), pFlecheP1P2)
+        pBasP1P2 = point((pFlecheP1P2.x + 10*math.cos(slope_angle(p1,p2)-math.pi/4)) , (pFlecheP1P2.y + 10*math.sin(slope_angle(p1,p2)-math.pi/4)))                                         #l'opposé
 
         self.line([pFlecheP1P2.n(), pHautP1P2.n()], 'purple')                                   #une des lignes de la fleche
-        self.line([pFlecheP1P2.n(), pBasP1P2.n()], 'purple')                                    #l'autre ligne
+        self.line([pFlecheP1P2.n(), pBasP1P2.n()], 'orange')                                    #l'autre ligne
         ptext = point(pFlecheP1P2.x + 10*math.cos(slope_angle(p1,p2)-math.pi/2) , pFlecheP1P2.y + 10*math.sin(slope_angle(p1,p2)-math.pi/2))    #la position du texte pour dire il y a combien d'arrete entre 2 points
         self.text(ptext.n(), str(arretep1p2), 'purple')                                         #le texte
 
@@ -225,11 +249,9 @@ def circle_layout(g, node_pos=dict(), input_pos=[], output_pos=[]):
     rayon = 175
     i=0
     for id in g.get_node_ids():# la c
-        print("in circle layout, node_pos = ", node_pos)
         node_pos[id]=point(rayon * math.cos(i*2*math.pi/nbnode) + center.x, rayon*math.sin(i*2*math.pi/nbnode)+ center.y )
         i=i+1
     j=0
-    print("in circle layout, g.get_inputs_ids() = ", g.get_inputs_ids())
     for id in g.get_inputs_ids():
         input_pos.append(point(node_pos[id].x - 25, node_pos[id].y - 25))
         j=j+1
@@ -261,17 +283,12 @@ def DAG_layout(g):
         nodes_pos[input_id] = point(abs, ecarthauteur)
         input_pos.append(point(abs, ecarthauteur-25))
         nodes.remove(input_id)
-    '''print("in DAG_layout, avant la deuxieme boucle for, input_pos = ", input_pos)
-    print("in DAG_layout, avant la deuxieme boucle for, nodes = ", nodes)
-    print("in DAG_layout, avant la deuxieme boucle for,g.get_output_ids() = ", g.get_outputs_ids())'''
     for output_id in g.get_outputs_ids(): #cette boucle fonctionne bien
         abs = random.randrange(25,375)
         nodes_pos[output_id] = point(abs, ecarthauteur)
         output_pos.append(point(abs, ecarthauteur-25))
         if(output_id in nodes):
             nodes.remove(output_id)
-    '''print("in DAG_layout, avant la derniere boucle for, output_pos = ", output_pos)
-    print("in DAG_layout, avant la derniere boucle for, nodes = ", nodes)'''
     for id_node in nodes :
         i=0
         id_parent = id_node
@@ -294,28 +311,19 @@ def drawgraph(self, g, node_pos={}, input_pos=[], output_pos=[], method='manual'
     if (method=='random'):                                                                                  #verifier les paramétres
         node_pos, input_pos, output_pos = random_layout(g, node_pos, input_pos, output_pos)
     elif(method=='circle'):
-        print("####################on rentre dans method=='circle #########################")
         node_pos, input_pos, output_pos = circle_layout(g, node_pos, input_pos, output_pos)
-        print("in, drawGraph, dans le if method = circle, node_pos = ", node_pos)
     elif(method == 'DAG'):
         node_pos, input_pos, output_pos = DAG_layout(g)
-    print("in draw_graph,avant premier for , input_pos = ", input_pos)
     for i in range(len(g.get_inputs_ids())): #on trace l'entrée
         self.arrows(input_pos[i], node_pos[g.get_inputs_ids()[i]], 0, 1)
-        print("in draw_graph, premier for, i = ", i, ", input_pos[i] = ", input_pos[i])
 
     for i in range(len(g.get_outputs_ids())): #on trace la sortie
             self.arrows(node_pos[g.get_outputs_ids()[i]],output_pos[i], 1, 0)
     for id in g.get_node_ids(): # on trace les arrete entre les nodes et leurs enfant
         #if(g.nodes()[id].get_children_ids() != []):
-        print("in drawGraph, ",g.get_nodes()[id].get_children_ids())
-        print("node_pos = ",node_pos)
         for child in g.get_nodes()[id].get_children_ids():
-            print("in drawgraph, child =", child)
             n = count_occurrences(g.get_nodes()[id].get_children_ids(), child)
             m = count_occurrences(g.get_nodes()[id].get_parent_ids(), child)
-            print("Dans drawGraph, n = ",n, " et m = ",m)
-            print("Dans drawGraph, node_pos[id] =", node_pos.get(id, None), " et node_pos[child] = ",node_pos.get(child, -1))
             self.arrows(node_pos[id], node_pos[child], n, m)
     for id in g.get_node_ids(): # on trace les nodes
         self.node(g.get_node_by_id(id),node_pos[id], verbose)
