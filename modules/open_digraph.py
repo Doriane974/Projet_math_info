@@ -131,11 +131,15 @@ class node:
     return : int '''
     def outdegree(self):                            # donne le degre sortant du node
         return len(self.get_children_ids())
+
+
     '''méthode qui s'applique a un node qui donne le degre entrant du node
     argument : none
     return : int '''
     def indegree(self):                             # donne le degre entrant du node
         return len(self.get_parent_ids())
+
+
     '''méthode qui s'applique a un node qui donne le degré du node (degre entrant + degre sortant)
     argument : none
     return : int '''
@@ -870,6 +874,9 @@ class bool_circ(open_digraph):
                         bc.fusion_nodes(nodei.get_id(), nodej.get_id())
                 #print("pouet")
         return bc
+
+
+        #def parse_parenthese_3(s):      # s est ici une séquence de chaînes de caractères
 
 
 
