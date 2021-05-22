@@ -216,48 +216,106 @@ def random_layout(g, node_pos, input_pos, output_pos):                          
 
 '''fonction qui définit des positions équiréparties sur un cercle pour les noeuds du graphe
 arguments : g : graphe
-            node_pos : dictionnaire de positions. keyx : ids des noeuds. Values : positions de noeud ayant l'Id
+            node_pos : dictionnaire de positions. keys : ids des noeuds. Values : positions de noeud ayant l'Id
             input_pos : liste de position correspondants aux inputs du graph
             output_pos : liste de position correspondants aux outputs du graph'''
-def circle_layout(g, node_pos=None, input_pos=None, output_pos=None):
+def circle_layout(g, node_pos=dict(), input_pos=[], output_pos=[]):
     nbnode = len(g.get_nodes())
     center = point(200, 200)
     rayon = 175
     i=0
-    for id in g.get_nodes().keys():# la c
+    for id in g.get_node_ids():# la c
+        print("in circle layout, node_pos = ", node_pos)
         node_pos[id]=point(rayon * math.cos(i*2*math.pi/nbnode) + center.x, rayon*math.sin(i*2*math.pi/nbnode)+ center.y )
         i=i+1
     j=0
+    print("in circle layout, g.get_inputs_ids() = ", g.get_inputs_ids())
     for id in g.get_inputs_ids():
-        input_pos[id]=point(node_pos[id].x - 25, node_pos[id].y - 25)
+        input_pos.append(point(node_pos[id].x - 25, node_pos[id].y - 25))
         j=j+1
     k = 0;
     for id in g.get_outputs_ids():
-        output_pos[k]=point(node_pos[id].x + 25, node_pos[id].y + 25)
+        output_pos.append(point(node_pos[id].x + 25, node_pos[id].y + 25))
         k=k+1
     return node_pos, input_pos, output_pos
+
+def DAG_layout(g):
+    height = 400
+    j = g.copy()
+    couche = 1
+    for input_id in g.get_inputs_ids():
+        cpt = j.compte_generation(input_id, 0,0)
+        if(couche < cpt):
+            couche = cpt
+    ecarthauteur = height/couche
+    ecarthauteur = ecarthauteur - 1
+    #il y a surement unbug au dessus la, à verifier
+    nodes = g.get_node_ids()
+    #print("in DAG_layout, apres creation de nodes, nodes = ", nodes)
+    nodes_pos = {}
+    input_pos = []
+    output_pos = []
+    #On place tous les inputs
+    for input_id in g.get_inputs_ids(): #Cette boucle fontionne normalemnt
+        abs = random.randrange(25,375)
+        nodes_pos[input_id] = point(abs, ecarthauteur)
+        input_pos.append(point(abs, ecarthauteur-25))
+        nodes.remove(input_id)
+    '''print("in DAG_layout, avant la deuxieme boucle for, input_pos = ", input_pos)
+    print("in DAG_layout, avant la deuxieme boucle for, nodes = ", nodes)
+    print("in DAG_layout, avant la deuxieme boucle for,g.get_output_ids() = ", g.get_outputs_ids())'''
+    for output_id in g.get_outputs_ids(): #cette boucle fonctionne bien
+        abs = random.randrange(25,375)
+        nodes_pos[output_id] = point(abs, ecarthauteur)
+        output_pos.append(point(abs, ecarthauteur-25))
+        if(output_id in nodes):
+            nodes.remove(output_id)
+    '''print("in DAG_layout, avant la derniere boucle for, output_pos = ", output_pos)
+    print("in DAG_layout, avant la derniere boucle for, nodes = ", nodes)'''
+    for id_node in nodes :
+        i=0
+        id_parent = id_node
+        while(g.get_node_by_id(id_parent).get_parent_ids()!=[]):
+            i = i+1
+            id_parent = g.get_node_by_id(id_parent).get_parent_ids()[0]
+        abs = random.randrange(25,375)
+        nodes_pos[id_node] = point(abs, ecarthauteur*i)
+    #print("in DAG_layout, apres la derniere boucle for, nodes_pos = ", nodes_pos)
+    return nodes_pos, input_pos, output_pos
 
 '''méthode appiquée à draw qui dessine un graph
 arguments : g : graph que l'on veut dessiner
             node_pos : dictionnaire de positions. keys : ids des noeuds. Values : positions de noeud ayant l'Id (va etre modifié si verbose = 'random')
             input_pos : liste de position correspondants aux inputs du graph (va etre modifié si verbose = 'random')
             output_pos : liste de position correspondants aux outputs du graph (va etre modifié si verbose = 'random')
-            méthode : string qui précise la manière de choisir les positions des noeuds. Par défaut 'manual'. Sinon préciser 'random'
+            méthode : string qui précise la manière de choisir les positions des noeuds. Par défaut 'manual'. Sinon préciser 'random', 'circle' ou 'DAG'
             verbose : bool, par défaut false, si True : affiche l' Id des noeuds, sinon la fonction n'affiche que le label par défaut'''
-def drawgraph(self, g, node_pos=None, input_pos=None, output_pos=None, method='manual', verbose=False):     #méthode qui dessine un graphe, choix des positins aléatoire ou manuelle.
+def drawgraph(self, g, node_pos={}, input_pos=[], output_pos=[], method='manual', verbose=False):     #méthode qui dessine un graphe, choix des positins aléatoire ou manuelle.
     if (method=='random'):                                                                                  #verifier les paramétres
         node_pos, input_pos, output_pos = random_layout(g, node_pos, input_pos, output_pos)
-    else:
-        if(method=='circle'):
-            node_pos, input_pos, output_pos = circle_layout(g, node_pos, input_pos, output_pos)
+    elif(method=='circle'):
+        print("####################on rentre dans method=='circle #########################")
+        node_pos, input_pos, output_pos = circle_layout(g, node_pos, input_pos, output_pos)
+        print("in, drawGraph, dans le if method = circle, node_pos = ", node_pos)
+    elif(method == 'DAG'):
+        node_pos, input_pos, output_pos = DAG_layout(g)
+    print("in draw_graph,avant premier for , input_pos = ", input_pos)
     for i in range(len(g.get_inputs_ids())): #on trace l'entrée
         self.arrows(input_pos[i], node_pos[g.get_inputs_ids()[i]], 0, 1)
+        print("in draw_graph, premier for, i = ", i, ", input_pos[i] = ", input_pos[i])
+
     for i in range(len(g.get_outputs_ids())): #on trace la sortie
             self.arrows(node_pos[g.get_outputs_ids()[i]],output_pos[i], 1, 0)
     for id in g.get_node_ids(): # on trace les arrete entre les nodes et leurs enfant
+        #if(g.nodes()[id].get_children_ids() != []):
+        print("in drawGraph, ",g.get_nodes()[id].get_children_ids())
+        print("node_pos = ",node_pos)
         for child in g.get_nodes()[id].get_children_ids():
+            print("in drawgraph, child =", child)
             n = count_occurrences(g.get_nodes()[id].get_children_ids(), child)
             m = count_occurrences(g.get_nodes()[id].get_parent_ids(), child)
+            print("Dans drawGraph, n = ",n, " et m = ",m)
+            print("Dans drawGraph, node_pos[id] =", node_pos.get(id, None), " et node_pos[child] = ",node_pos.get(child, -1))
             self.arrows(node_pos[id], node_pos[child], n, m)
     for id in g.get_node_ids(): # on trace les nodes
         self.node(g.get_node_by_id(id),node_pos[id], verbose)

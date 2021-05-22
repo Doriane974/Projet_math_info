@@ -121,6 +121,20 @@ class NodeTest(unittest.TestCase):
         self.assertEqual(self.n0.get_children_ids(),[3])
 
 
+    def test_outdegree(self):
+        self.assertEqual(self.n0.outdegree(), 1)
+        self.assertEqual(self.n1.outdegree(), 0)
+
+
+    def test_indegree(self):
+        self.assertEqual(self.n0.indegree(), 0)
+        self.assertEqual(self.n1.indegree(), 1)
+
+
+    def test_degree(self):
+        self.assertEqual(self.n0.degree(), 1)
+        self.assertEqual(self.n1.degree(), 1)
+
 
 class DigraphTest(unittest.TestCase):
 
@@ -226,6 +240,14 @@ class DigraphTest(unittest.TestCase):
         self.assertEqual(self.n1.get_parent_ids(), [4,0])
         self.assertEqual(self.n2.get_parent_ids(), [0])
 
+    def test_add_node(self):
+        self.n0 = node(0, 'a', [], [2])
+        self.n1 = node(1, 'b', [3], [])
+        self.d0 = open_digraph([0],[1],[self.n0, self.n1])
+        self.d0.add_node('c', [1], [0])
+        self.assertEqual(len(self.d0.get_node_ids()), 3)
+
+
     def remove_edge(self):
         self.n0 = node(0, 'a', [], [1])
         self.n1 = node(1, 'b', [0], [])
@@ -239,7 +261,7 @@ class DigraphTest(unittest.TestCase):
         self.n1 = node(1, 'b', [0], [])
         self.d0 = open_digraph([0],[1],[self.n0, self.n1])
         self.d0.remove_node_by_id(1)
-        self.assertEqual(self.d0.get_nodes(), {0:self.n0})
+        self.assertEqual(self.d0.get_nodes(), [self.n0])
 
     def test_remove_edges(self):
         self.n0 = node(0, 'a', [], [1])
@@ -255,12 +277,15 @@ class DigraphTest(unittest.TestCase):
         self.n1 = node(1, 'b', [0], [])
         self.d0 = open_digraph([0],[1],[self.n0, self.n1])
         self.d0.remove_nodes_by_id([1,0])       #tester avec plusieurs ids
-        self.assertEqual(self.d0.get_nodes(), {})
+        self.assertEqual(self.d0.get_nodes(), [])
 
     def test_is_well_formed(self):
         self.assertTrue(self.d0.is_well_formed())
         self.assertTrue(not self.d5.is_well_formed())
 
+
+    def test_random_graph(self):
+        self.assertTrue(self.d0.random_graph(5,5).is_well_formed())
 
     #
     # def test_graph_from_adjacency_matrix(self):
@@ -281,6 +306,110 @@ class DigraphTest(unittest.TestCase):
         print(self.d0)
         self.d0.change_ids([(1,3),(0,2)])
         print(self.d0)
+
+    def test_max_indegree(self):
+        self.assertEqual(self.d0.max_indegree(), 1)
+
+    def test_min_indegree(self):
+        self.assertEqual(self.d0.min_indegree(), 0)
+
+    def test_max_outdegree(self):
+        self.assertEqual(self.d0.max_outdegree(), 1)
+
+    def test_min_outdegree(self):
+        self.assertEqual(self.d0.min_outdegree(), 0)
+
+    def test_max_degree(self):
+        self.assertEqual(self.d0.max_degree(), 1)
+
+    def test_min_degree(self):
+        self.assertEqual(self.d0.min_degree(), 1)
+
+    def test_is_cyclic(self):
+        self.n0 = node(0, 'a', [2], [1])
+        self.n1 = node(1, 'b', [0], [2])
+        self.n2 = node(2, 'c', [1], [0])
+        self.d0 = open_digraph([0],[2],[self.n0, self.n1, self.n2])
+        self.assertTrue(self.d0.is_cyclic())
+        self.b0 = node(0, 'a', [], [1])
+        self.b1 = node(1, 'b', [0], [2])
+        self.b2 = node(2, 'c', [1], [])
+        self.b = open_digraph([0],[2],[self.b0, self.b1, self.b2])
+        self.assertFalse(self.b.is_cyclic())
+
+    def test_shift_indice(self):
+        self.n0 = node(0, 'a', [2], [1])
+        self.n1 = node(1, 'b', [0], [2])
+        self.n2 = node(2, 'c', [1], [0])
+        self.d0 = open_digraph([0],[2],[self.n0, self.n1, self.n2])
+        self.d0.shift_indices(3)
+        self.assertEqual(self.d0.get_node_ids(), [3,4,5])
+        self.b0 = node(0, 'a', [], [1])
+        self.b1 = node(1, 'b', [0], [2])
+        self.b2 = node(2, 'c', [1], [])
+        self.b = open_digraph([0],[2],[self.b0, self.b1, self.b2])
+        self.b.shift_indices(-7)
+        self.assertEqual(self.b.get_node_ids(), [-7, -6, -5])
+        self.c0 = node(0, 'a', [2], [1])
+        self.c1 = node(1, 'b', [0], [2])
+        self.c2 = node(2, 'c', [1], [0])
+        self.c0 = open_digraph([0],[2],[self.c0, self.c1, self.c2])
+        self.c0.shift_indices(8)
+        self.assertEqual(self.c0.get_node_ids(), [8,9,10])
+        '''self.f0 = node(0, 'a', [2], [1])
+        self.f1 = node(1, 'b', [0], [2])
+        self.f2 = node(2, 'c', [1], [0])
+        self.f0 = open_digraph([0],[2],[self.f0, self.f1, self.f2])
+        self.f0.shift_indices(2)
+        self.assertEqual(self.f0.get_node_ids(), [2,3,4])'''
+
+    def test_icompose(self):
+        b0 = node(0, 'a', [], [1])
+        b1 = node(1, 'b', [0], [2])
+        b2 = node(2, 'c', [1], [])
+        b = open_digraph([0],[2],[b0, b1, b2])
+        b2 = open_digraph([0],[2],[b0, b1, b2])
+        c0 = node(0, 'a', [], [1, 2])
+        c1 = node(1, 'b', [0], [])
+        c2 = node(2, 'c', [0], [])
+        c0 = open_digraph([0],[1,2],[c0, c1, c2])
+        c0.icompose(b)
+        self.assertEqual(c0.get_node_ids(), [1,2,3,4,5])
+        self.assertEqual(c0.get_inputs_ids(), [3])
+        self.assertEqual(c0.get_outputs_ids(), [1,2])
+
+    def test_compose(self):
+        b0 = node(0, 'a', [], [1])
+        b1 = node(1, 'b', [0], [2])
+        b2 = node(2, 'c', [1], [])
+        b = open_digraph([0],[2],[b0, b1, b2])
+        b2 = open_digraph([0],[2],[b0, b1, b2])
+        c0 = node(0, 'a', [], [1, 2])
+        c1 = node(1, 'b', [0], [])
+        c2 = node(2, 'c', [0], [])
+        c0 = open_digraph([0],[1,2],[c0, c1, c2])
+        f = c0.compose(b)
+        c0.icompose(b)
+
+class bool_circ(unittest.TestCase):
+
+    def test_convert(self):
+        pass
+
+    def test_min_id(self):
+        pass
+
+    def test_max_id(self):
+        pass
+
+
+
+
+
+
+
+
+
 
 
 
