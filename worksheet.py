@@ -158,7 +158,12 @@ d = open_digraph([0,1,4],[3], [d0, d1, d2, d3, d4])
 list = d.tri_topologique()
 print("in Worksheet, tri topologique de D = ",list)
 print("profondeur de 3 = ", d.profondeur_node_by_id(3))
-#draw.graph(d,{},[],[], 'circle')
+draw.graph(d,{},[],[], 'DAG')
+
+#pB1 = point(20, 20)
+#pB2 = point(100, 100)
+#paux = point(50,50)
+#draw.bezier(pB1,paux, pB2)
 
 '''no0 = node(0, '1', [], [1])
 no1 = node(1, '^', [0], [])

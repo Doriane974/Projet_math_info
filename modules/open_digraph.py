@@ -852,12 +852,9 @@ class bool_circ(open_digraph):
         return bc
 
 
-<<<<<<< HEAD
-=======
         #def parse_parenthese_3(s):      # s est ici une séquence de chaînes de caractères
 
 
->>>>>>> d46293cc9348b1d9fe5ab2b0e84d8d31349735de
 
 
     # version exo 4 (incomplete)
@@ -1177,10 +1174,11 @@ class bool_circ(open_digraph):
 
 
 
-'''Fonction qui renvoie un graphe correspondant a une matrice d'adjacence
-argument : matrix : int list list : matrice d'adjacence
-return : graph '''
+
 def graph_from_adjacency_matrix(matrix) :           # renvoie un graphe correspondant a la matrice d adjacence matrix
+    '''Fonction qui renvoie un graphe correspondant a une matrice d'adjacence
+    argument : matrix : int list list : matrice d'adjacence
+    return : graph '''
     graph = open_digraph.empty()                    # on cree un graphe vide vide a partir duquel on va construire le graphe voulu
     '''
     on ne sert pas de la methode add_node car on part du graphe vide
