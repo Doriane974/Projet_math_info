@@ -33,5 +33,8 @@ class UtilsTest(unittest.TestCase):
         print(random_triangular_int_matrix(3,10,False))
         print(random_triangular_int_matrix(3,10,True))
 
+    def test_list_cleaner(self):
+        self.assertEqual(list_cleaner([1, 1, 3, 4, 1, 2, 4]), [1, 3, 4, 2])
+
 if __name__ == '__main__': # the following code is called only when
     unittest.main()        # precisely this file is run

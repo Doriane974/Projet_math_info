@@ -455,9 +455,80 @@ class open_digraph(open_digraph_composition_mx, open_digraph_getters_mx,  open_d
     '''méthode qui renvoie le nombre de composante donnexe d'un graphe, et un
     dictionnaire qui associe a chaque id de noeuds du graph un int qui correspond à une composante connexe
     arguments : none
-    return : int, dict
+    return : nb_cc, dict
     '''
-    '''def connected_components(self):'''
+
+    # WIP
+    '''
+    def connected_components(self): # pas fini
+        nb_cc = 0                   # nombre de composantes connexes
+        dict = {}                    # dictionnaire int id de node : int num de composante connexe
+        list_cc = []                # liste (de listes) des composantes connexes, non rendue. Contient des listes, chacune contenant les nodes de la cc.
+        for node in self.get_nodes() :
+            node_id = node.get_id()     # id du node considere
+            cc_id = nb_cc           # id de la composante connexe consideree, on l initialise a nb_cc soit le premier id non utilise
+            for id in range(len(list_cc)):      # on parcourt la liste des cc
+                if node_id in list_cc[id] :     # teste si le node appartient deja a une composante connexe
+                    cc_id = id                  # si c est le cas, on ajoutera les nodes dans celle ci
+                    break                       # sinon, on en creera une nouvelle
+            if cc_id == nb_cc :                 # si cc_id == nb_cc, alors cc_id n a pas ete modifie, donc le node n etait dans aucune cc de la list_cc
+                nb_cc += 1                      # on a une cc supplementaire donc on augmente nb_cc
+                list_cc.append([])              # on ajoute une nouvelle liste correspondant a la nouvelle cc dans list_cc
+                list_cc[cc_id].append(node_id)
+
+            else :                              # sinon, le node etait deja dans list_cc, donc on ajoute ses enfants et parents dans la meme cc
+                return
+            #dict[node_id] = cc_id
+        return (nb_cc, dict)
+'''
+
+
+    def connected_components(self): # done
+        ''' Fonction permettant d extraire d un graphe le nombre de composantes connexes et quel node est dans quelle cc
+        arguments : None
+        return : nb_cc, int, nombre de cc dans le graphe
+                 dict, un dictionnaire id de node : id de cc correspondante'''
+        # On va se servir d'une fonction auxilliaire recursive pour explorer les enfants (seulement, car on parcourt tous les nodes donc on aura les parents a un moment) de chaque node.
+        nb_cc = 0                   # nombre de composantes connexes
+        dict = {}                    # dictionnaire int id de node : int num de composante connexe
+        for node in self.get_nodes():           # on parcourt tous les nodes, car on veut rechercher les cc sur tout le graph
+            list_nodes_ids_cc = []              # la liste des id des nodes de la cc du node node
+            node_id = node.get_id()     # id du node considere
+            #print("cc1", nb_cc, dict, list_nodes_ids_cc, node_id)
+            if not node_id in dict:         # on teste si le node est deja dans le dictionnaire, si c est le cas, ce n est pas la peine de le tester donc on passe au suivant
+                cc_id = nb_cc           # id de la composante connexe consideree, on l initialise a nb_cc soit le premier id non utilise
+                children = list_cleaner(self.rec_exploration(node))         # on utilise la fonction recursive pour optenir tous les descendants du node considere, et on retire les doublons
+                list_nodes_ids_cc = [node_id] + [i.get_id() for i in children]    # la liste partielle de la cc est composée du node node et de ses descendants
+                new_cc = True                           # boolen pour noter si le node node est dans un cc non repertoriee
+                #print("cc2", nb_cc, dict, list_nodes_ids_cc, node_id, cc_id)
+                for id in list_nodes_ids_cc:            # on parcourt la liste d id des nodes de la cc qu on vient de creer
+                    if id in dict:                      # si un id est deja dans le dict, il faudra ajouter les nodes a une cc deja existante
+                        cc_id = dict[id]                # sinon, il faudra en creer une nouvelle
+                        new_cc = False
+                        break
+                #print("cc3", nb_cc, dict, list_nodes_ids_cc, node_id, cc_id)
+                for id in list_nodes_ids_cc:            # on parcourt de nouveau la liste, cette fois pour la remplir
+                    dict[id] = cc_id                    # si le node est deja dans le dict, cela ne pose pas de probleme (pas de doublons dans un dict)
+                if new_cc:                              # si on  a cree une nouvelle cc, il y en a une de plus au total
+                    nb_cc += 1
+                #print("cc4", nb_cc, dict, list_nodes_ids_cc, node_id, cc_id)
+        return (nb_cc, dict)
+
+
+
+    def rec_exploration(self, node):
+        '''Fonction recursive permettant l exploration des enfants d un node (node), et qui stocke ceux-ci dans une liste node_list
+        arguments : node, le node a partir duquel on part
+        return : children_list, liste des nodes descendants du node node
+        Note : cela peut produire des doublons, mais ceux-ci seront geres lors des appels a la fonction'''
+        #print("pouet", node)
+        children_list = []          # on cree la liste des descendants du node self, initialisee vide.
+        children = self.get_node_by_ids(node.get_children_ids())         # on recupere les enfants du node
+        for child in children:                      # on parcourt les enfants du node
+            if not child in children_list :         # si ces enfants ne sont pas deja dans la liste
+                children_list.append(child)         # on les y ajoute
+                children_list += self.rec_exploration(child)    # et on appelle recursivement cette fonction pour ajouter les petits enfants
+        return children_list                        # on renvoie la liste vers les appels recursifs precedents
 
 
     '''algorithme de dijkstra
@@ -731,13 +802,9 @@ class bool_circ(open_digraph):
         return bc
 
 
-        #def parse_parenthese_3(s):      # s est ici une séquence de chaînes de caractères
-
-
-
-
     # version exo 4 (incomplete)
     def parse_parenthese_3(s):      # s une sequence de chaine de caractere
+    # Utiliser les fonctions de composition paralleles (attention aux entrees a fusionner)
         prems = node(0,'',[],[])
         g = open_digraph([],[0],[prems])
         bc = bool_circ(g)
@@ -785,6 +852,7 @@ class bool_circ(open_digraph):
                         bc.fusion_nodes(nodei.get_id(), nodej.get_id())
                 #print("pouet")
         return bc
+
 
 
 

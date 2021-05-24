@@ -2,7 +2,7 @@
 
 from modules.open_digraph import *
 from modules.utils import *
-from modules.Interface import *
+#from modules.Interface import *
 import inspect
 
 
@@ -18,7 +18,7 @@ import inspect
 
 
 
-
+'''
 
 width = 400
 height = 400
@@ -44,7 +44,7 @@ node_pos = { 0 : p0 , 1 : p1 , 2 : p2 , 3 : p3 , 4 : p4 }
 input_pos= [pentree]
 
 output_pos= [psortie]
-
+'''
 '''nodes_pos, input_pos, output_pos = DAG_layout(g)
 print("test de DAG_layout , node_pos = ", node_pos)
 print("test de DAG_layout , input_pos = ", input_pos)
@@ -71,7 +71,7 @@ print(angle)
 print(slope_angle(p4,p0))
 
 '''
-
+'''
 
 n0 = node(0, 'A', [], [1]) #l'entrée du graphe
 n1 = node(1,'B',[0],[2, 2,4])
@@ -100,7 +100,7 @@ b= open_digraph([1,2],[5],[b1,b2,b3,b4,b5])
 #c.shift_indices(15)
 #print("indice min :", c.min_id())
 #print("indice max :" , c.max_id())
-
+'''
 '''b0 = node(0, 'a', [], [1])
 b1 = node(1, 'b', [0], [2])
 b2 = node(2, 'c', [1], [])
@@ -136,7 +136,8 @@ temp = open_digraph([],[],[])
 bcOnze = bool_circ(temp)
 bcOnze.int_to_bool_circ(11, 4)
 print("bcOnze = ", bcOnze)
-draw.graph(bcOnze,{},[],[], 'circle')
+#draw.graph(bcOnze,{},[],[], 'circle')
 
 
-image.save("test.jpg")
+
+#image.save("test.jpg")

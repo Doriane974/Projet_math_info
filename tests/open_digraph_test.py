@@ -391,6 +391,20 @@ class DigraphTest(unittest.TestCase):
         f = c0.compose(b)
         c0.icompose(b)
 
+    def test_connected_components(self):
+        self.n0 = node(0, 'a', [], [1])
+        self.n1 = node(1, 'b', [0], [])
+        self.n2 = node(2, 'a', [], [])
+        self.d0 = open_digraph([0],[1],[self.n0, self.n1, self.n2])
+        nb_cc, dict = self.d0.connected_components()
+        print("test_cc", nb_cc, dict)
+        self.assertEqual(nb_cc, 2)
+        self.assertEqual(dict, {0 : 0, 1 : 0, 2 : 1})
+
+    def test_rec_exploration(self):
+        self.assertEqual(self.d0.rec_exploration(self.d0.get_node_by_id(0)), [self.d0.get_node_by_id(1)])
+        self.assertEqual(self.d0.rec_exploration(self.d0.get_node_by_id(1)), [])
+
 class bool_circ(unittest.TestCase):
 
     def test_convert(self):

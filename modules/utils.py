@@ -73,7 +73,7 @@ def random_oriented_int_matrix(n, bound, null_diag=True):   #renvoie une matrice
                 l[j][i] = 0
     return l
 
-'''Fonction qui renvoie une matrice triangulaire carrée d'entier aléatoire 
+'''Fonction qui renvoie une matrice triangulaire carrée d'entier aléatoire
 argument : n : int : taille de la matrice
            bound : int : la borne maximum de l'intervalle dans lequel on choisit les élements de la liste, bound exclus
            null_diag : bool, par défaut True, si True : Diagonale de la matrice nulle
@@ -84,3 +84,10 @@ def random_triangular_int_matrix(n, bound, null_diag=True): #renvoie une matrice
         for j in range(i+1, n):
             l[i][j]=0
     return l
+
+
+'''Fonction qui permet de retirer les doublons d une liste, en utilisant une propriete des dictionnaires Python
+arguments : list, une liste contenant potentiellement des doublons
+return : cleaned_list, une liste contenant les elements de list, mais sans doublon'''
+def list_cleaner(list1):
+    return list(dict.fromkeys(list1))
