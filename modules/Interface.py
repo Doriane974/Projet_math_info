@@ -19,10 +19,11 @@ class point:
         self.y = y
 
 
-    '''méthode qui retourne le couple correspondant aux coordonée du point. Méthode appliquée au point dont on veut les coordonées.
-    arguments : none
-    return : un couple (x,y) des coordonnes du point '''
+
     def n(self):
+        '''méthode qui retourne le couple correspondant aux coordonée du point. Méthode appliquée au point dont on veut les coordonées.
+        arguments : none
+        return : un couple (x,y) des coordonnes du point '''
         return (round(self.x), round(self.y)) # return a simple tuple
 
     def __str__(self):
@@ -32,25 +33,30 @@ class point:
     def __repr__(self):
         return "point"+str(self)
 
-    '''méthode qui retourne une copie du point, méthode appliquée au point que l'on veut copier.
-    argument : none
-    return : un point de meme coordonnées que celui sur lesquel est appliqué la méthode '''
+
     def copy(self):                                                             #copie un point
+        '''méthode qui retourne une copie du point, méthode appliquée au point que l'on veut copier.
+        argument : none
+        return : un point de meme coordonnées que celui sur lesquel est appliqué la méthode '''
         return point(self.x, self.y)
 
-    '''additionne les coordonnées de points de coordonnées (x,y) et (x', y')
-    méthode appliquée a un point de coordonée (x,y)
-    argument : p2 : points de coordonnées (x', y')
-    return : point de coorrdonnée (x+x', y+y')'''
+
     def __add__(self, p2):                                                      #addditionne 2 points, retourne un nouveau
+        '''additionne les coordonnées de points de coordonnées (x,y) et (x', y')
+        méthode appliquée a un point de coordonée (x,y)
+        argument : p2 : points de coordonnées (x', y')
+        return : point de coorrdonnée (x+x', y+y')'''
         return point(self.x + p2.x, self.y + p2.y)
 
-    '''Multiplie les coordonnées d'un point de coordonnées (x,y) par un scalaire
-    méthode appliquée au point de coordonnée (x,y)
-    argument : s : int par lequel ont veut multiplier le point
-    return : point de coorrdonnée (x*s, y*s) '''
     def __rmul__(self, s):                                                      #multiplie 2 point, retourne un nouveau
+
+        '''Multiplie les coordonnées d'un point de coordonnées (x,y) par un scalaire
+        méthode appliquée au point de coordonnée (x,y)
+        argument : s : int par lequel ont veut multiplier le point
+        return : point de coorrdonnée (x*s, y*s) '''
         return point(self.x*s, self.y*s)
+
+
 
     '''soustraie les coordonnées de points de coordonnées (x,y) et (x', y')
     méthode appliquée a un point de coordonée (x,y)
@@ -59,13 +65,14 @@ class point:
     def __sub__(self, p2):                                                      #soustraie 2 points, retourne un nouveau
         return point(self.x - p2.x, self.y - p2.y)
 
-'''méthode appliquée a un point  qui calcule la position du point apres rotation d'angle
-théta autour du point c.
-arguments : theta : float : angle
-            c : point
-return : point
-'''
+
 def rotate(self, theta, c=point(0,0)):
+    '''méthode appliquée a un point  qui calcule la position du point apres rotation d'angle
+    théta autour du point c.
+    arguments : theta : float : angle
+                c : point
+    return : point
+    '''
     p = point(0,0)
     theta =theta * math.pi / 180
     p.x = self.x - c.x
@@ -75,13 +82,18 @@ def rotate(self, theta, c=point(0,0)):
     r.y = -p.x * math.sin(theta) + p.y * math.cos(theta) + c.y
     return r
 
-'''fonction qui calcule l'angle en radian formé entre la ligne qui passe par les point p1 et p2 et l'axe des abscisse
-argument : p1 : point
-           p2 : point
-return : float (angle en radian)'''
-################################################################################
-#                        Demander une vérification                             #
-def slope_angle(p1, p2):                #Beugué, il faut pouvoir avoir des angles négatif, la c'est une valeur absolue
+
+def slope_angle(p1, p2):
+    '''fonction qui calcule l'angle en radian formé entre la ligne qui passe par les point p1 et p2 et l'axe des abscisse
+    argument : p1 : point
+               p2 : point
+    return : float (angle en radian)'''
+    xneg = False
+    yneg = False
+    if(p2.x < p1.x):
+        xneg = True
+    if(p2.y < p1.y):
+        yneg = False
     Ni=1
     Xvi = 1
     Yvi = 0
@@ -89,7 +101,16 @@ def slope_angle(p1, p2):                #Beugué, il faut pouvoir avoir des angl
     Yvp1p2 = p2.y - p1.y
     Np1p2 = math.sqrt((p2.x-p1.x)*(p2.x-p1.x)+(p2.y-p1.y)*(p2.y-p1.y))
     scal = Xvi * Xvp1p2 + Yvi * Yvp1p2
-    return math.acos(Xvp1p2/(Np1p2))
+    result = 0
+    if (xneg == True):
+        result = -(Xvp1p2/Np1p2)
+    else :
+        result = Xvp1p2/Np1p2
+    if (yneg == True):
+        result = -(math.acos(result))
+    else :
+        result = math.acos(result)
+    return result
 
 '''méthode qui dessine une courbe de bézier
 arguments : p0 : point de départ de la courbe
@@ -107,14 +128,15 @@ def Bezier(self, p0, paux, p1, dt = 0.1):'''
 
 
 
-'''méthode qui dessine une arrete entre 2 point, en prenant en compte le fait
-que le graphe soit orienté et que il puisse y avoir plusieurs arrete entre 2 point
-argument : p1 : point
-           p2 : point
-           arretep1p2: le nomdre d'arrete entre p1 et p2 (par défaut 1)
-           arretep2p1: le nombre d'arrete entre p2 et p1 (par défaut 1)
-return : none '''
+
 def drawarrows(self, p1, p2, arretep1p2 = 1, arretep2p1 = 1):
+    '''méthode qui dessine une arrete entre 2 point, en prenant en compte le fait
+    que le graphe soit orienté et que il puisse y avoir plusieurs arrete entre 2 point
+    argument : p1 : point
+               p2 : point
+               arretep1p2: le nomdre d'arrete entre p1 et p2 (par défaut 1)
+               arretep2p1: le nombre d'arrete entre p2 et p1 (par défaut 1)
+    return : none '''
     self.line([p1.n(), p2.n()], 'black')
     VectP1P2 = point(p2.x - p1.x, p2.y - p1.y)                                                  # le vecteur entre p1 et p2
     VectP2P1 = (-1)* VectP1P2                                                                   # le vecteur entre p2 et p1
@@ -127,13 +149,24 @@ def drawarrows(self, p1, p2, arretep1p2 = 1, arretep2p1 = 1):
 
     if (arretep1p2>0):                                                                          #On rentre dans le if si il y au moins une arrete a tracer entre p1 et p2
         VorthoP1P2 = point(-VectP1P2.x, VectP1P2.y)                                                 #Le vecteur orthogonal
+
         NormalizeVorthoP1P2 = point(VorthoP1P2.x * 10 / NormeVP1P2, VorthoP1P2.y * 10 / NormeVP1P2)
+
         pFlecheP1P2 = point((p1.x + pMilieu.x)/2, (p1.y + pMilieu.y)/2)                             #la position ou placer les fleches pour les arretes de p1 à p2
-        pHautP1P2 = point((pFlecheP1P2.x + 10*math.cos(slope_angle(p1,p2)+math.pi/4)) , (pFlecheP1P2.y + 8*math.sin(slope_angle(p1,p2)+math.pi/4))) #une des éxtrémité des lignes de la fleche
-        pBasP1P2 = pHautP1P2.rotate(100, pFlecheP1P2)                                         #l'opposé
+        #PorthoFlecheHaut= point(pFlecheP1P2.x + 10 * NormalizeVorthoP1P2.x , pFlecheP1P2.y + 10 * NormalizeVorthoP1P2.y)
+        #PorthoFlecheBas= point(pFlecheP1P2.x - 10 * NormalizeVorthoP1P2.x , pFlecheP1P2.y - 10 * NormalizeVorthoP1P2.y)
+        #pHautP1P2=point((pFlecheP1P2.x + PorthoFlecheHaut.x)/2, (pFlecheP1P2.y + PorthoFlecheHaut.y)/2)
+        #pBasP1P2=point((pFlecheP1P2.x + PorthoFlecheBas.x)/2, (pFlecheP1P2.y + PorthoFlecheBas.y)/2)
+
+        #pCenterNoRotateUp = point(pFlecheP1P2.x - 10, pFlecheP1P2.y - 8)
+        #pCenterNoRotateDown = point(pFlecheP1P2.x - 10, pFlecheP1P2.y + 8)
+        #pHautP1P2 = pCenterNoRotateUp.rotate(slope_angle(p1,p2), pFlecheP1P2)
+        pHautP1P2 = point((pFlecheP1P2.x + 10*math.cos(slope_angle(p1,p2)+math.pi/4)) , (pFlecheP1P2.y + 10*math.sin(slope_angle(p1,p2)+math.pi/4))) #une des éxtrémité des lignes de la fleche
+        #pBasP1P2 = pCenterNoRotateDown.rotate(slope_angle(p1,p2), pFlecheP1P2)
+        pBasP1P2 = point((pFlecheP1P2.x + 10*math.cos(slope_angle(p1,p2)-math.pi/4)) , (pFlecheP1P2.y + 10*math.sin(slope_angle(p1,p2)-math.pi/4)))                                         #l'opposé
 
         self.line([pFlecheP1P2.n(), pHautP1P2.n()], 'purple')                                   #une des lignes de la fleche
-        self.line([pFlecheP1P2.n(), pBasP1P2.n()], 'purple')                                    #l'autre ligne
+        self.line([pFlecheP1P2.n(), pBasP1P2.n()], 'orange')                                    #l'autre ligne
         ptext = point(pFlecheP1P2.x + 10*math.cos(slope_angle(p1,p2)-math.pi/2) , pFlecheP1P2.y + 10*math.sin(slope_angle(p1,p2)-math.pi/2))    #la position du texte pour dire il y a combien d'arrete entre 2 points
         self.text(ptext.n(), str(arretep1p2), 'purple')                                         #le texte
 
@@ -186,22 +219,39 @@ def drawarrows(self, p1, p2, arretep1p2 = 1, arretep2p1 = 1):
         self.line([pm.n(), ph.n()], 'purple')'''
 
 
-'''méthode apppliquée a draw qui dessine un noeud
-arguments : n : noeud que l'on veut dessiner
-            p : point ou l'on veut placer le noeud
-            verbose : bool, par défaut false, si True : affiche l' Id, sinon la fonction n'affiche que le label par défaut'''
+
 def drawnode(self, noeud, p, verbose = False):                                  #méthode qui dessine un point avec son label, et avec ou sans son id
+    '''méthode apppliquée a draw qui dessine un noeud
+    arguments : n : noeud que l'on veut dessiner
+                p : point ou l'on veut placer le noeud
+                verbose : bool, par défaut false, si True : affiche l' Id, sinon la fonction n'affiche que le label par défaut'''
     self.ellipse((p.x-10, p.y-10, p.x+10, p.y+10), fill='white', outline='black')
     self.text((p.x - 2  ,p.y - 9), str(noeud.get_label()) , fill='red')
     if(verbose):
         self.text((p.x-2 ,p.y ), str(noeud.get_id()) , fill='blue')
 
-'''fonction qui définit des positions aléatoire pour les noeuds du graphe
-arguments : g : graphe
-            node_pos : dictionnaire de positions. keyx : ids des noeuds. Values : positions de noeud ayant l'Id
-            input_pos : liste de position correspondants aux inputs du graph
-            output_pos : liste de position correspondants aux outputs du graph'''
+def Bezier(self, p0, paux, p1, de=0.1):
+    '''Fonction qui dessine les arretes comme des courbes de bezier quadratique '''
+
+    N = int(1/0.05)
+    dt = 1/N
+    Ts = [i*dt for i in range(N+1)]
+    #La liste contenant tous les poins de l'arrete
+    points = [p0*(1-t)*((1-t) + t*paux)+t*((1-t)*paux+t*p1) for t in Ts ]
+    for ind in range(len(points)-1) :
+        self.line([points[ind].n(), points[ind+1].n()], 'black')
+
+
+
+
+
+
 def random_layout(g, node_pos, input_pos, output_pos):                          #fonction qui définit des positions aléatoire pour les noeuds du graphe
+    '''fonction qui définit des positions aléatoire pour les noeuds du graphe
+    arguments : g : graphe
+                node_pos : dictionnaire de positions. keyx : ids des noeuds. Values : positions de noeud ayant l'Id
+                input_pos : liste de position correspondants aux inputs du graph
+                output_pos : liste de position correspondants aux outputs du graph'''
     for id in g.get_node_ids():# la c
         node_pos[id]=point(random.randrange(25,375), random.randrange(25,375))
     j=0
@@ -214,22 +264,21 @@ def random_layout(g, node_pos, input_pos, output_pos):                          
         i=i+1
     return node_pos, input_pos, output_pos
 
-'''fonction qui définit des positions équiréparties sur un cercle pour les noeuds du graphe
-arguments : g : graphe
-            node_pos : dictionnaire de positions. keys : ids des noeuds. Values : positions de noeud ayant l'Id
-            input_pos : liste de position correspondants aux inputs du graph
-            output_pos : liste de position correspondants aux outputs du graph'''
+
 def circle_layout(g, node_pos=dict(), input_pos=[], output_pos=[]):
+    '''fonction qui définit des positions équiréparties sur un cercle pour les noeuds du graphe
+    arguments : g : graphe
+                node_pos : dictionnaire de positions. keys : ids des noeuds. Values : positions de noeud ayant l'Id
+                input_pos : liste de position correspondants aux inputs du graph
+                output_pos : liste de position correspondants aux outputs du graph'''
     nbnode = len(g.get_nodes())
     center = point(200, 200)
     rayon = 175
     i=0
     for id in g.get_node_ids():# la c
-        print("in circle layout, node_pos = ", node_pos)
         node_pos[id]=point(rayon * math.cos(i*2*math.pi/nbnode) + center.x, rayon*math.sin(i*2*math.pi/nbnode)+ center.y )
         i=i+1
     j=0
-    print("in circle layout, g.get_inputs_ids() = ", g.get_inputs_ids())
     for id in g.get_inputs_ids():
         input_pos.append(point(node_pos[id].x - 25, node_pos[id].y - 25))
         j=j+1
@@ -240,82 +289,64 @@ def circle_layout(g, node_pos=dict(), input_pos=[], output_pos=[]):
     return node_pos, input_pos, output_pos
 
 def DAG_layout(g):
+    '''fonction qui renvoie des positions pour les noeuds, les entrées et les sorties du graphe donné en paramètre
+    arguments : g : graphe, supposé acyclique
+                '''
     height = 400
     j = g.copy()
-    couche = 1
-    for input_id in g.get_inputs_ids():
-        cpt = j.compte_generation(input_id, 0,0)
-        if(couche < cpt):
-            couche = cpt
+    listNiveau = g.tri_topologique()
+
+    couche = 0
+    for _ in listNiveau :
+        couche = couche + 1 + 0.5
     ecarthauteur = height/couche
-    ecarthauteur = ecarthauteur - 1
-    #il y a surement unbug au dessus la, à verifier
-    nodes = g.get_node_ids()
-    #print("in DAG_layout, apres creation de nodes, nodes = ", nodes)
+
+    i = 0
     nodes_pos = {}
     input_pos = []
     output_pos = []
-    #On place tous les inputs
-    for input_id in g.get_inputs_ids(): #Cette boucle fontionne normalemnt
-        abs = random.randrange(25,375)
-        nodes_pos[input_id] = point(abs, ecarthauteur)
-        input_pos.append(point(abs, ecarthauteur-25))
-        nodes.remove(input_id)
-    '''print("in DAG_layout, avant la deuxieme boucle for, input_pos = ", input_pos)
-    print("in DAG_layout, avant la deuxieme boucle for, nodes = ", nodes)
-    print("in DAG_layout, avant la deuxieme boucle for,g.get_output_ids() = ", g.get_outputs_ids())'''
-    for output_id in g.get_outputs_ids(): #cette boucle fonctionne bien
-        abs = random.randrange(25,375)
-        nodes_pos[output_id] = point(abs, ecarthauteur)
-        output_pos.append(point(abs, ecarthauteur-25))
-        if(output_id in nodes):
-            nodes.remove(output_id)
-    '''print("in DAG_layout, avant la derniere boucle for, output_pos = ", output_pos)
-    print("in DAG_layout, avant la derniere boucle for, nodes = ", nodes)'''
-    for id_node in nodes :
-        i=0
-        id_parent = id_node
-        while(g.get_node_by_id(id_parent).get_parent_ids()!=[]):
-            i = i+1
-            id_parent = g.get_node_by_id(id_parent).get_parent_ids()[0]
-        abs = random.randrange(25,375)
-        nodes_pos[id_node] = point(abs, ecarthauteur*i)
-    #print("in DAG_layout, apres la derniere boucle for, nodes_pos = ", nodes_pos)
+
+    for list in listNiveau :
+        i = i+1
+        for j in list:
+            abs = random.randrange(25,375)
+            nodes_pos[j] = point(abs, ecarthauteur*(i))
+            if g.get_node_by_id(j) in g.get_inputs_ids() :
+                input_pos.append(point(abs, ecarthauteur-25))
+            if g.get_node_by_id(j) in g.get_inputs_ids() :
+                output_pos.append(point(abs, ecarthauteur+25))
+    print("in DAG_layout nodes_pos = ", nodes_pos )
+    print("in Dag_layout, input_pos = ", input_pos)
+    print("in Dag_layout, output_pos = ", output_pos)
     return nodes_pos, input_pos, output_pos
 
-'''méthode appiquée à draw qui dessine un graph
-arguments : g : graph que l'on veut dessiner
-            node_pos : dictionnaire de positions. keys : ids des noeuds. Values : positions de noeud ayant l'Id (va etre modifié si verbose = 'random')
-            input_pos : liste de position correspondants aux inputs du graph (va etre modifié si verbose = 'random')
-            output_pos : liste de position correspondants aux outputs du graph (va etre modifié si verbose = 'random')
-            méthode : string qui précise la manière de choisir les positions des noeuds. Par défaut 'manual'. Sinon préciser 'random', 'circle' ou 'DAG'
-            verbose : bool, par défaut false, si True : affiche l' Id des noeuds, sinon la fonction n'affiche que le label par défaut'''
-def drawgraph(self, g, node_pos={}, input_pos=[], output_pos=[], method='manual', verbose=False):     #méthode qui dessine un graphe, choix des positins aléatoire ou manuelle.
-    if (method=='random'):                                                                                  #verifier les paramétres
+
+
+def drawgraph(self, g, node_pos={}, input_pos=[], output_pos=[], method='manual', verbose=False):    
+    '''méthode appiquée à draw qui dessine un graph
+    arguments : g : graph que l'on veut dessiner
+                node_pos : dictionnaire de positions. keys : ids des noeuds. Values : positions de noeud ayant l'Id (va etre modifié si verbose = 'random')
+                input_pos : liste de position correspondants aux inputs du graph (va etre modifié si verbose = 'random')
+                output_pos : liste de position correspondants aux outputs du graph (va etre modifié si verbose = 'random')
+                méthode : string qui précise la manière de choisir les positions des noeuds. Par défaut 'manual'. Sinon préciser 'random', 'circle' ou 'DAG'
+                verbose : bool, par défaut false, si True : affiche l' Id des noeuds, sinon la fonction n'affiche que le label par défaut'''
+
+    if (method=='random'):
         node_pos, input_pos, output_pos = random_layout(g, node_pos, input_pos, output_pos)
     elif(method=='circle'):
-        print("####################on rentre dans method=='circle #########################")
         node_pos, input_pos, output_pos = circle_layout(g, node_pos, input_pos, output_pos)
-        print("in, drawGraph, dans le if method = circle, node_pos = ", node_pos)
     elif(method == 'DAG'):
         node_pos, input_pos, output_pos = DAG_layout(g)
-    print("in draw_graph,avant premier for , input_pos = ", input_pos)
-    for i in range(len(g.get_inputs_ids())): #on trace l'entrée
+    for i in range(len(input_pos)): #on trace l'entrée
         self.arrows(input_pos[i], node_pos[g.get_inputs_ids()[i]], 0, 1)
-        print("in draw_graph, premier for, i = ", i, ", input_pos[i] = ", input_pos[i])
 
-    for i in range(len(g.get_outputs_ids())): #on trace la sortie
+    for i in range(len(output_pos)): #on trace la sortie
             self.arrows(node_pos[g.get_outputs_ids()[i]],output_pos[i], 1, 0)
     for id in g.get_node_ids(): # on trace les arrete entre les nodes et leurs enfant
         #if(g.nodes()[id].get_children_ids() != []):
-        print("in drawGraph, ",g.get_nodes()[id].get_children_ids())
-        print("node_pos = ",node_pos)
         for child in g.get_nodes()[id].get_children_ids():
-            print("in drawgraph, child =", child)
             n = count_occurrences(g.get_nodes()[id].get_children_ids(), child)
             m = count_occurrences(g.get_nodes()[id].get_parent_ids(), child)
-            print("Dans drawGraph, n = ",n, " et m = ",m)
-            print("Dans drawGraph, node_pos[id] =", node_pos.get(id, None), " et node_pos[child] = ",node_pos.get(child, -1))
             self.arrows(node_pos[id], node_pos[child], n, m)
     for id in g.get_node_ids(): # on trace les nodes
         self.node(g.get_node_by_id(id),node_pos[id], verbose)
@@ -335,3 +366,5 @@ ImageDraw.ImageDraw.arrows = drawarrows # we define the method 'arrows'
 ImageDraw.ImageDraw.node = drawnode
 
 ImageDraw.ImageDraw.graph = drawgraph
+
+ImageDraw.ImageDraw.bezier = Bezier

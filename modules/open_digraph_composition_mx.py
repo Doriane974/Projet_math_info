@@ -1,9 +1,10 @@
 class open_digraph_composition_mx:
-    '''methode qui compose parallelement deux open_digraph, en en modifiant un mais pas l'autre
-    arguments : g, le graphe a composer dans self
-    return : none
-    '''
+
     def iparallel(self,g):
+        '''methode qui compose parallelement deux open_digraph, en en modifiant un mais pas l'autre
+        arguments : g, le graphe a composer dans self
+        return : none
+        '''
         for input_id in g.get_inputs_ids():
             self.add_input_id(input_id)
         for output_id in g.get_outputs_ids():
@@ -11,20 +12,22 @@ class open_digraph_composition_mx:
         for node_id in g.get_node_ids():
             slef.add_node(str(g.get_node_by_id(node_id).get_label()), g.get_parent_ids(), g.get_children_ids())
 
-    '''methode qui compose parallelement deux open_digraph, sans les modifier
-    arguments : g, le graphe a composer avec self
-    return : graph, un nouveau graph qui est la composition parallele de g et de self
-    '''
+
     def parallel(self,g):
+        '''methode qui compose parallelement deux open_digraph, sans les modifier
+        arguments : g, le graphe a composer avec self
+        return : graph, un nouveau graph qui est la composition parallele de g et de self
+        '''
         graph = self.copy()
         graph.iparallel(g)
         return graph
 
-    '''methode qui compose séquentiellement deux open_digraph, en en modifiant un (self) mais pas l'autre
-    arguments : g, le graphe a composer dans self
-    return : none
-    '''
+
     def icompose(self, g):
+        '''methode qui compose séquentiellement deux open_digraph, en en modifiant un (self) mais pas l'autre
+        arguments : g, le graphe a composer dans self
+        return : none
+        '''
         if(len(self.get_inputs_ids()) != len(g.get_outputs_ids())):
             raise Exception("les entrées de self ne coincident pas avec les sorties de g")
         Lg_outputs = []
@@ -43,11 +46,12 @@ class open_digraph_composition_mx:
         self.set_input_ids(lg_inputs)
 
 
-    '''methode qui compose séquentiellement 2 open_digraphs, sans les modifier
-    arguments : g, le graphe a composer avec self
-    return : graph, un nouveau graph qui est la composition parallele de g et de self
-    '''
+
     def compose(self, g):
+        '''methode qui compose séquentiellement 2 open_digraphs, sans les modifier
+        arguments : g, le graphe a composer avec self
+        return : graph, un nouveau graph qui est la composition parallele de g et de self
+        '''
         graph = self.copy()
         graph.icompose(g)
         return graph

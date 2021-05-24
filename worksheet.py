@@ -122,6 +122,15 @@ print("dist_common_ancestors, dist dist_common_ancestors de 3 et 4 :", b.dist_co
 #print("compte generation, b.compte_generation = ",b.compte_generation(5,0,0))
 #print("compte generation, c.compte_generation = ",c.compte_generation(1,0))
 
+print("test slope_angle (0,0), (0,1) = ", slope_angle(point(0,0), point(0,1)))
+print("test slope_angle (0,0), (1,1) = ", slope_angle(point(0,0), point(1,1)))
+print("test slope_angle (0,0), (1,0) = ", slope_angle(point(0,0), point(1,0)))
+print("test slope_angle (0,0), (0,-1) = ", slope_angle(point(0,0), point(0,-1)))
+print("test slope_angle (0,0), (-1,-1) = ", slope_angle(point(0,0), point(-1,-1)))
+print("test slope_angle (0,0), (-1,0) = ", slope_angle(point(0,0), point(-1,0)))
+print("test slope_angle (0,0), (-1,1) = ", slope_angle(point(0,0), point(-1,1)))
+print("test slope_angle (0,0), (1,-1) = ", slope_angle(point(0,0), point(1,-1)))
+
 
 c0 = node(0, '0', [], [2])
 c1 = node(1, '1', [], [2])
@@ -130,13 +139,44 @@ c3 = node(3, '~', [2], [])
 
 c = open_digraph([0, 1], [3], [c0, c1, c2, c3])
 
+
 cbc = bool_circ(c)
 
 temp = open_digraph([],[],[])
 bcOnze = bool_circ(temp)
-bcOnze.int_to_bool_circ(11, 4)
-print("bcOnze = ", bcOnze)
+bcOnze.int_to_bool_circ(245, 8)
+
 #draw.graph(bcOnze,{},[],[], 'circle')
+
+d0 = node(0, '0', [1], [3])
+d1 = node(1, '1', [], [2,0])
+d2 = node(2, '2', [1], [3])
+d3 = node(3, '3', [0,2], [4])
+d4 = node(4, '4', [3], [])
+
+d = open_digraph([0,1,4],[3], [d0, d1, d2, d3, d4])
+list = d.tri_topologique()
+print("in Worksheet, tri topologique de D = ",list)
+print("profondeur de 3 = ", d.profondeur_node_by_id(3))
+draw.graph(d,{},[],[], 'DAG')
+
+#pB1 = point(20, 20)
+#pB2 = point(100, 100)
+#paux = point(50,50)
+#draw.bezier(pB1,paux, pB2)
+
+'''no0 = node(0, '1', [], [1])
+no1 = node(1, '^', [0], [])
+nograph = open_digraph([0],[1], [no0, no1])
+noBc = bool_circ(nograph)
+print(" ")
+print("worksheet, noBc = ", noBc)
+
+noBc.apply_xor_rule(0,1)
+print("worksheet, apres no rule  noBc = ", noBc)
+#draw.graph(nograph,{},[],[], 'circle')
+'''
+
 
 
 

@@ -24,119 +24,137 @@ class node:
         self.children = children
 
     def __str__(self):
-        return "(" + str(self.id) +"," + self.label +","+ str(self.parents) + "," + str(self.children) + ")"
         '''
         output : str ; the string given by str(node)
         '''
+        return "(" + str(self.id) +"," + self.label +","+ str(self.parents) + "," + str(self.children) + ")"
+
     def __repr__(self):
         return "node"+str(self)
 
-    '''méthode appliqué au node qui renvoie une copie de ce node
-    argument : nonde
-    return : node '''
+
     def copy(self):                     # renvoie une copie du node (node)
+        '''méthode appliqué au node qui renvoie une copie de ce node
+        argument : nonde
+        return : node '''
         return node(self.id, self.label, self.parents.copy(),self.children.copy())
 
-    '''méthode appliquée au node qui renvoie l'id de ce node
-    argument : none
-    return : int '''
+
     def get_id(self):                   # renvoie l'id du node (int)
+        '''méthode appliquée au node qui renvoie l'id de ce node
+        argument : none
+        return : int '''
         return self.id
 
-    '''méthode appliquée au node qui renvoie le label de ce node
-    argument : none
-    retunr : label '''
+
     def get_label(self):                # renvoie le label du node
+        '''méthode appliquée au node qui renvoie le label de ce node
+        argument : none
+        retunr : label '''
         return self.label
 
-    '''méthode appliquée au node qui renvoie la liste des parents de ce node
-    argument : none
-    return : id list '''
+
     def get_parent_ids(self):           # renvoie la liste des parents du node (int list)
+        '''méthode appliquée au node qui renvoie la liste des parents de ce node
+        argument : none
+        return : id list '''
         return self.parents
 
-    '''méthode appliquée au node qui renvoie la liste des enfants du node
-    argument : nonde
-    return : id list  '''
+
     def get_children_ids(self):         # renvoie la liste des enfants du node (int list)
+        '''méthode appliquée au node qui renvoie la liste des enfants du node
+        argument : nonde
+        return : id list  '''
         return self.children
 
 
-    '''méthode appliquée au node qui affecte une valeur a l'id du node
-    argument : id : id que l'on veut affecter
-    return : none '''
+
     def set_id (self, id) :             # affecte une valeur a l'id du node (char)
+        '''méthode appliquée au node qui affecte une valeur a l'id du node
+        argument : id : id que l'on veut affecter
+        return : none '''
         self.id = id
 
-    '''méthode appliquée au node qui affecte un label au node
-    argument : label : label que l'on veut affecter
-    return : none '''
+
     def set_label (self, label) :       # affecte un string au label du node (string)
+        '''méthode appliquée au node qui affecte un label au node
+        argument : label : label que l'on veut affecter
+        return : none '''
         self.label = label
 
-    '''méthode appliquée au node qui affecte une valeur au parents de ce node
-    argument : id list
-    return : none  '''
+
     def set_parent_ids (self, parent_ids) :         # affecte une valeur aux ids des parents du node (int list)
+        '''méthode appliquée au node qui affecte une valeur au parents de ce node
+        argument : id list
+        return : none  '''
         self.parents = parent_ids
 
-    '''méthode appliquée au node qui affecte une valeur au enfants de ce node
-    argument : id list
-    return : none  '''
+
     def set_children_ids (self, children_ids) :     # affecte une valeur aux ids des enfants du node (int list)
+        '''méthode appliquée au node qui affecte une valeur au enfants de ce node
+        argument : id list
+        return : none  '''
         self.children = children_ids
 
-    '''méthode appliquée au node qui ajoute une valeur a la liste des ids des enfants de ce node
-    argument : child_id : id à ajouter
-    return : none  '''
+
     def add_child_id (self, child_id) :             # ajoute une valeur a la liste des id des enfants du node (int)
+        '''méthode appliquée au node qui ajoute une valeur a la liste des ids des enfants de ce node
+        argument : child_id : id à ajouter
+        return : none  '''
         self.children.append(child_id)
 
-    '''méthode appliquée au node qui ajoute une valeur a la liste des ids des parents de ce node
-    arguments : parent id : id à ajouter
-    return : none '''
+
     def add_parent_id (self, parent_id) :           # ajoute une valeur a la liste des id des parents du node (int)
+        '''méthode appliquée au node qui ajoute une valeur a la liste des ids des parents de ce node
+        arguments : parent id : id à ajouter
+        return : none '''
         self.parents.append(parent_id)
 
-    '''méthode appliquée au node qui ajoute une liste de valeur a la liste des ids des parents de ce node
-    arguments : parents_ids : liste d'id à ajouter
-    return : none '''
+
     def add_parents_ids (self, parents_ids):
+        '''méthode appliquée au node qui ajoute une liste de valeur a la liste des ids des parents de ce node
+        arguments : parents_ids : liste d'id à ajouter
+        return : none '''
         for id in parents_ids :
             self.add_parent_id(id)
 
-    '''méthode appliquée au node qui retire la valeur spécifiée a la liste des ids des parents du node
-    argument : parent id : id
-    return : none '''
+
     def remove_parent_id(self, parent_id):          # retire la valeur specifiee a la liste des ids des parents du node (int)
+        '''méthode appliquée au node qui retire la valeur spécifiée a la liste des ids des parents du node
+        argument : parent id : id
+        return : none '''
         if parent_id in self.get_parent_ids():
             self.parents.remove(parent_id)
 
-    '''méthode appliquée au node qui retire la valeur spécifiée a la liste des ids des parents du node
-    argument ; child_id : id
-    return : none '''
+
     def remove_child_id(self, child_id):            # retire la valeur specifiee a la liste des ids des enfants du node (int)
+        '''méthode appliquée au node qui retire la valeur spécifiée a la liste des ids des parents du node
+        argument ; child_id : id
+        return : none '''
         if child_id in self.get_children_ids():
             self.children.remove(child_id)
 
-    '''méthode appliquée au node qui retire tous les ids donnés des parents du node
-    argument : parent_id : id list
-    return : none  '''
+
     def remove_parent_id_all(self, parent_id):      # retire tous les ids des parents du node (int list)
+        '''méthode appliquée au node qui retire tous les ids donnés des parents du node
+        argument : parent_id : id list
+        return : none  '''
         remove_all(self.parents, parent_id)
 
-    '''méthode appliquée au node qui retire tous les ids donnés des enfants du node
-    argument : child_id : id list
-    return : none  '''
+
     def remove_child_id_all(self, child_id):        # retire tous les ids des enfants du node (int list)
+        '''méthode appliquée au node qui retire tous les ids donnés des enfants du node
+        argument : child_id : id list
+        return : none  '''
         remove_all(self.children, child_id)
 
 
 
-    '''méthode qui s'applique a un node qui donne le degre sortant du node
-    argument : none
-    return : int '''
+
     def outdegree(self):                            # donne le degre sortant du node
+        '''méthode qui s'applique a un node qui donne le degre sortant du node
+        argument : none
+        return : int '''
         return len(self.get_children_ids())
 
 
@@ -144,20 +162,22 @@ class node:
     argument : none
     return : int '''
     def indegree(self):                             # donne le degre entrant du node
+        '''méthode qui s'applique a un node qui donne le degre entrant du node
+        argument : none
+        return : int '''
         return len(self.get_parent_ids())
 
-
-    '''méthode qui s'applique a un node qui donne le degré du node (degre entrant + degre sortant)
-    argument : none
-    return : int '''
     def degree(self):                               # donne le degre du node
+        '''méthode qui s'applique a un node qui donne le degré du node (degre entrant + degre sortant)
+        argument : none
+        return : int '''
         return self.indegree() + self.outdegree()
 
-    '''méthode appliquée a un node qui change l'id de ce node, en additionnant n
-    à l'id actuel
-    argumetns : n : nombre a ajouté
-    return : none '''
     def change_id_node(self, n):
+        '''méthode appliquée a un node qui change l'id de ce node, en additionnant n
+        à l'id actuel
+        argumetns : n : nombre a ajouté
+        return : none '''
         self.id = self.get_id() + n
 
 
@@ -177,44 +197,46 @@ class open_digraph(open_digraph_composition_mx, open_digraph_getters_mx,  open_d
     def __repr__(self):
         return "open_digraph" + str(self)
 
-    '''méthode appliquée au graphe qui retourne une copie du graphe
-    argument : none
-    return : un nouveau graph '''
+
     def copy(self):                         # renvoie une copie du graphe (digraph)
+        '''méthode appliquée au graphe qui retourne une copie du graphe
+        argument : none
+        return : un nouveau graph '''
         return open_digraph(self.inputs.copy(), self.outputs.copy(), [node.copy() for node in self.nodes.values()])
 
-    '''fonction qui renvoie un graphe vide
-    arguments : none
-    return : un graphe '''
+
     def empty():                            # renvoie un graphe vide (digraph)
+        '''fonction qui renvoie un graphe vide
+        arguments : none
+        return : un graphe '''
         return open_digraph([],[],[])
 
-    '''méthode appliquée au graphe qui vérifie si une id existe deja dans le graphe
-    argument : id : l'id dont on veut savoir si elle existe ou non
-    return : bool : True si l'id existe, False sinon '''
     def id_exists_in_graph(self,id):
-        #print("id =", id)
-        #print("liste node = ",self.get_node_ids())
+        '''méthode appliquée au graphe qui vérifie si une id existe deja dans le graphe
+        argument : id : l'id dont on veut savoir si elle existe ou non
+        return : bool : True si l'id existe, False sinon '''
         if id in self.get_node_ids():
             return True
         else:
             return False
 
-    '''méthode appliquée au graphe qui affecte input_ids aux inputs du graph
-    argument : inputs_ids : id list
-    return : none '''
+
     def set_input_ids (self, input_ids) :              # affecte les inputs du graphe a input_ids
+        '''méthode appliquée au graphe qui affecte input_ids aux inputs du graph
+        argument : inputs_ids : id list
+        return : none '''
         self.inputs = input_ids
 
-    '''méthode appliquée au graphe qui affecte output_ids aus outputs du graph
-    argument : outputs_ids : id list
-    return : none '''
+
     def set_output_ids (self, output_ids) :             # affecte les outputs du graphe a output_ids
+        '''méthode appliquée au graphe qui affecte output_ids aus outputs du graph
+        argument : outputs_ids : id list
+        return : none '''
         self.outputs= output_ids
 
-    '''méthode appliquée au graphe qui ajoute une valeur a la liste des inputs du graphe
-    argument : input_id : id à ajouter  '''
     def add_input_id (self, input_id) :                 # ajoute une valeur a la liste des inputs du graphe
+        '''méthode appliquée au graphe qui ajoute une valeur a la liste des inputs du graphe
+        argument : input_id : id à ajouter  '''
         self.inputs.append(input_id)
 
     '''méthode appliquée au graphe qui ajoute une valeur a la liste des outputs du graphe
@@ -222,26 +244,29 @@ class open_digraph(open_digraph_composition_mx, open_digraph_getters_mx,  open_d
     def add_output_id (self, output_id) :               # ajoute une valeur a la liste des outputs du graphe
         self.outputs.append(output_id)
 
-    '''méthode appliquée au graphe qui ajoute une arrete entre 2 nodes
-    argument : src : Id du node qui deviendra le parent
-               tgt : Id du node qui deviendra l'enfant '''
+
     def add_edge(self, src, tgt):                       # ajoute une arete entre les nodes
+        '''méthode appliquée au graphe qui ajoute une arrete entre 2 nodes
+        argument : src : Id du node qui deviendra le parent
+                   tgt : Id du node qui deviendra l'enfant '''
         self.get_node_by_id(src).add_child_id(tgt)
         self.get_node_by_id(tgt).add_parent_id(src)
 
-    '''méthode appliquée au graph qui ajoute des arrete entre un node et une liste de node
-    arguments : src : Id du node qui deviendra le parent
-                tgt ; liste d'Id des nodes qui deviendront les enfants de src '''
+
     def add_edges(self, src, tgt):          # ajoute des aretes entre les nodes
+        '''méthode appliquée au graph qui ajoute des arrete entre un node et une liste de node
+        arguments : src : Id du node qui deviendra le parent
+                    tgt ; liste d'Id des nodes qui deviendront les enfants de src '''
         for i in tgt:
             self.add_edge(src,i)
 
-    '''méthode appliquée au graphe qui ajoute un node au graphe
-    argument : label : label, par défaut ''
-               parents : id list, par défaut []
-               children : id list, par défaut []
-    return : id : l'id du node qui a été ajouté '''
+
     def add_node(self, label='', parents=[], children=[]):             # ajoute un node au graphe                               # pas sur du tout, et à tester
+        '''méthode appliquée au graphe qui ajoute un node au graphe
+        argument : label : label, par défaut ''
+                   parents : id list, par défaut []
+                   children : id list, par défaut []
+        return : id : l'id du node qui a été ajouté '''
         id=self.new_id()
         n0 = node(id, label, [],[])
         self.nodes[id]=n0
@@ -252,10 +277,11 @@ class open_digraph(open_digraph_composition_mx, open_digraph_getters_mx,  open_d
         self.add_edges(id, children)
         return id
 
-    '''méthode appliquée au graphe qui  retourne un Id qui n'est pas utilisé dans le graphe
-    argument : none
-    return : un id '''
+
     def new_id(self):                                   # renvoie un id non utilise par le graphe
+        '''méthode appliquée au graphe qui  retourne un Id qui n'est pas utilisé dans le graphe
+        argument : none
+        return : un id '''
         dict = self.get_id_node_map()
         if (dict =={}):
             return 0
@@ -266,21 +292,23 @@ class open_digraph(open_digraph_composition_mx, open_digraph_getters_mx,  open_d
                 return 0
 
 
-    '''méthode appliquée au graphe qui retire une arete du graph
-    argument : src : id
-               tgt : id
-    return : none '''
+
     def remove_edge(self,src,tgt):                                      # retire une arete du graphe
+        '''méthode appliquée au graphe qui retire une arete du graph
+        argument : src : id
+                   tgt : id
+        return : none '''
 
         self.get_node_by_id(src).remove_parent_id(tgt)
         self.get_node_by_id(src).remove_child_id(tgt)
         self.get_node_by_id(tgt).remove_parent_id(src)
         self.get_node_by_id(tgt).remove_child_id(src)
 
-    '''méthode appliquée au graphe qui enleve un noeud ayant l'Id voulue du graphe
-    argument : id : id du noeud que l'on veut retirer
-    return : none '''
+
     def remove_node_by_id(self, id):
+        '''méthode appliquée au graphe qui enleve un noeud ayant l'Id voulue du graphe
+        argument : id : id du noeud que l'on veut retirer
+        return : none '''
         for parent in self.get_node_by_id(id).get_parent_ids() :
             self.get_node_by_id(parent).remove_child_id_all(id)
         for child in self.get_node_by_id(id).get_children_ids() :
@@ -290,29 +318,37 @@ class open_digraph(open_digraph_composition_mx, open_digraph_getters_mx,  open_d
         self.nodes.pop(id)
 
 
+
+
+
+
+
     ''''''
-    '''méthode appliquée au graphe qui retire plusieurs arretes du graphe, entre les nodes compris dans 2 listes. modifie le graphe
-    arguments : src : node list
-                tgt : node list
-    return : none '''
+
     def remove_edges(self,src,tgt):#src et tgt sont des listes de nodes    # a tester  # retire plusieurs aretes au graphe
+        '''méthode appliquée au graphe qui retire plusieurs arretes du graphe, entre les nodes compris dans 2 listes. modifie le graphe
+        arguments : src : node list
+                    tgt : node list
+        return : none '''
         for i in src :
             for  j in tgt :
                 self.remove_edge(i.id ,j.id)
 
-    '''méthode appliquée au graphe. Retire plusieurs nodes au graphe
-    argument : ids : liste d'ids (les éléments de la liste correspondants aux ids des noeuds que l'on veut enlever.)
-    return : none '''
+
     def remove_nodes_by_id(self,ids):   #ids une liste de ids        # a tester     # retire plusieurs nodes au graphe
+        '''méthode appliquée au graphe. Retire plusieurs nodes au graphe
+        argument : ids : liste d'ids (les éléments de la liste correspondants aux ids des noeuds que l'on veut enlever.)
+        return : none '''
         for i in ids:
             self.remove_node_by_id(i)
 
-    '''Méthode appliquée au graphe qui vérifie si il est bien formé
-    arguments : none
-    return : bool : True si bien formé, False sinon'''
+
     ############################################################################
     ###                   Ne passe pas le test je crois                        #
     def is_well_formed(self):                       # verifie si le graphe est correctement forme
+        '''Méthode appliquée au graphe qui vérifie si il est bien formé
+        arguments : none
+        return : bool : True si bien formé, False sinon'''
         #########################################
         #              A modifier ?              #
         #########################################
@@ -340,12 +376,13 @@ class open_digraph(open_digraph_composition_mx, open_digraph_getters_mx,  open_d
         return True                                             # si aucune erreur n'a ete detectee, alors le graphe est bien forme'''
 
 
-    '''méthode qui change la valeur d'une id d'un noeud du graph, méthode appliquée au graph
-    argument : node_id : id que l'on veut modifier
-               new_id : l'id par laquelle on veut remplacer node_id
-    return : none
-    '''
+
     def change_id(self, node_id, new_id):
+        '''méthode qui change la valeur d'une id d'un noeud du graph, méthode appliquée au graph
+        argument : node_id : id que l'on veut modifier
+                   new_id : l'id par laquelle on veut remplacer node_id
+        return : none
+        '''
         if(not self.id_exists_in_graph(new_id)):
             #print("node_id =", node_id," new_id = ", new_id)
             for i in self.get_node_by_id(node_id).get_parent_ids():                 #i parcours une liste des parents du node d'id node_id
@@ -373,21 +410,24 @@ class open_digraph(open_digraph_composition_mx, open_digraph_getters_mx,  open_d
             #print(new_id)
             raise ValueError('new id already exists')
 
-    '''méthode qui change plusieurs ids du graphe. Méthode appliquée au graphe.
-    argument: change : liste de couple. Premier élément des couple : id a remplacer. Deuxieme élément ; id par lequel remplacer
-    return : none '''
+
     def change_ids(self, change):
+        '''méthode qui change plusieurs ids du graphe. Méthode appliquée au graphe.
+        argument: change : liste de couple. Premier élément des couple : id a remplacer. Deuxieme élément ; id par lequel remplacer
+        return : none '''
         sorted(change, key = lambda t: t[1])
         for couple in change :
             self.change_id(couple[0], couple[1])
 
-    '''méthode appliquée a un graph qui renvoie un graph correspondant a la matrice d'adjacence de type form , de taille n*n et avec des valeurs entre 0 et bound
-    argument : n : int : taille de la matrice
-               bound : int : la borne maximum de l'intervalle dans lequel on choisit les élements de la liste, bound exclus
-               intputs : int, par défaut 0
-               outputs : int, par défaut 0
-               form : string, par défaut 'free', peut prendre les valeurs : DAG, oriented, undirected, free'''
+
     def random_graph(self, n, bound, inputs=0, outputs=0, form="free"):     # renvoie un graphe correspondant a la matrice d adjacence de type form, de taille n * n et avec des valeurs entre 0 et bound
+        '''méthode appliquée a un graph qui renvoie un graph correspondant a la matrice d'adjacence de type form , de taille n*n et avec des valeurs entre 0 et bound
+        argument : n : int : taille de la matrice
+                   bound : int : la borne maximum de l'intervalle dans lequel on choisit les élements de la liste, bound exclus
+                   intputs : int, par défaut 0
+                   outputs : int, par défaut 0
+                   form : string, par défaut 'free', peut prendre les valeurs : DAG, oriented, undirected, free'''
+
         '''
         le fonctionnement est assez simple : on cree la matrice en fonction de la forme voulue, puis on fait le graphe correspondant
         utiliser l argument form pour definir le type de matrice et donc de graphe voulu
@@ -411,12 +451,13 @@ class open_digraph(open_digraph_composition_mx, open_digraph_getters_mx,  open_d
 
 
 
-    '''methode qui teste la cyclicité d'un graphe
-    arguments : none
-    return : True si le graph est cyclic
-             False sinon
-    '''
+
     def is_cyclic(self):
+        '''methode qui teste la cyclicité d'un graphe
+        arguments : none
+        return : True si le graph est cyclic
+                 False sinon
+        '''
         def is_cyclic_aux(g, listnodes):
             if (listnodes==[]):
                 return False
@@ -433,10 +474,11 @@ class open_digraph(open_digraph_composition_mx, open_digraph_getters_mx,  open_d
 
     #TD7
 
-    '''méthode qui ajoute n a tous les indices du graphe
-    arguments : n : int
-    return : none '''
+
     def shift_indices(self, n):
+        '''méthode qui ajoute n a tous les indices du graphe
+        arguments : n : int
+        return : none '''
         #trier dans l'ordre décroissant a chaque fois. edit : en fait ca résout pas le problème
         list_inputs = self.get_inputs_ids()
         list_inputs.sort(reverse=True)
@@ -531,14 +573,15 @@ class open_digraph(open_digraph_composition_mx, open_digraph_getters_mx,  open_d
         return children_list                        # on renvoie la liste vers les appels recursifs precedents
 
 
-    '''algorithme de dijkstra
-    ############################################################################
-    ###########                   A DEBUGUER                         ###########
-    arguments : src : id du node initial
-                tgt : optionnel : id du node dont on veut donnaitre le plus court chemin entre lui et src
-                direction : optionnel : peut prendre la valeur 1, -1 ou None, décrit la drirection dans laquelle
-                                        on va chercher le plus court chemin '''
+
     def dijkstra(self, src, tgt = None, direction = None) :
+        '''algorithme de dijkstra
+        ############################################################################
+        ###########                   A DEBUGUER                         ###########
+        arguments : src : id du node initial
+                    tgt : optionnel : id du node dont on veut donnaitre le plus court chemin entre lui et src
+                    direction : optionnel : peut prendre la valeur 1, -1 ou None, décrit la drirection dans laquelle
+                                            on va chercher le plus court chemin '''
         Q = [src]
         dist = {}
         dist[src] = 0
@@ -564,21 +607,23 @@ class open_digraph(open_digraph_composition_mx, open_digraph_getters_mx,  open_d
         '''Faire la 1ere partie de exo 2 '''
         return dist, prev
 
-    '''Méthode qui s'applique a un graphe, qui calcule le chemin le plus court entre 2 node, de src vers tgt
-    arguments : src : node
-                tgt : node
-    return : int : shortest distance entre src et tgt '''
+
     def shortest_path(self, src, tgt):
+        '''Méthode qui s'applique a un graphe, qui calcule le chemin le plus court entre 2 node, de src vers tgt
+        arguments : src : node
+                    tgt : node
+        return : int : shortest distance entre src et tgt '''
         dist, prev = self.dijkstra(src, tgt)
         return dist[tgt]
 
-    '''méthode qui s'applique a un graphe, qui, étant donné 2 noeuds, renvoie un dictionnaire
-    qui associe a chaque ancetres commun des deux noeuds sa distance a chacun des 2 noeuds
-    arguments : src1 : noeud
-                src2 : noeud
-    return : dictionnaire
-    '''
+
     def dist_common_ancestors(self, src1, src2):
+        '''méthode qui s'applique a un graphe, qui, étant donné 2 noeuds, renvoie un dictionnaire
+        qui associe a chaque ancetres commun des deux noeuds sa distance a chacun des 2 noeuds
+        arguments : src1 : noeud
+                    src2 : noeud
+        return : dictionnaire
+        '''
         dist_1, prev_1 = self.dijkstra(src1, tgt = None, direction = -1)
         dist_2, prev_2 = self.dijkstra(src2)
         dist_common_ancestors = {}
@@ -588,14 +633,65 @@ class open_digraph(open_digraph_composition_mx, open_digraph_getters_mx,  open_d
                     dist_common_ancestors[id_node_ancetre_de_2] = (dist_1[id_node_ancetre_de_1], dist_2[id_node_ancetre_de_2])
         return dist_common_ancestors
 
-    '''méthode appliquée a ungraphe qui fuisionne 2 nodes en un seul.
-    arguments : id1 : id du premier noeud à fusionner
-                id 2 : id du deuxieme noeud a fusionner
-                label : par défaut : none, le label a donner au noeud créé par la fusion.
-                        Si rien n'est préciser, le label de la fusion sera le label du noeud d'id id1
-    return : None
-    '''
+    def tri_topologique(self):
+        '''méthode qui implemente le tri topologique compressé vers le haut.
+        @param : none
+        @return : id list list'''
+
+        g = self.copy()
+        listNodeSelf = self.get_node_ids()
+        listDejaTrie = []
+        listRestant = listNodeSelf
+        listTriTopo = []
+
+        while len(listRestant)>0 :
+            #la liste du niveau actuel
+            nodeNiveau = []
+            #on regarde les nodes qui n'ont pas de parents dans le graph
+            for id in listRestant:
+                if g.get_node_by_id(id).get_parent_ids() == []:
+                    #on les ajoute a la liste du niveau actuel
+                    nodeNiveau.append(id)
+
+            for id in nodeNiveau:
+                #on supprime les ids qu'on vient de mettre dans la liste de nouveau de la liste des nodes restant a trier
+                listRestant.remove(id)
+                #on les ajoute a la liste des nodes deja trié
+                listDejaTrie.append(id)
+
+
+            #print("in Tri topologique, listDejaTrie = ", listDejaTrie)
+            #print("in Tri topologique, listRestant = ", listRestant)
+            #print("in Tri topologique, listTriTopo = ", listTriTopo)
+
+            #On supprime les noeuds deja trié du graphe, afin d'avoir de nouveaux noeuds sans parents
+            for id in nodeNiveau:
+                g.remove_node_by_id(id)
+
+            #on ajoute la liste du niveau a la liste totale du tri topo
+            listTriTopo.append(nodeNiveau)
+
+        #on retourne la liste du tri topologique
+        return listTriTopo
+
+    def profondeur_node_by_id(self, id):
+        listTriTopo = self.tri_topologique()
+        i = 0
+        for list in listTriTopo:
+            if id in list:
+                return i
+            else :
+                i=i+1
+
+
     def fusion_nodes(self, id1, id2, label = None):
+        '''méthode appliquée a ungraphe qui fuisionne 2 nodes en un seul.
+        arguments : id1 : id du premier noeud à fusionner
+                    id 2 : id du deuxieme noeud a fusionner
+                    label : par défaut : none, le label a donner au noeud créé par la fusion.
+                            Si rien n'est préciser, le label de la fusion sera le label du noeud d'id id1
+        return : None
+        '''
         #on ajoute aux enfant de id1 les enfants de id2
         #print("fusion node,id1, id2 =", id1, "   ", id2)
         #print("fusion node,self.get_node_by_id(id1) = ", self.get_node_by_id(id1))
@@ -622,12 +718,13 @@ class open_digraph(open_digraph_composition_mx, open_digraph_getters_mx,  open_d
         self.remove_node_by_id(id2)
         #print("fusion faite")
 
-    '''methode qui s'applique a un graphe qui compte le nombre maximal d'enfant d'un node.
-    arguments : id : l'id du noeud dont on veut connaitre le nombre de génération d'héritier il a
-                comptGlobal : un compteur, initialisé a 0 par défaut
-    return : le nombre de génération en dessous du node d'id id .
-    '''
+
     def compte_generation(self, id_base, comptGlobal, comptLocal):
+        '''methode qui s'applique a un graphe qui compte le nombre maximal d'enfant d'un node.
+        arguments : id : l'id du noeud dont on veut connaitre le nombre de génération d'héritier il a
+                    comptGlobal : un compteur, initialisé a 0 par défaut
+        return : le nombre de génération en dessous du node d'id id .
+        '''
         for id in self.get_node_by_id(id_base).get_children_ids(): #on parcourts les enfants de id_base
             #print("compte_generation, dans la boucle for, id = ", id)
             comptLocal = comptLocal + 1#si il a un enfant, on incrémente
@@ -657,11 +754,12 @@ class bool_circ(open_digraph):
         if (g.is_well_formed() == False ):
             raise Exception("Désolé, le circuit booleen est mal formé")
 
-    '''methode qui convertit un circuit en graphe
-    arguments : circ, circuit a convertir
-    return : g, le graphe correspondant au circuit circ
-    '''
+
     def convert(self, circ):
+        '''methode qui convertit un circuit en graphe
+        arguments : circ, circuit a convertir
+        return : g, le graphe correspondant au circuit circ
+        '''
         #circ :  un circuit booléen bool_circ
         g = open_digraph([],[],[])
         g.inputs = self.get_inputs_ids()
@@ -671,37 +769,59 @@ class bool_circ(open_digraph):
 
 
 
-    '''methode qui verifie si un circuit est bien un circuit booleen
-    arguments : non
-    return : True si le circuit est bien forme i.e. si il est valide et acyclique
-            False sinon
-    '''
+
 
     def is_well_formed(self) :
-        acyclique = self.is_cyclic()
+        '''methode qui verifie si un circuit est bien un circuit booleen
+        arguments : non
+        return : True si le circuit est bien forme i.e. si il est valide et acyclique
+                False sinon
+        '''
+        if self.is_cyclic():
+            return False
+        valide = False
         for node in self.get_nodes():
-            if not node.get_label() :
+            label = node.get_label()
+
+            #on regarde si c'est un noeud de copie
+            if not label :
                 valide = node.indegree() == 1
-            elif node.get_label() == '&' or  node.get_label() == '|' :
+                label = '|'
+
+            elif label == '&' or  label == '|' :
                 valide = node.outdegree() == 1
-            elif node.get_label() == "~" :
-                valide = node.indegree() == 1 and node.outdegree() == 1
+                if(node.get_id() in self.get_outputs_ids()):
+                    valide = True
+            elif label == "~" :
+                inDegre = node.indegree()
+                if (node.get_id() in self.get_inputs_ids()):
+                    inDegre = 1
+                outDegre =  node.outdegree()
+                if (node.get_id() in self.get_outputs_ids()):
+                    outDegre = 1
+                valide = inDegre == 1 and outDegre == 1
             ####################################################################
             #     faire verifier cette ligne à mayeul, puisque j'ai un doute   #
-            elif node.get_label() == "^" or node.get_label() == "XOR":
+            elif label == "^" or label == "XOR":
                 valide = True
-            elif node.get_label() == "1" or node.get_label() == "0":
+            elif label == "1" or label == "0":
                 if node.get_parent_ids() == []:
                     valide = True
 
-        return acyclique and valide
+            labelValide = ['0', '1', 'XOR', '^', '~', '&', '|', '']
+            if not label in labelValide :
+                return False
+            if(valide == False ):
+                return valide
+        return valide
 
-    '''méthode appliquée a un circuit booleen, qui donne l'indice minimum du circuit
-    argument : none
-    return : un indice '''
+
     ############################################################################
     ##                               A tester                                 ##
     def min_id(self):
+        '''méthode appliquée a un circuit booleen, qui donne l'indice minimum du circuit
+        argument : none
+        return : un indice '''
         if(self.get_node_ids() == []):
             return 0
         idmin = self.get_node_ids()[0]
@@ -710,12 +830,12 @@ class bool_circ(open_digraph):
                 idmin = id
         return idmin
 
-    '''méthode appliquée a un circuit booleen, qui donne l'indice maximum du circuit
-    argument : none
-    return : un indice '''
     ############################################################################
     ##                               A TESTER                                 ##
     def max_id(self):
+        '''méthode appliquée a un circuit booleen, qui donne l'indice maximum du circuit
+        argument : none
+        return : un indice '''
         if (self.get_node_ids() == []):
             return 0
         idmax = self.get_node_ids()[0]
@@ -725,11 +845,12 @@ class bool_circ(open_digraph):
         return idmax
 
 
-    '''fonction qui transfore une formule propositionnelle en circuit booleen
-    argument : s : string, la formule propociitonnelle a transformer
-    return : un circuit booleen '''
+
     #############################   A TESTER   #################################
     def parse_parenthese(s):
+        '''fonction qui transfore une formule propositionnelle en circuit booleen
+        argument : s : string, la formule propociitonnelle a transformer
+        return : un circuit booleen '''
         prems = node(0,'',[],[])
         g = open_digraph([],[0],[prems]);
         bc = bool_circ(g);
@@ -858,51 +979,259 @@ class bool_circ(open_digraph):
 
     ########################################################################
     ################                A tester                ################
-    def int_to_bool_circ(self, n, size_register):
+    def int_to_bool_circ(self, n, size_register=8):
         debut = 8 - size_register
         j = 2
         binaire = bin(n)
-        print("dans int_to_bool_cir, binaire = ", binaire)
         for c in range(8):
-            print("dans int_to_bool_circ, c= ", c)
             if(c<debut):
                 new_id = self.add_node('0', [], [])
                 #self.add_input_id(new_id)
                 self.add_output_id(new_id)
             else:
-                print("Dans int_to_bool_circ, on rentre dans le else")
-                print("dans int_to_bool_circ, j = ", j, " binaire de j = ", binaire[j])
                 new_id = self.add_node(str(binaire[j]), [],[])
                 #self.add_input_id(new_id)
                 self.add_output_id(new_id)
                 j = j+1
-        print("in int_to_bool_circ, les ids du bc = ",self.get_node_ids())
         self.is_well_formed()
 
+    def apply_copy_rule(self, data_node_id, cp_node_id):
         '''data_node_id, cp_node_id : int; the ids of the nodes on which to apply the rule
         Applies the "data copy" rule of boolean circuits on the given nodes.
         output : int list; the list of nodes that were created
         '''
-        def apply_copy_rule(self, data_node_id, cp_node_id):
-            data = self.get_node_by_id(data_node_id).get_label()
-            assert data in ['0','1'], "wrong data label"
-            assert self.get_node_by_id(data_node_id).get_children()==[cp_node_id], \
-                "the two nodes are not connected"
-            return_nodes=[]
-            # case where the copy node is also an output
-            for ind in range(len(self.get_output_ids())):
-                if self.outputs[ind] == cp_node_id:
-                    new_id = self.add_node(data, [],[])
-                    self.outputs[ind] = new_id
-                    return_nodes.append(new_id)
-            # general case
-            children = self.get_node_by_id(cp_node_id).get_children()
-            for child in children:
-                new_id = self.add_node(data, [],[child])
-                return_nodes.append(new_id)
-            self.remove_nodes_by_id([data_node_id, cp_node_id])
+        print("in apply_copy_rule 1), self = ",self)
+
+        data = self.get_node_by_id(data_node_id).get_label()
+        assert data in ['0','1'], "wrong data label"
+        assert self.get_node_by_id(data_node_id).get_children_ids()==[cp_node_id], \
+            "the two nodes are not connected"
+
+        self.get_node_by_id(cp_node_id).set_label(data)
+        # cas ou le noeud de copie est aussi un output
+        for ind in range(len(self.get_outputs_ids())):
+            if self.outputs[ind] == cp_node_id:
+                self.outputs.insert(ind, data_node_id)
+        print("in apply_copy_rule, self 2) = ",self)
+
+        #cas ou le noeud de copie est aussi un input
+        for ind in range(len(self.get_inputs_ids())):
+            if self.inputs[ind] == data_node_id:
+                self.inputs.insert(ind+1, cp_node_id)
+        # cas general
+        children = self.get_node_by_id(cp_node_id).get_children_ids()
+        for child in children:
+            self.get_node_by_id(data_node_id).add_child_id(child)
+        self.remove_edge(data_node_id, cp_node_id)
+        print("in apply_copy_rule, self.nodes = ",self.nodes)
+        print("in apply_copy_rule, self.inputs = ",self.inputs)
+        print("in apply_copy_rule, self.outputs = ",self.outputs)
+        assert(self.is_well_formed())
+
+
+    '''Comment on va faire :
+    on va changer le label du noeud de copie pour le noeud a copier.
+    On va donner les enfants du noeuds de copie au  oeud a copier
+    on va enlever l'arrete entre le noeud de copie et le noeud a copier
+    '''
+
+
+    def apply_no_rule(self, data_node_id, neg_node_id):
+        '''méthode qui applique la regle de la negation sur un node
+            @param : data_node_id : l'id du node à negativer
+                     neg_node_id : l'id du node de negation
+            @return : none
+        '''
+        data = self.get_node_by_id(data_node_id).get_label()
+        assert data in ['0','1'], "wrong data label"
+        if(data == '0'):
+            data = '1'
+        else :
+            data = '0'
+        assert self.get_node_by_id(data_node_id).get_children_ids()==[neg_node_id], \
+            "the two nodes are not connected"
+        #on change le label du node d'id data_node_id en son opposé.
+        self.get_node_by_id(data_node_id).set_label(data)
+        #si le noeud de negation est un output
+        for ind in range(len(self.get_outputs_ids())):
+            if(self.outputs[ind] == neg_node_id) :
+                self.outputs[ind] = data_node_id
+        #cas general, on ajoute au node d'id data_node_id les enfants du node de negation.
+        children = self.get_node_by_id(neg_node_id).get_children_ids()
+        for child in children :
+            self.get_node_by_id(data_node_id).add_child_id(child)
+        #on enleve le node de negation du graphe
+        self.remove_node_by_id(neg_node_id)
+        assert(self.is_well_formed())
+
+
+    def apply_and_rule(self, data_node_id, and_node_id):
+        '''méthode qui applique la regle de la porte ET sur un node
+            @param : data_node_id : l'id du node sur lequel appliquer la regle
+                     and_node_id : l'id du node representant la porte ET
+            @return : none '''
+        data = self.get_node_by_id(data_node_id).get_label()
+        assert data in ['0','1'], "wrong data label"
+        assert self.get_node_by_id(data_node_id).get_children_ids()==[and_node_id], \
+            "the two nodes are not connected"
+        if data == '1' :
+            self.remove_node_by_id(data_node_id)
+        else :
+            #le cas ou le node AND etait un output
+            for ind in range(len(self.get_outputs_ids())):
+                if self.outputs[ind] == and_node_id :
+                    self.outputs[ind] = data_node_id
+            #cas general, on ajoute au node d'id data_node_id les enfants du node ET
+            children = self.get_node_by_id(and_node_id).get_children_ids()
+            for child in children :
+                self.get_node_by_id(data_node_id).add_child_id(child)
+
+            #on enleve le node ET du graphe
+            self.remove_node_by_id(and_node_id)
             assert(self.is_well_formed())
-            return return_nodes
+
+    def apply_or_rule(self, data_node_id, or_node_id):
+        '''méthode qui applique la regle de la porte OR sur un node
+            @param : data_node_id : l'id du node sur lequel appliquer la regle
+                     and_node_id : l'id du node representant la porte OR
+            @return : none '''
+        data = self.get_node_by_id(data_node_id).get_label()
+        assert data in ['0','1'], "wrong data label"
+        assert self.get_node_by_id(data_node_id).get_children_ids()==[or_node_id], \
+            "the two nodes are not connected"
+        if data == '0' :
+            self.remove_node_by_id(data_node_id)
+        else :
+            #le cas ou le node OR est un output
+            for ind in range(len(self.get_outputs_ids())):
+                if self.outputs[ind] == or_node_id :
+                    self.outputs[ind] = data_node_id
+            #cas general, on ajoute au node d'id data_node_id les enfants du node ET
+            children = self.get_node_by_id(or_node_id).get_children_ids()
+            for child in children:
+                self.get_node_by_id(data_node_id).add_child_id(child)
+            #on enleve le node OR du graphe
+            self.remove_node_by_id(or_node_id)
+            assert(self.is_well_formed())
+
+    def apply_xor_rule(self, data_node_id, xor_node_id):
+        '''méthode qui applique la regle de la porte XOR sur un node
+            @param : data_node_id : l'id du node sur lequel appliquer la regle
+                     and_node_id : l'id du node representant la porte XOR
+            @return : list id '''
+
+        data = self.get_node_by_id(data_node_id).get_label()
+        return_id = []
+        assert data in ['0','1'], "wrong data label"
+        assert self.get_node_by_id(data_node_id).get_children_ids()==[xor_node_id], \
+            "the two nodes are not connected"
+        if data == '0' :
+            self.remove_node_by_id(data_node_id)
+        else :
+            #on crée un nouveau node, qui aura pour label ~
+            new_id = self.new_id()
+            new_node = node(new_id, '~', [],[])
+            #on l'ajoute au graphe
+            self.add_node(new_node)
+            #on ajoute son id a return_id
+            return_id.append(new_id)
+            #dans le cas ou le XOR est un output du graphe
+            for ind in range(len(self.get_outputs_ids())):
+                #on remplace le xor par le ~ dans la liste des outputs
+                if self.outputs[ind] == xor_node_id :
+                    self.outputs[ind] = new_id
+            #on regarde quels sont les enfants du xor
+            children = self.get_node_by_id(xor_node_id).get_children_ids()
+            #on les attribue au node ~
+            for child in children :
+                self.add_edge(new_id, child)
+            #on met ~ comme unique enfant du xor
+            self.get_node_by_id(xor_node_id).remove_child_id_all(children)
+            self.add_edge(xor_node_id, new_id)
+        print("in apply_xor_rule, self.inputs = ", self.get_inputs_ids())
+        print("in apply_xor_rule, self.outputs = ", self.get_outputs_ids())
+        print("in apply_xor_rule, self.nodes = ", self.get_node_ids())
+        print("in apply_xor_rule, new_node.parents  = ", self.get_node_by_id(new_id).get_parent_ids())
+        print("in apply_xor_rule, new_node.childrens  = ", self.get_node_by_id(new_id).get_children_ids())
+        print("in apply_xor_rule, xor.parents  = ", self.get_node_by_id(xor_node_id).get_parent_ids())
+        print("in apply_xor_rule, xor.children  = ", self.get_node_by_id(xor_node_id).get_children_ids())
+
+
+        assert(self.is_well_formed())
+        return list_id
+
+
+    def apply_neutral_rule(self, data_node_id):
+        '''méthode qui applique la regle neutre sur un node
+            @param : data_node_id : l'id du node sur lequel appliquer la regle
+            @return : none
+        '''
+        data = self.get_node_by_id(data_node_id).get_label()
+        if (data == '|' or data == '^'):
+            self.get_node_by_id(data_node_id).set_label('0')
+        else:
+            if data == '&' :
+                self.get_node_by_id(data_node_id).set_label('1')
+        assert(self.is_well_formed())
+
+    def reduce_eval(self):
+        ################ IL MANQUE COPY ##################
+        '''methode qui applique les differentes regles possible (or, xor, and, note, copy, neutral)
+        tant qu'il y a des transformation a appliquer'''
+        list_graph = [self]
+        nodes = list_graph[0].get_nodes()
+        graph = self
+        while(len(nodes)>1 ):
+            label = nodes[0].get_label()
+            listLabel = ['&', '^', '|' ]
+
+            if label in listLabel :
+                graph.apply_neutral_rule(nodes[0].get_id())
+
+            if(label == '1' or label == '0'):
+
+                label1 = nodes[1].get_label()
+
+                data_node_id = nodes[0].get_id()
+                gate_node_id = nodes[1].get_id()
+
+                if(label1 == '&'):
+                    graph.apply_and_rule(data_node_id, gate_node_id )
+                if(label1 == '^'):
+                    graph.apply_xor_rule(data_node_id, gate_node_id )
+                if(label1 == '|'):
+                    graph.apply_or_rule(data_node_id, gate_node_id )
+                if(label1 == '~'):
+                    graph.apply_no_rule(data_node_id, gate_node_id )
+
+            nodes = graph.get_nodes()
+
+            #On verifie si on a pas obtenu un node tout seul , isolé du reste du graph
+            #si c'est le cas, on le sépare du reste du graph, sur lequel on va effectuer le reste des transformations.
+            for ind in range(len(self.get_outputs_ids())):
+                if graph.outputs[ind] == nodes[0].get_id():
+                    #on met le node isolé dans un graph a lui tout seul
+                    g = bool_circ([nodes[0].get_id()], [nodes[0].get_id()], [nodes[0]])
+                    g.apply_neutral_rule(node[0].get_id())
+                    #on crée un deuxieme graphe, semblable au premier
+                    f = graph.copy()
+                    #on lui enleve le node qui est déconecté du reste
+                    f.remove_node_by_id(node[0].get_id())
+                    #on ajoute g et f a la liste des pgraphes, qu'on va par la suite recomposé
+                    list_graph[0] = g
+                    list.insert(0,f)
+                    nodes=f.get_nodes()
+                    #on travaillera desormais sur f
+                    graph = f
+
+        #On reconnecte ici toutes les composantes du graphe qui étaient séparées
+        if len(list_graph)>1 :
+            while(len(list_graph)>1):
+                list_graph[0].iparallel(list_graph[1])
+                graph_supprime = list_graph.pop(1)
+        #on attribue a self la valeur finale voulue
+        self = list_graph[0]
+        assert(self.is_well_formed())
 
 
 
@@ -913,10 +1242,11 @@ class bool_circ(open_digraph):
 
 
 
-'''Fonction qui renvoie un graphe correspondant a une matrice d'adjacence
-argument : matrix : int list list : matrice d'adjacence
-return : graph '''
+
 def graph_from_adjacency_matrix(matrix) :           # renvoie un graphe correspondant a la matrice d adjacence matrix
+    '''Fonction qui renvoie un graphe correspondant a une matrice d'adjacence
+    argument : matrix : int list list : matrice d'adjacence
+    return : graph '''
     graph = open_digraph.empty()                    # on cree un graphe vide vide a partir duquel on va construire le graphe voulu
     '''
     on ne sert pas de la methode add_node car on part du graphe vide

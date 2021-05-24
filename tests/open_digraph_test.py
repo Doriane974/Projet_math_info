@@ -397,7 +397,7 @@ class DigraphTest(unittest.TestCase):
         self.n2 = node(2, 'a', [], [])
         self.d0 = open_digraph([0],[1],[self.n0, self.n1, self.n2])
         nb_cc, dict = self.d0.connected_components()
-        print("test_cc", nb_cc, dict)
+        #print("test_cc", nb_cc, dict)
         self.assertEqual(nb_cc, 2)
         self.assertEqual(dict, {0 : 0, 1 : 0, 2 : 1})
 
