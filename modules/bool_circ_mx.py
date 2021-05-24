@@ -187,7 +187,8 @@ class bool_circ_mx(open_digraph):
         bc = open_digraph([],[],[])
         for chaine in s:
             graph_list.append(bool_circ_mx.parse_parenthese_2(chaine))
-        bc.parallel2(graph_list, None, None)
+        #print("pp3", graph_list)
+        bc = bc.parallel2(graph_list, None, None)
         return bc
 
 

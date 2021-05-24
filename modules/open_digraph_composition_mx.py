@@ -76,10 +76,7 @@ class open_digraph_composition_mx:
         list_edges = []
         inputs_ids = [self.get_inputs_ids()]
         outputs_ids = [self.get_outputs_ids()]
-        if perm_inputs is None:
-            perm_inputs = [i for i in range(len(inputs_ids))]
-        if perm_outputs is None:
-            perm_outputs = [i for i in range(len(outputs_ids))]
+        #print("ip2", perm_inputs, perm_outputs, inputs_ids, outputs_ids)
         for g in graphs:
             inputs_ids.append(g.get_inputs_ids())
             outputs_ids.append(g.get_outputs_ids())
@@ -87,6 +84,10 @@ class open_digraph_composition_mx:
                 node = g.get_node_by_id(node_id)
                 list_edges.append([node_id, node.get_children_ids()])               # il ne devrait pas y avoir d arete entre self et g
                 self.add_node(node_id, str(node.get_label()), [], [])            # il faut d abord ajouter le nosdes sans liens pour pouvoir les lier plus tard
+        if perm_inputs is None:
+            perm_inputs = [i for i in range(len(inputs_ids))]
+        if perm_outputs is None:
+            perm_outputs = [i for i in range(len(outputs_ids))]
         inputs_ids = appl_perm(inputs_ids, perm_inputs)
         self.set_input_ids(inputs_ids)
         outputs_ids = appl_perm(outputs_ids, perm_outputs)
@@ -103,4 +104,5 @@ class open_digraph_composition_mx:
         '''
         graph = self.copy()
         graph.iparallel2(graphs, perm_inputs, perm_outputs)
+        #print("p2", graph)
         return graph

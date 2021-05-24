@@ -179,7 +179,7 @@ print("worksheet, apres no rule  noBc = ", noBc)
 '''
 
 print("1", bool_circ_mx.parse_parenthese_3(["((x0)&((x1)&(x2)))|((x1)&(~(x2)))","((x0)&(~(x1)))|(x2)"]))
-print("2", bool_circ_mx.parse_parenthese_2("((x0)&((x1)&(x2)))|((x1)&(~(x2)))"))
+#print("2", bool_circ_mx.parse_parenthese_2("((x0)&((x1)&(x2)))|((x1)&(~(x2)))"))
 
 
 #image.save("test.jpg")
