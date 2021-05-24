@@ -192,8 +192,6 @@ class bool_circ_mx(open_digraph):
         return bc
 
 
-
-
     ########################################################################
     ################                A tester                ################
     def int_to_bool_circ(self, n, size_register=8):

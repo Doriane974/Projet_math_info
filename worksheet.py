@@ -95,7 +95,7 @@ from modules.bool_circ_mx import*
 # b= open_digraph([1,2],[5],[b1,b2,b3,b4,b5])
 #
 #
-# #c = bool_circ(b);
+# #c = bool_circ_mx(b);
 # #print("indice min :", c.min_id())
 # #print("indice max :" , c.max_id())
 # #c.shift_indices(15)
@@ -119,7 +119,7 @@ from modules.bool_circ_mx import*
 # print("shortest path de 2 à 5 =", b.shortest_path(2,5))
 # print("dist_common_ancestors, dist dist_common_ancestors de 3 et 4 :", b.dist_common_ancestors(3,4))'''
 #
-# #bc = bool_circ.parse_parenthese("((x0)&((x1)&(x2)))|((x1)&(~(x2)))")
+# #bc = bool_circ_mx.parse_parenthese("((x0)&((x1)&(x2)))|((x1)&(~(x2)))")
 # #print("compte generation, b.compte_generation = ",b.compte_generation(5,0,0))
 # #print("compte generation, c.compte_generation = ",c.compte_generation(1,0))
 #
@@ -141,11 +141,11 @@ from modules.bool_circ_mx import*
 # c = open_digraph([0, 1], [3], [c0, c1, c2, c3])
 #
 #
-# cbc = bool_circ(c)
+# cbc = bool_circ_mx(c)
 #
 # temp = open_digraph([],[],[])
-# bcOnze = bool_circ(temp)
-# bcOnze.int_to_bool_circ(245, 8)
+# bcOnze = bool_circ_mx(temp)
+# bcOnze.int_to_bool_circ_mx(245, 8)
 #
 # #draw.graph(bcOnze,{},[],[], 'circle')
 #
@@ -169,7 +169,7 @@ from modules.bool_circ_mx import*
 '''no0 = node(0, '1', [], [1])
 no1 = node(1, '^', [0], [])
 nograph = open_digraph([0],[1], [no0, no1])
-noBc = bool_circ(nograph)
+noBc = bool_circ_mx(nograph)
 print(" ")
 print("worksheet, noBc = ", noBc)
 
@@ -178,8 +178,9 @@ print("worksheet, apres no rule  noBc = ", noBc)
 #draw.graph(nograph,{},[],[], 'circle')
 '''
 
-print("1", bool_circ_mx.parse_parenthese_3(["((x0)&((x1)&(x2)))|((x1)&(~(x2)))","((x0)&(~(x1)))|(x2)"]))
+#print("1", bool_circ_mx.parse_parenthese_3(["((x0)&((x1)&(x2)))|((x1)&(~(x2)))","((x0)&(~(x1)))|(x2)"]))
 #print("2", bool_circ_mx.parse_parenthese_2("((x0)&((x1)&(x2)))|((x1)&(~(x2)))"))
-
+circ0 = bool_circ_mx(open_digraph([],[],[]))
+print(circ0)
 
 #image.save("test.jpg")
