@@ -4,7 +4,7 @@ sys.path.append('../')
 from modules.utils import *
 from modules.open_digraph_composition_mx import *
 from modules.open_digraph_getters_mx import *
-from modules.open_digraph_add_mx import *
+#from modules.open_digraph_add_mx import *
 from modules.open_digraph_calc_degrees_mx import *
 from modules.node_getters_mx import *
 
@@ -239,9 +239,9 @@ class open_digraph(open_digraph_composition_mx, open_digraph_getters_mx,  open_d
         argument : input_id : id à ajouter  '''
         self.inputs.append(input_id)
 
-    '''méthode appliquée au graphe qui ajoute une valeur a la liste des outputs du graphe
-    argument : output_id : id à ajouter  '''
     def add_output_id (self, output_id) :               # ajoute une valeur a la liste des outputs du graphe
+        '''méthode appliquée au graphe qui ajoute une valeur a la liste des outputs du graphe
+        argument : output_id : id à ajouter  '''
         self.outputs.append(output_id)
 
 
@@ -249,6 +249,7 @@ class open_digraph(open_digraph_composition_mx, open_digraph_getters_mx,  open_d
         '''méthode appliquée au graphe qui ajoute une arrete entre 2 nodes
         argument : src : Id du node qui deviendra le parent
                    tgt : Id du node qui deviendra l'enfant '''
+        print("nodes =", self.get_node_ids())
         self.get_node_by_id(src).add_child_id(tgt)
         self.get_node_by_id(tgt).add_parent_id(src)
 
@@ -257,17 +258,19 @@ class open_digraph(open_digraph_composition_mx, open_digraph_getters_mx,  open_d
         '''méthode appliquée au graph qui ajoute des arrete entre un node et une liste de node
         arguments : src : Id du node qui deviendra le parent
                     tgt ; liste d'Id des nodes qui deviendront les enfants de src '''
+        print("tgt =", tgt)
         for i in tgt:
             self.add_edge(src,i)
 
 
-    def add_node(self, label='', parents=[], children=[]):             # ajoute un node au graphe                               # pas sur du tout, et à tester
+    def add_node(self, id=None, label='', parents=[], children=[]):             # ajoute un node au graphe                               # pas sur du tout, et à tester
         '''méthode appliquée au graphe qui ajoute un node au graphe
         argument : label : label, par défaut ''
                    parents : id list, par défaut []
                    children : id list, par défaut []
         return : id : l'id du node qui a été ajouté '''
-        id=self.new_id()
+        if id is None:
+            id = self.new_id()
         n0 = node(id, label, [],[])
         self.nodes[id]=n0
         #print('add_node1', n0, children)
@@ -290,7 +293,6 @@ class open_digraph(open_digraph_composition_mx, open_digraph_getters_mx,  open_d
                 return (max(dict)+1) #quand je rajoute default=-1 ca bug
             else :
                 return 0
-
 
 
     def remove_edge(self,src,tgt):                                      # retire une arete du graphe
@@ -317,13 +319,6 @@ class open_digraph(open_digraph_composition_mx, open_digraph_getters_mx,  open_d
         remove_all(self.outputs, id)
         self.nodes.pop(id)
 
-
-
-
-
-
-
-    ''''''
 
     def remove_edges(self,src,tgt):#src et tgt sont des listes de nodes    # a tester  # retire plusieurs aretes au graphe
         '''méthode appliquée au graphe qui retire plusieurs arretes du graphe, entre les nodes compris dans 2 listes. modifie le graphe
@@ -374,7 +369,6 @@ class open_digraph(open_digraph_composition_mx, open_digraph_getters_mx,  open_d
                 if not (count_occurrences(node.get_parent_ids(), parent_id) == count_occurrences(self.get_node_by_id(parent_id).get_children_ids(), node.get_id())):       # pour chaque parent, on compte le nombre d'occurrence(s) de son id dans les parents du node
                     return False                                                                                                                                        # et on verifie que ce nombre est egal a celui des occurrences du node parmi les enfants du parent
         return True                                             # si aucune erreur n'a ete detectee, alors le graphe est bien forme'''
-
 
 
     def change_id(self, node_id, new_id):
@@ -450,8 +444,6 @@ class open_digraph(open_digraph_composition_mx, open_digraph_getters_mx,  open_d
         return graph
 
 
-
-
     def is_cyclic(self):
         '''methode qui teste la cyclicité d'un graphe
         arguments : none
@@ -474,7 +466,6 @@ class open_digraph(open_digraph_composition_mx, open_digraph_getters_mx,  open_d
 
     #TD7
 
-
     def shift_indices(self, n):
         '''méthode qui ajoute n a tous les indices du graphe
         arguments : n : int
@@ -494,39 +485,8 @@ class open_digraph(open_digraph_composition_mx, open_digraph_getters_mx,  open_d
         self.change_ids(L)
 
 
-    '''méthode qui renvoie le nombre de composante donnexe d'un graphe, et un
-    dictionnaire qui associe a chaque id de noeuds du graph un int qui correspond à une composante connexe
-    arguments : none
-    return : nb_cc, dict
-    '''
-
-    # WIP
-    '''
-    def connected_components(self): # pas fini
-        nb_cc = 0                   # nombre de composantes connexes
-        dict = {}                    # dictionnaire int id de node : int num de composante connexe
-        list_cc = []                # liste (de listes) des composantes connexes, non rendue. Contient des listes, chacune contenant les nodes de la cc.
-        for node in self.get_nodes() :
-            node_id = node.get_id()     # id du node considere
-            cc_id = nb_cc           # id de la composante connexe consideree, on l initialise a nb_cc soit le premier id non utilise
-            for id in range(len(list_cc)):      # on parcourt la liste des cc
-                if node_id in list_cc[id] :     # teste si le node appartient deja a une composante connexe
-                    cc_id = id                  # si c est le cas, on ajoutera les nodes dans celle ci
-                    break                       # sinon, on en creera une nouvelle
-            if cc_id == nb_cc :                 # si cc_id == nb_cc, alors cc_id n a pas ete modifie, donc le node n etait dans aucune cc de la list_cc
-                nb_cc += 1                      # on a une cc supplementaire donc on augmente nb_cc
-                list_cc.append([])              # on ajoute une nouvelle liste correspondant a la nouvelle cc dans list_cc
-                list_cc[cc_id].append(node_id)
-
-            else :                              # sinon, le node etait deja dans list_cc, donc on ajoute ses enfants et parents dans la meme cc
-                return
-            #dict[node_id] = cc_id
-        return (nb_cc, dict)
-'''
-
-
     def connected_components(self): # done
-        ''' Fonction permettant d extraire d un graphe le nombre de composantes connexes et quel node est dans quelle cc
+        ''' Methode permettant d extraire d un graphe le nombre de composantes connexes et quel node est dans quelle cc
         arguments : None
         return : nb_cc, int, nombre de cc dans le graphe
                  dict, un dictionnaire id de node : id de cc correspondante'''
@@ -557,7 +517,6 @@ class open_digraph(open_digraph_composition_mx, open_digraph_getters_mx,  open_d
         return (nb_cc, dict)
 
 
-
     def rec_exploration(self, node):
         '''Fonction recursive permettant l exploration des enfants d un node (node), et qui stocke ceux-ci dans une liste node_list
         arguments : node, le node a partir duquel on part
@@ -572,6 +531,48 @@ class open_digraph(open_digraph_composition_mx, open_digraph_getters_mx,  open_d
                 children_list += self.rec_exploration(child)    # et on appelle recursivement cette fonction pour ajouter les petits enfants
         return children_list                        # on renvoie la liste vers les appels recursifs precedents
 
+
+    def decompose(self):
+        '''Methode qui decompose un graphe en ses composantes connexes et permutations
+        arguments : None
+        return : list_cc, une liste d open digraphs des composantes connexes du graphe
+                 perm_inputs, une permutation representant les entrees du graphe
+                 perm_outputs, une permutation representant les sorties du graphe'''
+        # On va se servir de connected_components() pour retrouver quelle node va dans quelle cc,
+        # ensuite "reconstruire" les cc, et pour finir calculer les permutations d'input/output pour pouvoir reconstruire le graphe
+        inputs = self.get_inputs_ids()                  # on recupere les inputs du graphe
+        outputs = self.get_outputs_ids()                # on recupere les outputs du graphe
+        nodes = self.get_nodes()                        # on recupere les nodes du graphe
+        nb_cc, dict_cc = self.connected_components()    # on recuper les cc du graphe
+        list_cc = []                                    # on initialise la liste des cc a vide
+        inputs2 = []                                    # (pour la permutation)
+        outputs2 = []
+        # print("decompose")
+        for cc_id in range(nb_cc):                      # on connait le nombre de cc du graphe, donc pour chaque cc, on peut la construire sous forme d open drigraph
+            dict_node_cc = {}                           # on cree a vide le dictionnaire des nodes de la cc en cours
+            inputs_cc = []                              # on cree a vide la liste des inputs de la cc en cours
+            outputs_cc = []                             # on cree a vide la liste des outputs de la cc en cours
+            for node in nodes:                          # on doit commencer par creer le graphe de la cc pour pouvoir operer avec
+                node_id = node.get_id()                 # on recupere l id du node considere
+                if cc_id == dict_cc[node_id]:           # on teste si le node considere est dans la cc en cours
+                     dict_node_cc[node_id] = node       # si c est le cas, on l ajoute au dict des nodes de la cc en cours
+            # print("dict_node_cc =", dict_node_cc)
+            for node_id in inputs:                      # on parcourt les id dans les inputs du graphe
+                if node_id in dict_node_cc:             # si le node en input est dans la cc, alors il est en input du graphe de la cc
+                    inputs_cc.append(node_id)           # donc on l y ajoute
+            for node_id in outputs:                     # on parcourt les id dans les outputs du graphe
+                if node_id in dict_node_cc:             # si le node en output est dans la cc, alors il est en output du graphe de la cc
+                    outputs_cc.append(node_id)          # donc on l y ajoute
+            # print("list_node_cc =", list(dict_node_cc.values()))
+            list_cc.append(open_digraph(inputs_cc, outputs_cc, list(dict_node_cc.values())))   # on peut enfin construire le graphe de la cc
+            inputs2.append(inputs_cc)
+            outputs2.append(outputs_cc)
+            #print("list_cc =", list_cc[0])
+            # print("inputs2 =", inputs2)
+            # print("outputs2 =", outputs2)
+        perm_inputs = perm_calc(inputs, inputs2)                    # on calcule les permutations
+        perm_outputs = perm_calc(outputs, outputs2)
+        return list_cc, perm_inputs, perm_outputs
 
 
     def dijkstra(self, src, tgt = None, direction = None) :
@@ -716,7 +717,6 @@ class open_digraph(open_digraph_composition_mx, open_digraph_getters_mx,  open_d
         if(label != None ):
             self.get_node_by_id(id1).set_label(label)
         self.remove_node_by_id(id2)
-        #print("fusion faite")
 
 
     def compte_generation(self, id_base, comptGlobal, comptLocal):
@@ -859,7 +859,7 @@ class bool_circ(open_digraph):
         for char in s :
             if(char == '('):
                 bc.get_node_by_id(current_node).set_label(bc.get_node_by_id(current_node).get_label() + s2) # il faut concatener
-                new = bc.add_node('',[],[current_node])
+                new = bc.add_node(label = '', parents =[], children =[current_node])
                 current_node = new
                 s2 = ''
             else:
@@ -882,7 +882,7 @@ class bool_circ(open_digraph):
         for char in s :
             if(char == '('):
                 bc.get_node_by_id(current_node).set_label(bc.get_node_by_id(current_node).get_label() + s2) # il faut concatener
-                new = bc.add_node('',[],[current_node])
+                new = bc.add_node(label = '', parents =[], children =[current_node])
                 current_node = new
 
                 s2 = ''
@@ -934,7 +934,7 @@ class bool_circ(open_digraph):
         for char in s :
             if(char == '('):
                 bc.get_node_by_id(current_node).set_label(bc.get_node_by_id(current_node).get_label() + s2) # il faut concatener
-                new = bc.add_node('',[],[current_node])
+                new = bc.add_node(label = '', parents =[], children =[current_node])
                 current_node = new
 
                 s2 = ''
@@ -985,11 +985,11 @@ class bool_circ(open_digraph):
         binaire = bin(n)
         for c in range(8):
             if(c<debut):
-                new_id = self.add_node('0', [], [])
+                new_id = self.add_node(label = '0', parents =[], children =[])
                 #self.add_input_id(new_id)
                 self.add_output_id(new_id)
             else:
-                new_id = self.add_node(str(binaire[j]), [],[])
+                new_id = self.add_node(label = str(binaire[j]), parents = [], children = [])
                 #self.add_input_id(new_id)
                 self.add_output_id(new_id)
                 j = j+1

@@ -141,8 +141,12 @@ class DigraphTest(unittest.TestCase):
     def setUp(self):
         self.n0 = node(0, 'a', [], [1])
         self.n1 = node(1, 'b', [0], [])
-        self.d0 = open_digraph([0],[1],[self.n0, self.n1])
-        self.d5 = open_digraph([3],[2], [self.n0, self.n1])
+        self.n10 = node(10, 'k', [], [11])
+        self.n11 = node(11, 'm', [10], [])
+        self.d0 = open_digraph([0], [1], [self.n0, self.n1])
+        self.d5 = open_digraph([3], [2], [self.n0, self.n1])
+        self.d11 = open_digraph([10], [11], [self.n10, self.n11])
+        self.d10 = open_digraph([0, 10], [1, 11], [self.n0, self.n1, self.n10, self.n11])
 
     def test_copy(self):
         self.n0 = node(0, 'a', [], [1])
@@ -244,7 +248,7 @@ class DigraphTest(unittest.TestCase):
         self.n0 = node(0, 'a', [], [2])
         self.n1 = node(1, 'b', [3], [])
         self.d0 = open_digraph([0],[1],[self.n0, self.n1])
-        self.d0.add_node('c', [1], [0])
+        self.d0.add_node(label = 'c', parents = [1], children = [0])
         self.assertEqual(len(self.d0.get_node_ids()), 3)
 
 
@@ -391,6 +395,11 @@ class DigraphTest(unittest.TestCase):
         f = c0.compose(b)
         c0.icompose(b)
 
+    def test_iparallel(self):
+        self.c0 = self.d0.iparallel(self.d11)
+        print("test_ip", self.c0.get_node_ids())
+        self.assertEqual(self.d0.iparallel(self.d11), self.d10)
+
     def test_connected_components(self):
         self.n0 = node(0, 'a', [], [1])
         self.n1 = node(1, 'b', [0], [])
@@ -404,6 +413,13 @@ class DigraphTest(unittest.TestCase):
     def test_rec_exploration(self):
         self.assertEqual(self.d0.rec_exploration(self.d0.get_node_by_id(0)), [self.d0.get_node_by_id(1)])
         self.assertEqual(self.d0.rec_exploration(self.d0.get_node_by_id(1)), [])
+
+    def test_decompose(self):
+        list_cc, perm_inputs, perm_outputs = self.d10.decompose()
+        # print("test_d", "list_cc =", list_cc, "perm_inputs =", perm_inputs, "perm_outputs =", perm_outputs, "d")
+        # print("d0 =", self.d0)
+        self.assertEqual(list_cc[0].get_id_node_map(), self.d0.get_id_node_map())
+
 
 class bool_circ(unittest.TestCase):
 

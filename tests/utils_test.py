@@ -36,5 +36,16 @@ class UtilsTest(unittest.TestCase):
     def test_list_cleaner(self):
         self.assertEqual(list_cleaner([1, 1, 3, 4, 1, 2, 4]), [1, 3, 4, 2])
 
+    def test_perm_calc(self):
+        self.assertEqual(perm_calc(["a", "d", "c", "b"], ["a", "d", "c", "b"]), [0, 1, 2, 3])
+        self.assertEqual(perm_calc(["a", "d", "c", "b"], ["a", "b", "c", "d"]), [0, 3, 2, 1])
+
+    def test_inv_perm(self):
+        self.assertEqual(inv_perm([3, 0, 2, 1]), [1, 3, 2, 0])
+
+    def test_appl_perm(self):
+        self.assertEqual(appl_perm(["a", "d", "c", "b"], [0, 1, 2, 3]), ["a", "d", "c", "b"])
+        self.assertEqual(appl_perm(["a", "d", "c", "b"], [0, 3, 2, 1]), ["a", "b", "c", "d"])
+
 if __name__ == '__main__': # the following code is called only when
     unittest.main()        # precisely this file is run
