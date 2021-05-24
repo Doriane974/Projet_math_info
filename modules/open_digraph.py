@@ -249,7 +249,7 @@ class open_digraph(open_digraph_composition_mx, open_digraph_getters_mx,  open_d
         '''méthode appliquée au graphe qui ajoute une arrete entre 2 nodes
         argument : src : Id du node qui deviendra le parent
                    tgt : Id du node qui deviendra l'enfant '''
-        print("nodes =", self.get_node_ids())
+        #print("nodes =", self.get_node_ids())
         self.get_node_by_id(src).add_child_id(tgt)
         self.get_node_by_id(tgt).add_parent_id(src)
 
@@ -258,7 +258,7 @@ class open_digraph(open_digraph_composition_mx, open_digraph_getters_mx,  open_d
         '''méthode appliquée au graph qui ajoute des arrete entre un node et une liste de node
         arguments : src : Id du node qui deviendra le parent
                     tgt ; liste d'Id des nodes qui deviendront les enfants de src '''
-        print("tgt =", tgt)
+        #print("tgt =", tgt)
         for i in tgt:
             self.add_edge(src,i)
 

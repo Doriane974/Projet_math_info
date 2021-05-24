@@ -1,3 +1,4 @@
+from modules.utils import *
 class open_digraph_composition_mx:
 
     def iparallel(self,g):
@@ -13,16 +14,13 @@ class open_digraph_composition_mx:
         for node_id in g.get_node_ids():
             node = g.get_node_by_id(node_id)
             list_edges.append([node_id, node.get_children_ids()])               # il ne devrait pas y avoir d arete entre self et g
-            print("node1 =", node_id, node)
-            print("nodesi1 =", self.get_node_ids())
+            # print("node1 =", node_id, node)
+            # print("nodesi1 =", self.get_node_ids())
             self.add_node(node_id, str(node.get_label()), [], [])            # il faut d abord ajouter le nosdes sans liens pour pouvoir les lier plus tard
-            print("nodesi2 =", self.get_node_ids())
-        print("list_edges =", list_edges)
+        #     print("nodesi2 =", self.get_node_ids())
+        # print("list_edges =", list_edges)
         for edge in list_edges:
             self.add_edges(edge[0], edge[1])
-        print("nodesi3 =", self.get_id_node_map())
-        print("self = ", self)
-
 
     def parallel(self,g):
         '''methode qui compose parallelement deux open_digraph, sans les modifier

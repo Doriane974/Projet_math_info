@@ -396,9 +396,23 @@ class DigraphTest(unittest.TestCase):
         c0.icompose(b)
 
     def test_iparallel(self):
-        self.c0 = self.d0.iparallel(self.d11)
-        print("test_ip", self.c0.get_node_ids())
-        self.assertEqual(self.d0.iparallel(self.d11), self.d10)
+        self.d0.iparallel(self.d11)
+        #print("test_ip", self.d0.get_node_ids())
+        self.assertEqual(self.d0.get_node_ids(), self.d10.get_node_ids())
+
+    def test_parallel(self):
+        self.c0 = self.d0.parallel(self.d11)
+        self.assertEqual(self.c0.get_node_ids(), self.d10.get_node_ids())
+
+    def test_iparallel2(self):
+        self.d0.iparallel2([self.d11], [0, 0], [0, 0])
+        #print("test_ip", self.d0.get_node_ids())
+        self.assertEqual(self.d0.get_node_ids(), self.d10.get_node_ids())
+
+    def test_parallel2(self):
+        self.c0 = self.d0.parallel2([self.d11], [0, 0], [0, 0])
+        self.assertEqual(self.c0.get_node_ids(), self.d10.get_node_ids())
+
 
     def test_connected_components(self):
         self.n0 = node(0, 'a', [], [1])
