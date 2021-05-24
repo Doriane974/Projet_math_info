@@ -66,7 +66,7 @@ class open_digraph_composition_mx:
         return graph
 
 
-    def iparallel2(self, graphs, perm_inputs, perm_outputs):
+    def iparallel2(self, graphs, perm_inputs = None, perm_outputs = None):
         '''methode qui compose parallelement des open_digraph, en en modifiant un mais pas les autres
         arguments : graphs, list de graphes a composer dans self
                     perm_inputs, permutation des inputs
@@ -76,6 +76,10 @@ class open_digraph_composition_mx:
         list_edges = []
         inputs_ids = [self.get_inputs_ids()]
         outputs_ids = [self.get_outputs_ids()]
+        if perm_inputs is None:
+            perm_inputs = [i for i in range(len(inputs_ids))]
+        if perm_outputs is None:
+            perm_outputs = [i for i in range(len(outputs_ids))]
         for g in graphs:
             inputs_ids.append(g.get_inputs_ids())
             outputs_ids.append(g.get_outputs_ids())

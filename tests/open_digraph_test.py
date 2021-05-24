@@ -3,6 +3,7 @@ sys.path.append('../') # allows us to fetch files from the project root
 import unittest
 from modules.open_digraph import *
 from modules.utils import *
+from modules.bool_circ_mx import*
 
 
 class InitTest(unittest.TestCase):
@@ -412,7 +413,6 @@ class DigraphTest(unittest.TestCase):
     def test_parallel2(self):
         self.c0 = self.d0.parallel2([self.d11], [0, 0], [0, 0])
         self.assertEqual(self.c0.get_node_ids(), self.d10.get_node_ids())
-
 
     def test_connected_components(self):
         self.n0 = node(0, 'a', [], [1])
